@@ -1,0 +1,75 @@
+{
+  "name": "@magic-spells/select-dropdown",
+  "version": "0.1.0",
+  "description": "Accessible custom select dropdown web component.",
+  "author": "Cory Schulz",
+  "license": "MIT",
+  "type": "module",
+  "main": "dist/select-dropdown.cjs.js",
+  "module": "dist/select-dropdown.esm.js",
+  "unpkg": "dist/select-dropdown.min.js",
+  "style": "dist/select-dropdown.min.css",
+  "exports": {
+    ".": {
+      "import": "./dist/select-dropdown.esm.js",
+      "require": "./dist/select-dropdown.cjs.js",
+      "default": "./dist/select-dropdown.esm.js"
+    },
+    "./css": "./dist/select-dropdown.css",
+    "./css/min": "./dist/select-dropdown.min.css"
+  },
+  "sideEffects": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/magic-spells/select-dropdown"
+  },
+  "homepage": "https://github.com/magic-spells/select-dropdown#readme",
+  "bugs": {
+    "url": "https://github.com/magic-spells/select-dropdown/issues"
+  },
+  "keywords": [
+    "dropdown",
+    "select",
+    "combobox",
+    "listbox",
+    "web-components",
+    "accessibility",
+    "a11y",
+    "keyboard-navigation",
+    "custom-elements",
+    "form-elements"
+  ],
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "lint": "eslint src/ rollup.config.js",
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build",
+    "serve": "rollup -c --watch",
+    "dev": "rollup -c --watch"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "not dead",
+    "not ie <= 11"
+  ],
+  "devDependencies": {
+    "@eslint/js": "^8.57.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^1.0.0",
+    "eslint": "^8.0.0",
+    "globals": "^13.24.0",
+    "prettier": "^3.3.3",
+    "rollup": "^3.0.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-serve": "^1.1.1"
+  }
+}
