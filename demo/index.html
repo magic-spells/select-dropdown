@@ -100,7 +100,7 @@
         padding-bottom: 4rem;
         border-bottom: 1px solid var(--border);
         margin-bottom: 4rem;
-        animation: fadeUp 0.8s var(--ease-out) both;
+        animation: fadeUp 0.8s var(--ease-out) backwards;
       }
 
       .hero-badge {
@@ -143,7 +143,7 @@
       ------------------------------------------------ */
       .example {
         margin-bottom: 5rem;
-        animation: fadeUp 0.8s var(--ease-out) both;
+        animation: fadeUp 0.8s var(--ease-out) backwards;
       }
 
       .example:nth-child(2) { animation-delay: 0.1s; }
@@ -285,6 +285,17 @@
         color: var(--accent);
       }
 
+      .theme-amber select-dropdown {
+        --select-color-text: #fff;
+        --select-color-primary: #f59e0b;
+        --select-color-background: #291a00;
+        --select-color-border: #5c3d0a;
+        --select-color-border-hover: #f59e0b;
+        --select-color-hover: #3b2700;
+        --select-color-focus: #5c3d0a;
+        --select-color-selected: #5c3d0a;
+      }
+
       .theme-coral select-dropdown {
         --select-color-text: #fff;
         --select-color-primary: #ff4433;
@@ -423,7 +434,7 @@
         margin-top: 2rem;
         padding-top: 2rem;
         border-top: 1px solid var(--border);
-        animation: fadeUp 0.8s var(--ease-out) 0.5s both;
+        animation: fadeUp 0.8s var(--ease-out) 0.5s backwards;
       }
 
       footer p {
@@ -461,8 +472,8 @@
 
       .glass-panel select-trigger {
         background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        backdrop-filter: blur(60px);
+        -webkit-backdrop-filter: blur(60px);
         border-color: rgba(255, 255, 255, 0.1);
       }
 
@@ -472,8 +483,8 @@
 
       .glass-panel select-panel {
         background-color: rgba(0, 0, 0, 0.3) !important;
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
+        backdrop-filter: blur(60px);
+        -webkit-backdrop-filter: blur(60px);
         border: 1px solid rgba(255, 255, 255, 0.08);
         filter: none !important;
       }
@@ -484,7 +495,7 @@
         inset: 0;
         z-index: 0;
         pointer-events: none;
-        opacity: 0.04;
+        opacity: 0.07;
         border-radius: inherit;
         background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         background-repeat: repeat;
@@ -565,7 +576,7 @@
           </p>
 
           <div class="demo-surface">
-            <select-dropdown id="fruit-dropdown">
+            <select-dropdown id="fruit-dropdown" class="glass-panel">
               <select-trigger id="fruit-trigger">
                 <span class="select-label-text">Cherry</span>
               </select-trigger>
@@ -603,7 +614,7 @@
           </p>
 
           <div class="demo-surface">
-            <select-dropdown id="snack-dropdown">
+            <select-dropdown id="snack-dropdown" class="glass-panel">
               <select-trigger id="snack-trigger">
                 <span class="select-label-text">Select a snack</span>
               </select-trigger>
@@ -648,14 +659,14 @@
 
           <div class="demo-surface">
             <div class="theme-selector">
-              <button type="button" class="theme-button active" data-theme="default">Gold</button>
+              <button type="button" class="theme-button active" data-theme="amber">Amber</button>
               <button type="button" class="theme-button" data-theme="coral">Coral</button>
               <button type="button" class="theme-button" data-theme="teal">Teal</button>
               <button type="button" class="theme-button" data-theme="lavender">Lavender</button>
               <button type="button" class="theme-button" data-theme="dark">Dark</button>
             </div>
 
-            <div id="theme-demo" class="theme-default">
+            <div id="theme-demo" class="theme-amber">
               <select-dropdown id="color-dropdown">
                 <select-trigger id="color-trigger">
                   <span class="select-label-text">Select a color</span>
@@ -696,7 +707,7 @@
             <form id="demo-form">
               <div class="form-field">
                 <label for="animal-dropdown">Select an animal</label>
-                <select-dropdown id="animal-dropdown">
+                <select-dropdown id="animal-dropdown" class="glass-panel">
                   <select-trigger id="animal-trigger">
                     <span class="select-label-text">Select an animal</span>
                   </select-trigger>
@@ -838,7 +849,7 @@
               </div>
             </div>
 
-            <select-dropdown id="keyboard-dropdown">
+            <select-dropdown id="keyboard-dropdown" class="glass-panel">
               <select-trigger id="keyboard-trigger">
                 <span class="select-label-text">Navigate me</span>
               </select-trigger>

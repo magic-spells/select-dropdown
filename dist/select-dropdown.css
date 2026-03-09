@@ -32,7 +32,6 @@ select-dropdown * {
 /* panel shown state */
 select-dropdown[aria-hidden="false"] select-panel {
   opacity: 1;
-  scale: 1;
   filter: none;
   pointer-events: auto;
   visibility: visible;
@@ -58,9 +57,6 @@ select-trigger:hover {
 
 select-trigger:focus {
   outline: none;
-  border-color: var(--select-color-primary);
-  box-shadow: 0 0 0 3px
-    color-mix(in srgb, var(--select-color-primary) 25%, transparent);
 }
 
 /* caret icon */
@@ -86,14 +82,13 @@ select-panel {
   background-color: var(--select-color-background);
   border: 1px solid var(--select-color-border);
   border-radius: 0.25rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.08);
   z-index: 9999;
   opacity: 0;
-  scale: 0.97;
   filter: blur(3px);
   pointer-events: none;
   visibility: hidden;
-  transition: opacity 150ms ease-out, scale 150ms ease-out, filter 150ms ease-out, visibility 150ms;
+  transition: opacity 150ms ease-out, filter 150ms ease-out, visibility 150ms;
 }
 
 /* option items */
@@ -111,7 +106,6 @@ select-option:hover {
 select-option:focus {
   outline: none;
   background-color: var(--select-color-focus);
-  box-shadow: inset 0 0 0 2px var(--select-color-primary);
 }
 
 select-option[aria-selected="true"] {
@@ -144,3 +138,5 @@ select-label {
   cursor: default;
   user-select: none;
 }
+
+/*# sourceMappingURL=select-dropdown.css.map */
