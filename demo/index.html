@@ -5,577 +5,883 @@
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0" />
-    <title>Select Dropdown Demo</title>
+    <title>Select Dropdown -- @magic-spells</title>
     <link rel="stylesheet" href="select-dropdown.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300;1,9..40,400&family=DM+Mono:wght@300;400&display=swap"
+      rel="stylesheet" />
     <style>
-      /* demo page styles */
-
-      html * {
+      /* ------------------------------------------------
+         Base & Page
+      ------------------------------------------------ */
+      *,
+      *::before,
+      *::after {
         box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
+
+      :root {
+        --bg: #0c0c0d;
+        --surface: #161618;
+        --surface-raised: #1e1e21;
+        --border: #2a2a2e;
+        --text: #e8e4de;
+        --text-dim: #8a8680;
+        --accent: #d4a24e;
+        --accent-glow: rgba(212, 162, 78, 0.15);
+        --coral: #c75d4a;
+        --teal: #4a9e8e;
+        --lavender: #8b7ec8;
+        --font-display: 'Instrument Serif', Georgia, serif;
+        --font-body: 'DM Sans', system-ui, sans-serif;
+        --font-mono: 'DM Mono', 'SF Mono', monospace;
+        --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+        /* dark overrides for select-dropdown */
+        --select-color-text: #e8e4de;
+        --select-color-background: #1e1e21;
+        --select-color-border: #2a2a2e;
+        --select-color-border-hover: #3a3a3f;
+        --select-color-border-dark: #8a8680;
+        --select-color-primary: #d4a24e;
+        --select-color-hover: #161618;
+        --select-color-focus: rgba(212, 162, 78, 0.12);
+        --select-color-selected: rgba(212, 162, 78, 0.12);
+      }
+
+      html {
+        font-size: 16px;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
       body {
-        font-family:
-          -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-          Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
-          sans-serif;
-        padding: 2rem;
-        max-width: 800px;
+        font-family: var(--font-body);
+        font-weight: 300;
+        color: var(--text);
+        background: var(--bg);
+        line-height: 1.6;
+        min-height: 100vh;
+      }
+
+      /* Grain overlay */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        opacity: 0.03;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 200px;
+      }
+
+      /* ------------------------------------------------
+         Layout
+      ------------------------------------------------ */
+      .page {
+        max-width: 840px;
         margin: 0 auto;
-        background-color: #f5f5f5;
-        color: #333;
+        padding: 4rem 2rem 6rem;
       }
 
-      h1,
-      h2 {
-        margin-bottom: 1rem;
+      /* ------------------------------------------------
+         Hero
+      ------------------------------------------------ */
+      .hero {
+        padding-bottom: 4rem;
+        border-bottom: 1px solid var(--border);
+        margin-bottom: 4rem;
+        animation: fadeUp 0.8s var(--ease-out) both;
       }
 
-      p {
+      .hero-badge {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.75rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        color: var(--accent);
+        border: 1px solid var(--accent);
+        border-radius: 100px;
+        padding: 0.3rem 1rem;
         margin-bottom: 1.5rem;
-        line-height: 1.5;
+        background: var(--accent-glow);
       }
 
-      section {
-        margin-bottom: 3rem;
-        padding: 1.5rem;
-        background-color: white;
-        border-radius: 0.5rem;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      .hero h1 {
+        font-family: var(--font-display);
+        font-size: clamp(2.8rem, 6vw, 4.2rem);
+        font-weight: 400;
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin-bottom: 1.25rem;
       }
 
-      .demo-container {
-        margin: 2rem 0;
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
       }
 
-      .output-area {
-        margin-top: 1.5rem;
-        padding: 1rem;
-        background-color: #f0f0f0;
-        border-radius: 0.25rem;
+      .hero p {
+        font-size: 1.1rem;
+        color: var(--text-dim);
+        max-width: 540px;
+        line-height: 1.7;
+      }
+
+      /* ------------------------------------------------
+         Sections
+      ------------------------------------------------ */
+      .example {
+        margin-bottom: 5rem;
+        animation: fadeUp 0.8s var(--ease-out) both;
+      }
+
+      .example:nth-child(2) { animation-delay: 0.1s; }
+      .example:nth-child(3) { animation-delay: 0.2s; }
+      .example:nth-child(4) { animation-delay: 0.3s; }
+      .example:nth-child(5) { animation-delay: 0.4s; }
+      .example:nth-child(6) { animation-delay: 0.5s; }
+      .example:nth-child(7) { animation-delay: 0.6s; }
+
+      .example-label {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 400;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        margin-bottom: 0.75rem;
+      }
+
+      .example h2 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 400;
+        margin-bottom: 0.5rem;
+      }
+
+      .example > p {
+        color: var(--text-dim);
+        font-size: 0.95rem;
+        margin-bottom: 2rem;
+        max-width: 520px;
       }
 
       code {
-        font-family: monospace;
-        background-color: #f2f2f2;
-        padding: 0.2rem 0.4rem;
-        border-radius: 0.25rem;
-        font-size: 0.9em;
+        font-family: var(--font-mono);
+        font-size: 0.82em;
+        color: var(--accent);
       }
 
-      pre {
-        background-color: #f8f8f8;
-        padding: 1rem;
-        border-radius: 0.25rem;
-        overflow-x: auto;
-        margin: 1rem 0;
+      /* ------------------------------------------------
+         Demo surfaces
+      ------------------------------------------------ */
+      .demo-surface {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 2rem;
+        position: relative;
+        overflow: visible;
       }
 
-      .form-group {
-        margin-bottom: 1.5rem;
+      .demo-surface::before {
+        content: '';
+        position: absolute;
+        top: -80px;
+        right: -80px;
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        pointer-events: none;
+        opacity: 0;
+        transition: opacity 0.5s;
       }
 
-      label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
+      .demo-surface:hover::before {
+        opacity: 1;
       }
 
-      button {
-        padding: 0.5rem 1rem;
-        background-color: #4299e1;
-        color: white;
-        border: none;
-        border-radius: 0.25rem;
-        cursor: pointer;
-        font-size: 1rem;
+      /* ------------------------------------------------
+         Output area
+      ------------------------------------------------ */
+      .output-area {
+        margin-top: 1.25rem;
+        padding: 0.75rem 1rem;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        border-radius: 8px;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 300;
+        color: var(--text-dim);
+        line-height: 1.6;
       }
 
-      button:hover {
-        background-color: #3182ce;
+      .output-area span {
+        color: var(--accent);
+        font-weight: 400;
       }
 
+      /* ------------------------------------------------
+         Theme switcher buttons
+      ------------------------------------------------ */
       .theme-selector {
-        margin-bottom: 2rem;
         display: flex;
-        gap: 0.5rem;
+        gap: 0.4rem;
         flex-wrap: wrap;
+        margin-bottom: 1.5rem;
       }
 
       .theme-button {
         padding: 0.5rem 1rem;
-        border: 1px solid #ddd;
-        border-radius: 0.25rem;
-        background-color: #f8f8f8;
+        font-family: var(--font-body);
+        font-size: 0.8rem;
+        font-weight: 400;
+        color: var(--text-dim);
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: 7px;
         cursor: pointer;
-        font-size: 0.9rem;
-        transition: all 0.2s ease;
-        color: black;
+        transition: all 0.25s var(--ease-out);
       }
 
       .theme-button:hover {
-        background-color: #eee;
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.04);
       }
 
       .theme-button.active {
-        background-color: #4299e1;
-        color: white;
-        border-color: #2b6cb0;
+        color: #fff;
+        background: var(--teal);
+        border-color: var(--teal);
         font-weight: 500;
+        box-shadow: 0 1px 4px rgba(74, 158, 142, 0.3);
       }
 
-      /* custom themes for the demo */
-      .theme-default select-dropdown {
-        /* uses the default styling */
-      }
-
+      /* Theme overrides */
       .theme-dark select-dropdown {
-        --select-color-background: #2d3748;
-        --select-color-text: #e2e8f0;
-        --select-color-border: #4a5568;
-        --select-color-border-hover: #718096;
-        --select-color-border-dark: #a0aec0;
-        --select-color-primary: #4299e1;
-        --select-color-hover: #1a202c;
-        --select-color-focus: #2c5282;
-        --select-color-selected: #2c5282;
+        --select-color-text: #ffffff;
+        --select-color-background: #111113;
+        --select-color-border: #1e1e21;
+        --select-color-border-hover: #2a2a2e;
+        --select-color-hover: #0c0c0d;
+        --select-color-focus: #1e1e21;
+        --select-color-selected: #1e1e21;
+        --select-color-primary: #d4a24e;
       }
 
-      .theme-rounded select-dropdown {
-        --select-color-primary: #9f7aea;
-        --select-color-focus: #e9d8fd;
-        --select-color-selected: #e9d8fd;
+      .theme-dark select-option[aria-selected="true"] {
+        color: var(--accent);
       }
 
-      .theme-rounded select-trigger,
-      .theme-rounded select-panel {
-        border-radius: 2rem;
+      .theme-coral select-dropdown {
+        --select-color-text: #fff;
+        --select-color-primary: #ff4433;
+        --select-color-background: #3b1410;
+        --select-color-border: #6b2a22;
+        --select-color-border-hover: #ff4433;
+        --select-color-hover: #4d1a14;
+        --select-color-focus: #6b2a22;
+        --select-color-selected: #6b2a22;
       }
 
-      .theme-minimal select-dropdown {
-        --select-color-border: #e2e8f0;
-        --select-color-border-hover: #cbd5e0;
-        --select-color-primary: #718096;
-        --select-color-focus: #f7fafc;
-        --select-color-selected: #f7fafc;
+      .theme-teal select-dropdown {
+        --select-color-text: #fff;
+        --select-color-primary: #22eedd;
+        --select-color-background: #0a2e2a;
+        --select-color-border: #1a5c54;
+        --select-color-border-hover: #22eedd;
+        --select-color-hover: #0e3a35;
+        --select-color-focus: #1a5c54;
+        --select-color-selected: #1a5c54;
       }
 
-      .theme-minimal select-trigger,
-      .theme-minimal select-panel {
-        border-radius: 0;
-        box-shadow: none;
+      .theme-lavender select-dropdown {
+        --select-color-text: #fff;
+        --select-color-primary: #b491ff;
+        --select-color-background: #1e1535;
+        --select-color-border: #3d2d6b;
+        --select-color-border-hover: #b491ff;
+        --select-color-hover: #261a42;
+        --select-color-focus: #3d2d6b;
+        --select-color-selected: #3d2d6b;
       }
 
-      .theme-colorful select-dropdown {
-        --select-color-primary: #ed64a6;
-        --select-color-hover: #fed7e2;
-        --select-color-focus: #fbb6ce;
-        --select-color-selected: #fbb6ce;
-        --select-color-border: #ed64a6;
-        --select-color-border-hover: #d53f8c;
-      }
-
-      /* instructions area */
-      .instructions {
-        margin-top: 2rem;
-        padding: 1rem;
-        background-color: #f9f9f9;
-        border: 1px solid #ddd;
-        border-radius: 0.25rem;
-      }
-
-      .instructions h3 {
+      /* ------------------------------------------------
+         Form elements
+      ------------------------------------------------ */
+      .form-field label {
+        display: block;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 400;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--text-dim);
         margin-bottom: 0.5rem;
-        font-size: 1.2rem;
       }
 
-      .instructions ul {
-        padding-left: 1.5rem;
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        padding: 0.75rem 1.25rem;
+        font-family: var(--font-body);
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #0c0c0d;
+        background: var(--accent);
+        border: none;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: all 0.25s var(--ease-out);
       }
 
-      .instructions li {
-        margin-bottom: 0.25rem;
+      .btn:hover {
+        background: #e0b05e;
+        box-shadow: 0 2px 12px rgba(212, 162, 78, 0.3);
       }
 
-      .instructions ul ul {
-        margin-top: 0.25rem;
+      /* ------------------------------------------------
+         Keyboard grid
+      ------------------------------------------------ */
+      .keyboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
       }
 
-      .key {
-        display: inline-block;
-        padding: 0.1rem 0.4rem;
-        border: 1px solid #ccc;
-        border-radius: 0.25rem;
-        background-color: #f0f0f0;
-        font-family: monospace;
-        font-size: 0.8rem;
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+      .key-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      kbd {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 2rem;
+        height: 1.75rem;
+        padding: 0 0.5rem;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 400;
+        color: var(--text);
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-bottom-width: 2px;
+        border-radius: 5px;
+        white-space: nowrap;
+      }
+
+      .key-desc {
+        font-size: 0.82rem;
+        color: var(--text-dim);
+      }
+
+      /* ------------------------------------------------
+         Code block
+      ------------------------------------------------ */
+      .code-block {
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 1.25rem 1.5rem;
+        overflow-x: auto;
+        margin-top: 1.5rem;
+      }
+
+      .code-block code {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 300;
+        line-height: 1.8;
+        color: var(--text-dim);
+      }
+
+      .code-block .hl-tag { color: var(--accent); }
+      .code-block .hl-attr { color: var(--lavender); }
+      .code-block .hl-value { color: var(--coral); }
+      .code-block .hl-comment { color: #555; font-style: italic; }
+
+      /* ------------------------------------------------
+         Footer
+      ------------------------------------------------ */
+      footer {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--border);
+        animation: fadeUp 0.8s var(--ease-out) 0.5s both;
+      }
+
+      footer p {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        letter-spacing: 0.04em;
+      }
+
+      /* ------------------------------------------------
+         Animations
+      ------------------------------------------------ */
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(16px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* ------------------------------------------------
+         Responsive
+      ------------------------------------------------ */
+      @media (max-width: 600px) {
+        .page {
+          padding: 2.5rem 1.25rem 4rem;
+        }
+
+        .hero {
+          padding-bottom: 2.5rem;
+          margin-bottom: 2.5rem;
+        }
+
+        .example {
+          margin-bottom: 3.5rem;
+        }
+
+        .demo-surface {
+          padding: 1.25rem;
+        }
+
+        .keyboard-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
   <body>
-    <header>
-      <h1>Select Dropdown Web Component</h1>
-      <p>
-        A fully accessible custom dropdown component that can be used
-        as a replacement for the native select element with enhanced
-        styling options and keyboard navigation.
-      </p>
-    </header>
-
-    <main>
-      <section id="basic-example">
-        <h2>Basic Example</h2>
-        <p>A simple select dropdown with default styling.</p>
-
-        <div class="demo-container theme-default">
-          <select-dropdown id="fruit-dropdown">
-            <select-trigger id="fruit-trigger">
-              <span class="select-label-text">Cherry</span>
-            </select-trigger>
-
-            <input
-              type="hidden"
-              name="selected-fruit"
-              id="selected-fruit"
-              value="cherry" />
-
-            <select-panel>
-              <select-option value="apple">Apple</select-option>
-              <select-option value="banana">Banana</select-option>
-              <select-option value="cherry" selected
-                >Cherry</select-option
-              >
-              <select-option value="durian">Durian</select-option>
-              <select-option value="elderberry"
-                >Elderberry</select-option
-              >
-            </select-panel>
-          </select-dropdown>
-
-          <div class="output-area">
-            <p>
-              Selected fruit: <span id="fruit-output">Cherry</span>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section id="themed-examples">
-        <h2>Themed Examples</h2>
+    <div class="page">
+      <!-- Hero -->
+      <header class="hero">
+        <div class="hero-badge">@magic-spells/select-dropdown</div>
+        <h1>Dropdowns done<br /><em>right</em></h1>
         <p>
-          The dropdown component can be easily themed using CSS
-          variables.
+          A fully accessible custom select component with keyboard
+          navigation, ARIA support, and CSS-variable theming. No Shadow
+          DOM &mdash; style it directly.
         </p>
+      </header>
 
-        <div>
-          <p>Select a theme:</p>
-          <div class="theme-selector">
-            <button
-              type="button"
-              class="theme-button active"
-              data-theme="default">
-              Default
-            </button>
-            <button
-              type="button"
-              class="theme-button"
-              data-theme="dark">
-              Dark
-            </button>
-            <button
-              type="button"
-              class="theme-button"
-              data-theme="rounded">
-              Rounded
-            </button>
-            <button
-              type="button"
-              class="theme-button"
-              data-theme="minimal">
-              Minimal
-            </button>
-            <button
-              type="button"
-              class="theme-button"
-              data-theme="colorful">
-              Colorful
-            </button>
-          </div>
-        </div>
+      <main>
+        <!-- Basic -->
+        <section class="example">
+          <div class="example-label">Example 01</div>
+          <h2>Simple Select</h2>
+          <p>
+            A straightforward dropdown with a preselected value.
+            Click or use keyboard to navigate options.
+          </p>
 
-        <div id="theme-demo" class="demo-container theme-default">
-          <label>Select a color:</label>
-          <select-dropdown id="color-dropdown">
-            <select-trigger id="color-trigger">
-              <span class="select-label-text">Select a color</span>
-            </select-trigger>
-
-            <input
-              type="hidden"
-              name="selected-color"
-              id="selected-color" />
-
-            <select-panel>
-              <select-option value=""> - </select-option>
-              <select-option value="red">Red</select-option>
-              <select-option value="green">Green</select-option>
-              <select-option value="blue">Blue</select-option>
-              <select-option value="yellow">Yellow</select-option>
-              <select-option value="purple">Purple</select-option>
-            </select-panel>
-          </select-dropdown>
-
-          <div class="output-area">
-            <p>Selected color: <span id="color-output">None</span></p>
-          </div>
-        </div>
-      </section>
-
-      <section id="form-integration">
-        <h2>Form Integration Example</h2>
-        <p>
-          The dropdown component integrates seamlessly with HTML
-          forms.
-        </p>
-
-        <form id="demo-form">
-          <div class="form-group">
-            <label for="animal-dropdown">Select an animal:</label>
-            <select-dropdown id="animal-dropdown">
-              <select-trigger id="animal-trigger">
-                <span class="select-label-text">Select an animal</span>
+          <div class="demo-surface">
+            <select-dropdown id="fruit-dropdown">
+              <select-trigger id="fruit-trigger">
+                <span class="select-label-text">Cherry</span>
               </select-trigger>
 
               <input
                 type="hidden"
-                name="animal"
-                id="animal-input" />
+                name="selected-fruit"
+                id="selected-fruit"
+                value="cherry" />
 
               <select-panel>
-                <select-option value="dog">Dog</select-option>
-                <select-option value="cat">Cat</select-option>
-                <select-option value="bird">Bird</select-option>
-                <select-option value="fish">Fish</select-option>
-                <select-option value="rabbit"
-                  >Rabbit</select-option
-                >
+                <select-option value="apple">Apple</select-option>
+                <select-option value="banana">Banana</select-option>
+                <select-option value="cherry" selected>Cherry</select-option>
+                <select-option value="durian">Durian</select-option>
+                <select-option value="elderberry">Elderberry</select-option>
               </select-panel>
             </select-dropdown>
+
+            <div class="output-area">
+              Selected: <span id="fruit-output">Cherry</span>
+            </div>
           </div>
+        </section>
 
-          <button type="submit">Submit</button>
-        </form>
-
-        <div class="output-area">
+        <!-- Grouped -->
+        <section class="example">
+          <div class="example-label">Example 02</div>
+          <h2>Grouped Options</h2>
           <p>
-            Form submission result:
-            <span id="form-output">Not submitted yet</span>
+            Organize options with
+            <code>&lt;select-label&gt;</code> headings and
+            <code>&lt;select-divider&gt;</code> separators.
+            Non-option elements are skipped during keyboard navigation.
           </p>
-        </div>
-      </section>
 
-      <section id="grouped-options">
-        <h2>Grouped Options with Labels</h2>
-        <p>
-          Options can be organized into groups using
-          <code>&lt;select-label&gt;</code> and
-          <code>&lt;select-divider&gt;</code> elements.
-          Non-option elements are automatically skipped during keyboard navigation.
-        </p>
+          <div class="demo-surface">
+            <select-dropdown id="snack-dropdown">
+              <select-trigger id="snack-trigger">
+                <span class="select-label-text">Select a snack</span>
+              </select-trigger>
 
-        <div class="demo-container">
-          <select-dropdown id="snack-dropdown">
-            <select-trigger id="snack-trigger">
-              <span class="select-label-text">Select a snack</span>
-            </select-trigger>
+              <input
+                type="hidden"
+                name="selected-snack"
+                id="selected-snack" />
 
-            <input
-              type="hidden"
-              name="selected-snack"
-              id="selected-snack" />
+              <select-panel>
+                <select-label>Fruit</select-label>
+                <select-option value="apple">Apple</select-option>
+                <select-option value="banana">Banana</select-option>
+                <select-option value="mango">Mango</select-option>
+                <select-option value="strawberry">Strawberry</select-option>
 
-            <select-panel>
-              <select-label>Fruit</select-label>
-              <select-option value="apple">Apple</select-option>
-              <select-option value="banana">Banana</select-option>
-              <select-option value="mango">Mango</select-option>
-              <select-option value="strawberry">Strawberry</select-option>
+                <select-divider></select-divider>
 
-              <select-divider></select-divider>
+                <select-label>Nuts</select-label>
+                <select-option value="almond">Almond</select-option>
+                <select-option value="cashew">Cashew</select-option>
+                <select-option value="pistachio">Pistachio</select-option>
+                <select-option value="walnut">Walnut</select-option>
+              </select-panel>
+            </select-dropdown>
 
-              <select-label>Nuts</select-label>
-              <select-option value="almond">Almond</select-option>
-              <select-option value="cashew">Cashew</select-option>
-              <select-option value="pistachio">Pistachio</select-option>
-              <select-option value="walnut">Walnut</select-option>
-            </select-panel>
-          </select-dropdown>
-
-          <div class="output-area">
-            <p>
-              Selected snack: <span id="snack-output">None</span>
-            </p>
+            <div class="output-area">
+              Selected: <span id="snack-output">None</span>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section id="keyboard-navigation">
-        <h2>Keyboard Navigation</h2>
-        <p>
-          The dropdown component supports complete keyboard navigation
-          for accessibility.
-        </p>
+        <!-- Themed -->
+        <section class="example">
+          <div class="example-label">Example 03</div>
+          <h2>CSS Variable Theming</h2>
+          <p>
+            Every color is driven by custom properties. Override them
+            on a wrapper class to create distinct themes with no
+            JavaScript.
+          </p>
 
-        <div class="instructions">
-          <h3>Keyboard Controls</h3>
-          <ul>
-            <li>
-              <span class="key">Tab</span> to focus the dropdown
-            </li>
-            <li>
-              <span class="key">Enter</span> or
-              <span class="key">Space</span> to open/select
-            </li>
-            <li>
-              <span class="key">↑</span>
-              <span class="key">↓</span> arrow keys to navigate
-              options
-            </li>
-            <li>
-              <span class="key">Home</span> to jump to first option
-            </li>
-            <li>
-              <span class="key">End</span> to jump to last option
-            </li>
-            <li>
-              <span class="key">Esc</span> to close the dropdown
-            </li>
-            <li>Type a letter to jump to matching options</li>
-          </ul>
-        </div>
+          <div class="demo-surface">
+            <div class="theme-selector">
+              <button type="button" class="theme-button active" data-theme="default">Gold</button>
+              <button type="button" class="theme-button" data-theme="coral">Coral</button>
+              <button type="button" class="theme-button" data-theme="teal">Teal</button>
+              <button type="button" class="theme-button" data-theme="lavender">Lavender</button>
+              <button type="button" class="theme-button" data-theme="dark">Dark</button>
+            </div>
 
-        <div class="demo-container">
-          <select-dropdown id="country-dropdown">
-            <select-trigger id="country-trigger">
-              <span class="select-label-text">Japan</span>
-            </select-trigger>
+            <div id="theme-demo" class="theme-default">
+              <select-dropdown id="color-dropdown">
+                <select-trigger id="color-trigger">
+                  <span class="select-label-text">Select a color</span>
+                </select-trigger>
 
-            <input
-              type="hidden"
-              name="selected-country"
-              id="selected-country"
-              value="japan" />
+                <input
+                  type="hidden"
+                  name="selected-color"
+                  id="selected-color" />
 
-            <select-panel>
-              <select-option value="argentina">Argentina</select-option>
-              <select-option value="australia">Australia</select-option>
-              <select-option value="belgium">Belgium</select-option>
-              <select-option value="brazil">Brazil</select-option>
-              <select-option value="canada">Canada</select-option>
-              <select-option value="china">China</select-option>
-              <select-option value="denmark">Denmark</select-option>
-              <select-option value="egypt">Egypt</select-option>
-              <select-option value="finland">Finland</select-option>
-              <select-option value="france">France</select-option>
-              <select-option value="germany">Germany</select-option>
-              <select-option value="greece">Greece</select-option>
-              <select-option value="india">India</select-option>
-              <select-option value="italy">Italy</select-option>
-              <select-option value="japan" selected>Japan</select-option>
-              <select-option value="korea">South Korea</select-option>
-              <select-option value="mexico">Mexico</select-option>
-              <select-option value="netherlands">Netherlands</select-option>
-              <select-option value="norway">Norway</select-option>
-              <select-option value="poland">Poland</select-option>
-              <select-option value="portugal">Portugal</select-option>
-              <select-option value="russia">Russia</select-option>
-              <select-option value="spain">Spain</select-option>
-              <select-option value="sweden">Sweden</select-option>
-              <select-option value="switzerland">Switzerland</select-option>
-              <select-option value="uk">United Kingdom</select-option>
-              <select-option value="usa">United States</select-option>
-            </select-panel>
-          </select-dropdown>
+                <select-panel>
+                  <select-option value="amber">Amber</select-option>
+                  <select-option value="crimson">Crimson</select-option>
+                  <select-option value="jade">Jade</select-option>
+                  <select-option value="iris">Iris</select-option>
+                  <select-option value="slate">Slate</select-option>
+                </select-panel>
+              </select-dropdown>
 
-          <div class="output-area">
-            <p>
-              Selected country:
-              <span id="country-output">None</span>
-            </p>
+              <div class="output-area">
+                Selected: <span id="color-output">None</span>
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
 
-    <footer>
-      <p>&copy; 2025 Magic Spells. Released under the MIT License.</p>
-    </footer>
+        <!-- Form -->
+        <section class="example">
+          <div class="example-label">Example 04</div>
+          <h2>Form Integration</h2>
+          <p>
+            A hidden <code>&lt;input&gt;</code> inside the component
+            syncs with the selected value, so it works natively with
+            any <code>&lt;form&gt;</code>.
+          </p>
+
+          <div class="demo-surface">
+            <form id="demo-form">
+              <div class="form-field">
+                <label for="animal-dropdown">Select an animal</label>
+                <select-dropdown id="animal-dropdown">
+                  <select-trigger id="animal-trigger">
+                    <span class="select-label-text">Select an animal</span>
+                  </select-trigger>
+
+                  <input
+                    type="hidden"
+                    name="animal"
+                    id="animal-input" />
+
+                  <select-panel>
+                    <select-option value="dog">Dog</select-option>
+                    <select-option value="cat">Cat</select-option>
+                    <select-option value="bird">Bird</select-option>
+                    <select-option value="fish">Fish</select-option>
+                    <select-option value="rabbit">Rabbit</select-option>
+                  </select-panel>
+                </select-dropdown>
+              </div>
+
+              <button type="submit" class="btn">Submit</button>
+            </form>
+
+            <div class="output-area">
+              Result: <span id="form-output">Not submitted yet</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Large list -->
+        <section class="example">
+          <div class="example-label">Example 05</div>
+          <h2>Large Dataset</h2>
+          <p>
+            A long scrollable list with grouped regions.
+            Type-ahead search jumps to matching options.
+          </p>
+
+          <div class="demo-surface">
+            <select-dropdown id="timezone-dropdown">
+              <select-trigger id="timezone-trigger">
+                <span class="select-label-text">Select a time zone</span>
+              </select-trigger>
+
+              <input
+                type="hidden"
+                name="timezone"
+                id="selected-timezone" />
+
+              <select-panel>
+                <select-label>Americas</select-label>
+                <select-option value="America/New_York">Eastern Time (New York)</select-option>
+                <select-option value="America/Chicago">Central Time (Chicago)</select-option>
+                <select-option value="America/Denver">Mountain Time (Denver)</select-option>
+                <select-option value="America/Los_Angeles">Pacific Time (Los Angeles)</select-option>
+                <select-option value="America/Anchorage">Alaska (Anchorage)</select-option>
+                <select-option value="Pacific/Honolulu">Hawaii (Honolulu)</select-option>
+                <select-option value="America/Toronto">Toronto</select-option>
+                <select-option value="America/Mexico_City">Mexico City</select-option>
+                <select-option value="America/Sao_Paulo">Sao Paulo</select-option>
+
+                <select-divider></select-divider>
+
+                <select-label>Europe</select-label>
+                <select-option value="Europe/London">London</select-option>
+                <select-option value="Europe/Paris">Paris</select-option>
+                <select-option value="Europe/Berlin">Berlin</select-option>
+                <select-option value="Europe/Amsterdam">Amsterdam</select-option>
+                <select-option value="Europe/Rome">Rome</select-option>
+                <select-option value="Europe/Stockholm">Stockholm</select-option>
+                <select-option value="Europe/Istanbul">Istanbul</select-option>
+                <select-option value="Europe/Moscow">Moscow</select-option>
+
+                <select-divider></select-divider>
+
+                <select-label>Asia & Pacific</select-label>
+                <select-option value="Asia/Dubai">Dubai</select-option>
+                <select-option value="Asia/Kolkata">Kolkata</select-option>
+                <select-option value="Asia/Singapore">Singapore</select-option>
+                <select-option value="Asia/Shanghai">Shanghai</select-option>
+                <select-option value="Asia/Tokyo">Tokyo</select-option>
+                <select-option value="Asia/Seoul">Seoul</select-option>
+                <select-option value="Australia/Sydney">Sydney</select-option>
+                <select-option value="Pacific/Auckland">Auckland</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              Selected: <span id="timezone-output">None</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Keyboard -->
+        <section class="example">
+          <div class="example-label">Accessibility</div>
+          <h2>Keyboard Navigation</h2>
+          <p>
+            Full WAI-ARIA compliant keyboard support. Every interaction
+            that works with a mouse also works with a keyboard.
+          </p>
+
+          <div class="demo-surface">
+            <div class="keyboard-grid">
+              <div class="key-item">
+                <kbd>Tab</kbd>
+                <span class="key-desc">Focus trigger</span>
+              </div>
+              <div class="key-item">
+                <kbd>Enter</kbd>
+                <span class="key-desc">Show / select</span>
+              </div>
+              <div class="key-item">
+                <kbd>Space</kbd>
+                <span class="key-desc">Show / select</span>
+              </div>
+              <div class="key-item">
+                <kbd>Esc</kbd>
+                <span class="key-desc">Hide panel</span>
+              </div>
+              <div class="key-item">
+                <kbd>&darr;</kbd>
+                <span class="key-desc">Next option</span>
+              </div>
+              <div class="key-item">
+                <kbd>&uarr;</kbd>
+                <span class="key-desc">Previous option</span>
+              </div>
+              <div class="key-item">
+                <kbd>Home</kbd>
+                <span class="key-desc">First option</span>
+              </div>
+              <div class="key-item">
+                <kbd>End</kbd>
+                <span class="key-desc">Last option</span>
+              </div>
+              <div class="key-item">
+                <kbd>A-Z</kbd>
+                <span class="key-desc">Type-ahead search</span>
+              </div>
+            </div>
+
+            <select-dropdown id="keyboard-dropdown">
+              <select-trigger id="keyboard-trigger">
+                <span class="select-label-text">Navigate me</span>
+              </select-trigger>
+
+              <input
+                type="hidden"
+                name="keyboard-test"
+                id="keyboard-input" />
+
+              <select-panel>
+                <select-label>Citrus</select-label>
+                <select-option value="orange">Orange</select-option>
+                <select-option value="lemon">Lemon</select-option>
+                <select-option value="grapefruit">Grapefruit</select-option>
+
+                <select-divider></select-divider>
+
+                <select-label>Berries</select-label>
+                <select-option value="blueberry">Blueberry</select-option>
+                <select-option value="raspberry">Raspberry</select-option>
+                <select-option value="blackberry">Blackberry</select-option>
+
+                <select-divider></select-divider>
+
+                <select-label>Tropical</select-label>
+                <select-option value="pineapple">Pineapple</select-option>
+                <select-option value="papaya">Papaya</select-option>
+                <select-option value="passionfruit">Passionfruit</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              Selected: <span id="keyboard-output">None</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Markup -->
+        <section class="example">
+          <div class="example-label">Usage</div>
+          <h2>Markup</h2>
+          <p>Drop-in HTML structure with zero configuration.</p>
+
+          <div class="code-block"><code><span class="hl-tag">&lt;select-dropdown&gt;</span>
+  <span class="hl-tag">&lt;select-trigger&gt;</span>
+    <span class="hl-tag">&lt;span</span> <span class="hl-attr">class</span>=<span class="hl-value">"select-label-text"</span><span class="hl-tag">&gt;</span>Pick one<span class="hl-tag">&lt;/span&gt;</span>
+  <span class="hl-tag">&lt;/select-trigger&gt;</span>
+
+  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-value">"hidden"</span> <span class="hl-attr">name</span>=<span class="hl-value">"field"</span> <span class="hl-tag">/&gt;</span>
+
+  <span class="hl-tag">&lt;select-panel&gt;</span>
+    <span class="hl-tag">&lt;select-label&gt;</span>Group<span class="hl-tag">&lt;/select-label&gt;</span>
+    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"a"</span><span class="hl-tag">&gt;</span>Option A<span class="hl-tag">&lt;/select-option&gt;</span>
+    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"b"</span> <span class="hl-attr">selected</span><span class="hl-tag">&gt;</span>Option B<span class="hl-tag">&lt;/select-option&gt;</span>
+    <span class="hl-tag">&lt;select-divider&gt;&lt;/select-divider&gt;</span>
+    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"c"</span><span class="hl-tag">&gt;</span>Option C<span class="hl-tag">&lt;/select-option&gt;</span>
+  <span class="hl-tag">&lt;/select-panel&gt;</span>
+<span class="hl-tag">&lt;/select-dropdown&gt;</span></code></div>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2025 Magic Spells. Released under the MIT License.</p>
+      </footer>
+    </div>
 
     <script>
       document.addEventListener('DOMContentLoaded', function () {
-        // Basic example
-        const fruitDropdown =
-          document.getElementById('fruit-dropdown');
-        fruitDropdown.addEventListener('change', function (e) {
-          document.getElementById('fruit-output').textContent =
-            `${e.detail.text} (value: ${e.detail.value})`;
-        });
+        function wireOutput(dropdownId, outputId) {
+          const dropdown = document.getElementById(dropdownId)
+          if (!dropdown) return
+          dropdown.addEventListener('change', function (e) {
+            const output = document.getElementById(outputId)
+            if (output) {
+              output.textContent = e.detail.text + ' (' + e.detail.value + ')'
+            }
+          })
+        }
 
-        // Theme example
-        const colorDropdown =
-          document.getElementById('color-dropdown');
-        colorDropdown.addEventListener('change', function (e) {
-          document.getElementById('color-output').textContent =
-            `${e.detail.text} (value: ${e.detail.value})`;
-        });
+        wireOutput('fruit-dropdown', 'fruit-output')
+        wireOutput('snack-dropdown', 'snack-output')
+        wireOutput('color-dropdown', 'color-output')
+        wireOutput('timezone-dropdown', 'timezone-output')
+        wireOutput('keyboard-dropdown', 'keyboard-output')
 
-        // Theme selector buttons
-        const themeButtons =
-          document.querySelectorAll('.theme-button');
-        const themeDemo = document.getElementById('theme-demo');
+        // Theme switcher
+        const themeButtons = document.querySelectorAll('.theme-button')
+        const themeDemo = document.getElementById('theme-demo')
 
-        themeButtons.forEach((button) => {
+        themeButtons.forEach(function (button) {
           button.addEventListener('click', function () {
-            // Remove active class from all buttons
-            themeButtons.forEach((btn) =>
+            themeButtons.forEach(function (btn) {
               btn.classList.remove('active')
-            );
+            })
+            this.classList.add('active')
+            themeDemo.className = 'theme-' + this.dataset.theme
+          })
+        })
 
-            // Add active class to clicked button
-            this.classList.add('active');
-
-            // Update theme class
-            const theme = this.dataset.theme;
-            themeDemo.className = `demo-container theme-${theme}`;
-          });
-        });
-
-        // Form example
-        const demoForm = document.getElementById('demo-form');
-        demoForm.addEventListener('submit', function (e) {
-          e.preventDefault();
-          const formData = new FormData(this);
-          document.getElementById('form-output').textContent =
-            `Selected animal: ${formData.get('animal')}`;
-        });
-
-        // Grouped example
-        const snackDropdown =
-          document.getElementById('snack-dropdown');
-        snackDropdown.addEventListener('change', function (e) {
-          document.getElementById('snack-output').textContent =
-            `${e.detail.text} (value: ${e.detail.value})`;
-        });
-
-        // Country example
-        const countryDropdown = document.getElementById(
-          'country-dropdown'
-        );
-        countryDropdown.addEventListener('change', function (e) {
-          document.getElementById('country-output').textContent =
-            `${e.detail.text} (value: ${e.detail.value})`;
-        });
-      });
+        // Form submission
+        const demoForm = document.getElementById('demo-form')
+        if (demoForm) {
+          demoForm.addEventListener('submit', function (e) {
+            e.preventDefault()
+            const formData = new FormData(this)
+            document.getElementById('form-output').textContent =
+              'animal: ' + (formData.get('animal') || '(none)')
+          })
+        }
+      })
     </script>
 
     <script src="./select-dropdown.js"></script>

@@ -29,9 +29,13 @@ select-dropdown * {
   box-sizing: border-box;
 }
 
-/* hide dropdown when aria-hidden="true" */
-select-dropdown[aria-hidden="true"] select-panel {
-  display: none;
+/* panel shown state */
+select-dropdown[aria-hidden="false"] select-panel {
+  opacity: 1;
+  transform: scale(1);
+  filter: blur(0);
+  pointer-events: auto;
+  visibility: visible;
 }
 
 /* trigger button styles */
@@ -60,7 +64,7 @@ select-trigger:focus {
 }
 
 /* caret icon */
-.select-caret {
+.select-icon {
   border-style: solid;
   border-width: 0.25rem 0.25rem 0;
   border-color: var(--select-color-border-dark) transparent transparent;
@@ -68,25 +72,9 @@ select-trigger:focus {
   transition: transform 0.2s;
 }
 
-/* Flipped caret when expanded (default direction) */
-select-dropdown:not([direction="up"])
-  select-trigger[aria-expanded="true"]
-  .select-caret {
+/* Flipped caret when expanded */
+select-trigger[aria-expanded="true"] .select-icon {
   transform: rotate(180deg);
-}
-
-/* Already flipped caret for upward dropdowns when closed */
-select-dropdown[direction="up"] .select-caret {
-  transform: rotate(180deg);
-  border-width: 0 0.25rem 0.25rem;
-  border-color: transparent transparent var(--select-color-border-dark);
-}
-
-/* Flip back to normal when expanded for upward dropdowns */
-select-dropdown[direction="up"]
-  select-trigger[aria-expanded="true"]
-  .select-caret {
-  transform: rotate(0);
 }
 
 /* options container */
@@ -99,23 +87,14 @@ select-panel {
   background-color: var(--select-color-background);
   border: 1px solid var(--select-color-border);
   border-radius: 0.25rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   z-index: 10;
-}
-
-/* Default direction (down) */
-select-dropdown:not([direction="up"]) select-panel {
-  top: calc(100% + 0.25rem);
-}
-
-/* Direction up */
-select-dropdown[direction="up"] select-panel {
-  bottom: calc(100% + 0.25rem);
-}
-
-/* Add some elevation for upward direction to create nice shadow */
-select-dropdown[direction="up"] select-panel {
-  box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transform: scale(0.97);
+  filter: blur(3px);
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 150ms ease-out, transform 150ms ease-out, filter 150ms ease-out, visibility 150ms;
 }
 
 /* option items */
@@ -166,3 +145,5 @@ select-label {
   cursor: default;
   user-select: none;
 }
+
+/*# sourceMappingURL=select-dropdown.css.map */

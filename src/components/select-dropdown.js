@@ -18,7 +18,7 @@ export class SelectDropdown extends HTMLElement {
 
   // Observed attributes
   static get observedAttributes() {
-    return ['position'];
+    return [];
   }
 
   constructor() {
@@ -36,23 +36,28 @@ export class SelectDropdown extends HTMLElement {
    * when element is connected to the dom
    */
   connectedCallback() {
-    // query all dom elements needed for the component
-    this.#trigger = this.querySelector('select-trigger');
-    this.#input = this.querySelector('input');
-    this.#optionsContainer = this.querySelector('select-panel');
-    this.#options = this.querySelectorAll('select-option');
-    this.#label = this.#trigger?.querySelector('.select-label-text');
+    const _ = this
 
-    // Make sure the component itself isn't focusable
-    this.setAttribute('tabindex', '-1');
+    _.queryDOM()
+    _.setAttribute('tabindex', '-1')
+    _.setupAriaAttributes()
+    _.bindUI()
+    _.initializeSelectedOption()
+    _.hide()
+  }
 
-    // initialize component
-    this.setupAriaAttributes();
-    this.bindUI();
-    this.initializeSelectedOption();
+  /**
+   * Queries and caches all DOM elements needed for the component
+   * @private
+   */
+  queryDOM() {
+    const _ = this
 
-    // set initial state
-    this.hide();
+    _.#trigger = _.querySelector('select-trigger')
+    _.#input = _.querySelector('input')
+    _.#optionsContainer = _.querySelector('select-panel')
+    _.#options = _.querySelectorAll('select-option')
+    _.#label = _.#trigger?.querySelector('.select-label-text')
   }
 
   /**
@@ -77,50 +82,52 @@ export class SelectDropdown extends HTMLElement {
    * @private
    */
   initializeSelectedOption() {
+    const _ = this
+
     // Look for options with 'selected' attribute first
-    let selectedOption = Array.from(this.#options).find(
+    let selectedOption = Array.from(_.#options).find(
       (opt) => opt.hasAttribute('selected')
-    );
+    )
 
     // If no 'selected' attribute, look for aria-selected="true"
     if (!selectedOption) {
-      selectedOption = Array.from(this.#options).find(
+      selectedOption = Array.from(_.#options).find(
         (opt) => opt.getAttribute('aria-selected') === 'true'
-      );
+      )
     }
 
     // If we found a selected option, update the component state
     if (selectedOption) {
       // Clear all selections first
-      this.#options.forEach((opt) => {
-        opt.removeAttribute('selected');
-        opt.setAttribute('aria-selected', 'false');
-      });
+      _.#options.forEach((opt) => {
+        opt.removeAttribute('selected')
+        opt.setAttribute('aria-selected', 'false')
+      })
 
       // Set the selected option (keep both attributes in sync)
-      selectedOption.setAttribute('aria-selected', 'true');
-      selectedOption.setAttribute('selected', '');
+      selectedOption.setAttribute('aria-selected', 'true')
+      selectedOption.setAttribute('selected', '')
 
       // Update the input value
-      if (this.#input) {
-        this.#input.value = this.#getOptionValue(selectedOption);
+      if (_.#input) {
+        _.#input.value = _.#getOptionValue(selectedOption)
       }
 
       // Update the visible label
-      if (this.#label) {
-        this.#label.textContent = selectedOption.textContent.trim();
+      if (_.#label) {
+        _.#label.textContent = selectedOption.textContent.trim()
       }
 
       // Dispatch change event for initial state
-      this.dispatchEvent(
+      _.dispatchEvent(
         new CustomEvent('change', {
           detail: {
-            value: this.#getOptionValue(selectedOption),
+            value: _.#getOptionValue(selectedOption),
             text: selectedOption.textContent.trim(),
           },
           bubbles: true,
         })
-      );
+      )
     }
   }
 
@@ -128,29 +135,30 @@ export class SelectDropdown extends HTMLElement {
    * sets up aria attributes for accessibility
    */
   setupAriaAttributes() {
-    const listbox = this.#optionsContainer;
-    const trigger = this.#trigger;
+    const _ = this
+    const listbox = _.#optionsContainer
+    const trigger = _.#trigger
 
     // setup trigger button
-    trigger.setAttribute('aria-haspopup', 'listbox');
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('role', 'combobox');
+    trigger.setAttribute('aria-haspopup', 'listbox')
+    trigger.setAttribute('aria-expanded', 'false')
+    trigger.setAttribute('role', 'combobox')
 
     if (!trigger.id) {
-      trigger.id = `select-trigger-${Date.now()}`;
+      trigger.id = `select-trigger-${Date.now()}`
     }
 
     // setup listbox
-    listbox.setAttribute('role', 'listbox');
-    listbox.setAttribute('aria-labelledby', trigger.id);
+    listbox.setAttribute('role', 'listbox')
+    listbox.setAttribute('aria-labelledby', trigger.id)
 
     // setup options
-    this.#options.forEach((option, index) => {
-      option.setAttribute('role', 'option');
-      option.setAttribute('aria-selected', 'false');
-      option.setAttribute('tabindex', '-1');
-      option.id = `${trigger.id}-option-${index}`;
-    });
+    _.#options.forEach((option, index) => {
+      option.setAttribute('role', 'option')
+      option.setAttribute('aria-selected', 'false')
+      option.setAttribute('tabindex', '-1')
+      option.id = `${trigger.id}-option-${index}`
+    })
   }
 
   /**
@@ -174,11 +182,11 @@ export class SelectDropdown extends HTMLElement {
   }
 
   /**
-   * handles click events outside of the dropdown to close it
+   * handles click events outside of the dropdown to hide it
    * @param {Event} e - the click event
    */
   handleOutsideClick(e) {
-    // if click is outside of the dropdown, close it
+    // if click is outside of the dropdown, hide it
     if (!this.contains(e.target)) {
       this.hide();
     }
@@ -189,90 +197,90 @@ export class SelectDropdown extends HTMLElement {
    * @param {KeyboardEvent} e - the keyboard event
    */
   handleKeyboardNavigation(e) {
-    const options = Array.from(this.#options);
+    const _ = this
+    const options = Array.from(_.#options)
 
     switch (e.key) {
       case 'Escape':
-        e.preventDefault();
-        this.hide();
-        break;
+        e.preventDefault()
+        _.hide()
+        break
 
       case 'ArrowDown':
-        e.preventDefault();
+        e.preventDefault()
 
         // if focus is on trigger, move to first option
-        if (document.activeElement === this.#trigger) {
-          this.#currentFocusIndex = -1;
+        if (document.activeElement === _.#trigger) {
+          _.#currentFocusIndex = -1
         }
 
         // move to next option or loop to first
-        if (this.#currentFocusIndex < options.length - 1) {
-          this.focusOption(this.#currentFocusIndex + 1);
+        if (_.#currentFocusIndex < options.length - 1) {
+          _.focusOption(_.#currentFocusIndex + 1)
         }
-        break;
+        break
 
       case 'ArrowUp':
-        e.preventDefault();
+        e.preventDefault()
 
         // move to previous option or loop to last
-        if (this.#currentFocusIndex > 0) {
-          this.focusOption(this.#currentFocusIndex - 1);
-        } else if (this.#currentFocusIndex === 0) {
+        if (_.#currentFocusIndex > 0) {
+          _.focusOption(_.#currentFocusIndex - 1)
+        } else if (_.#currentFocusIndex === 0) {
           // if on first option, move focus back to trigger
-          this.#trigger.focus();
-          this.#currentFocusIndex = -1;
+          _.#trigger.focus()
+          _.#currentFocusIndex = -1
         }
-        break;
+        break
 
       case 'Home':
-        e.preventDefault();
-        this.focusOption(0);
-        break;
+        e.preventDefault()
+        _.focusOption(0)
+        break
 
       case 'End':
-        e.preventDefault();
-        this.focusOption(options.length - 1);
-        break;
+        e.preventDefault()
+        _.focusOption(options.length - 1)
+        break
 
       case 'Enter':
       case ' ':
-        e.preventDefault();
+        e.preventDefault()
 
-        // if dropdown is closed and trigger is focused, open it
+        // if dropdown is hidden and trigger is focused, show it
         if (
-          this.getAttribute('aria-hidden') === 'true' &&
-          document.activeElement === this.#trigger
+          _.getAttribute('aria-hidden') === 'true' &&
+          document.activeElement === _.#trigger
         ) {
-          this.show();
-          return;
+          _.show()
+          return
         }
 
         // if focus is on an option, select it
-        if (this.#currentFocusIndex >= 0) {
-          this.selectOption({ target: options[this.#currentFocusIndex] });
-        } else if (document.activeElement === this.#trigger) {
-          // if focus is on trigger, toggle the dropdown
-          this.toggleDropdown();
+        if (_.#currentFocusIndex >= 0) {
+          _.selectOption({ target: options[_.#currentFocusIndex] })
+        } else if (document.activeElement === _.#trigger) {
+          _.show()
         }
-        break;
+        break
 
       default:
         // handle typeahead - find option starting with pressed key
-        const key = e.key.toLowerCase();
+        const key = e.key.toLowerCase()
 
         // only proceed if it's a single character
         if (key.length === 1) {
           // find the first option that starts with the pressed key
           const matchingOption = options.find((option) =>
             option.textContent.trim().toLowerCase().startsWith(key)
-          );
+          )
 
           if (matchingOption) {
-            const index = options.indexOf(matchingOption);
-            this.focusOption(index);
+            const index = options.indexOf(matchingOption)
+            _.focusOption(index)
           }
         }
-        break;
+        break
     }
   }
 
@@ -281,35 +289,25 @@ export class SelectDropdown extends HTMLElement {
    * @param {number} index - the index of the option to focus
    */
   focusOption(index) {
-    const options = Array.from(this.#options);
+    const _ = this
+    const options = Array.from(_.#options)
 
     // reset tabindex on all options
     options.forEach((opt) => {
-      opt.setAttribute('tabindex', '-1');
-    });
+      opt.setAttribute('tabindex', '-1')
+    })
 
     // set tabindex on target option and focus it
     if (options[index]) {
-      options[index].setAttribute('tabindex', '0');
-      options[index].focus();
-      this.#currentFocusIndex = index;
+      options[index].setAttribute('tabindex', '0')
+      options[index].focus()
+      _.#currentFocusIndex = index
 
       // Ensure the option is visible in the dropdown
       options[index].scrollIntoView({
-        block: 'nearest', // Only scroll if needed
-        behavior: 'smooth' // Smooth scroll for better UX during keyboard nav
-      });
-    }
-  }
-
-  /**
-   * toggles the dropdown open/closed
-   */
-  toggleDropdown() {
-    if (this.getAttribute('aria-hidden') === 'true') {
-      this.show();
-    } else {
-      this.hide();
+        block: 'nearest',
+        behavior: 'instant'
+      })
     }
   }
 
@@ -318,125 +316,155 @@ export class SelectDropdown extends HTMLElement {
    * @param {Event} e - the click event
    */
   selectOption(e) {
-    const option = e.target.closest('select-option');
-    if (!option) return;
+    const _ = this
+    const option = e.target.closest('select-option')
+    if (!option) return
 
     // update aria-selected on all options
-    this.#options.forEach((opt) => {
-      opt.setAttribute('aria-selected', 'false');
-      opt.removeAttribute('selected');
-    });
+    _.#options.forEach((opt) => {
+      opt.setAttribute('aria-selected', 'false')
+      opt.removeAttribute('selected')
+    })
 
     // mark selected option (keep both attributes in sync)
-    option.setAttribute('aria-selected', 'true');
-    option.setAttribute('selected', '');
+    option.setAttribute('aria-selected', 'true')
+    option.setAttribute('selected', '')
 
     // update the input value
-    if (this.#input) {
-      this.#input.value = this.#getOptionValue(option);
+    if (_.#input) {
+      _.#input.value = _.#getOptionValue(option)
     }
 
     // update the visible label
-    if (this.#label) {
-      this.#label.textContent = option.textContent.trim();
+    if (_.#label) {
+      _.#label.textContent = option.textContent.trim()
     }
 
     // dispatch change event
-    this.dispatchEvent(
+    _.dispatchEvent(
       new CustomEvent('change', {
         detail: {
-          value: this.#getOptionValue(option),
+          value: _.#getOptionValue(option),
           text: option.textContent.trim(),
         },
         bubbles: true,
       })
-    );
+    )
 
-    // close the dropdown
-    this.hide();
+    // hide the dropdown
+    _.hide()
   }
 
   /**
-   * Determines if the dropdown should open upward based on available space
+   * Positions the panel so the target option overlays the trigger
+   * @param {HTMLElement} targetOption - the option to align over the trigger
    * @private
    */
-  #determineDirection() {
-    // If position is explicitly set, honor that
-    const userPosition = this.getAttribute('position');
-    if (userPosition === 'up' || userPosition === 'down') {
-      return userPosition;
+  #positionPanel(targetOption) {
+    const _ = this
+    const panel = _.#optionsContainer
+    if (!panel) return
+
+    // Clear previous positioning
+    panel.style.top = ''
+    panel.style.transformOrigin = ''
+    panel.scrollTop = 0
+
+    // Measure geometry
+    const hostRect = _.getBoundingClientRect()
+    const triggerRect = _.#trigger.getBoundingClientRect()
+    const triggerOffset = triggerRect.top - hostRect.top
+    const panelHeight = panel.offsetHeight
+
+    let idealTop = triggerOffset
+
+    if (targetOption) {
+      const optionOffsetTop = targetOption.offsetTop
+
+      // If the option is beyond the visible panel area, scroll internally
+      if (optionOffsetTop > panelHeight - targetOption.offsetHeight) {
+        const scrollTarget = optionOffsetTop - (panelHeight / 2) + (targetOption.offsetHeight / 2)
+        panel.scrollTop = Math.max(0, scrollTarget)
+        const visibleOptionOffset = optionOffsetTop - panel.scrollTop
+        idealTop = triggerOffset - visibleOptionOffset
+      } else {
+        idealTop = triggerOffset - optionOffsetTop
+      }
+
+      // Set transform-origin at the target option's visual position
+      const originY = optionOffsetTop - panel.scrollTop + (targetOption.offsetHeight / 2)
+      panel.style.transformOrigin = `center ${originY}px`
     }
 
-    // Calculate available space
-    const rect = this.getBoundingClientRect();
-    const spaceBelow = window.innerHeight - rect.bottom;
-    const estimatedOptionsHeight = Math.min(
-      this.#options.length * 40, // Rough estimate of option height
-      parseInt(getComputedStyle(this).getPropertyValue('--options-max-height') || '15rem') * 16 // Convert rem to px
-    );
+    // Viewport clamping — keep panel within the viewport
+    const panelScreenTop = hostRect.top + idealTop
+    const panelScreenBottom = panelScreenTop + panelHeight
 
-    // Determine if there's not enough space below, but more space above
-    if (spaceBelow < estimatedOptionsHeight && rect.top > estimatedOptionsHeight) {
-      return 'up';
+    if (panelScreenBottom > window.innerHeight) {
+      idealTop -= (panelScreenBottom - window.innerHeight)
     }
 
-    // Default to down
-    return 'down';
+    // Re-check top edge after shifting up
+    const newPanelScreenTop = hostRect.top + idealTop
+    if (newPanelScreenTop < 0) {
+      idealTop -= newPanelScreenTop
+    }
+
+    panel.style.top = `${idealTop}px`
   }
 
   /**
    * shows the dropdown options
    */
   show() {
-    // Determine direction to open
-    const direction = this.#determineDirection();
-    this.setAttribute('direction', direction);
+    const _ = this
 
-    // set attributes for open state
-    this.setAttribute('aria-hidden', 'false');
-    this.#trigger.setAttribute('aria-expanded', 'true');
+    // bail if already shown
+    if (_.getAttribute('aria-hidden') === 'false') return
+
+    // set attributes for shown state
+    _.setAttribute('aria-hidden', 'false')
+    _.#trigger.setAttribute('aria-expanded', 'true')
 
     // find selected option or default to first
-    const selectedOption = Array.from(this.#options).find(
+    const options = Array.from(_.#options)
+    const selectedOption = options.find(
       (opt) => opt.getAttribute('aria-selected') === 'true'
-    );
+    )
+    const targetOption = selectedOption || options[0]
 
-    if (selectedOption) {
-      const selectedIndex = Array.from(this.#options).indexOf(selectedOption);
-      this.focusOption(selectedIndex);
-      // For initial open, ensure selected item is centered for better visibility
-      selectedOption.scrollIntoView({
-        block: 'center',  // Center the selected item in view
-        behavior: 'instant' // No animation on initial open
-      });
-    } else if (this.#options.length > 0) {
-      this.focusOption(0);
+    // position the panel overlay
+    _.#positionPanel(targetOption)
+
+    // focus the target option
+    if (targetOption) {
+      _.focusOption(options.indexOf(targetOption))
     }
 
     // add global event listeners
-    document.addEventListener('click', this.#handleDocumentClick);
-    document.addEventListener('keydown', this.#handleKeyDown);
+    document.addEventListener('click', _.#handleDocumentClick)
+    document.addEventListener('keydown', _.#handleKeyDown)
   }
 
   /**
    * hides the dropdown options
    */
   hide() {
-    // set attributes for closed state
-    this.setAttribute('aria-hidden', 'true');
-    this.#trigger.setAttribute('aria-expanded', 'false');
+    const _ = this
 
-    // Remove direction attribute
-    this.removeAttribute('direction');
+    // set attributes for hidden state — inline positioning stays
+    // so the panel animates out in place (cleared on next show)
+    _.setAttribute('aria-hidden', 'true')
+    _.#trigger.setAttribute('aria-expanded', 'false')
 
     // reset the current focus index
-    this.#currentFocusIndex = -1;
+    _.#currentFocusIndex = -1
 
     // remove global event listeners
-    document.removeEventListener('click', this.#handleDocumentClick);
-    document.removeEventListener('keydown', this.#handleKeyDown);
+    document.removeEventListener('click', _.#handleDocumentClick)
+    document.removeEventListener('keydown', _.#handleKeyDown)
 
     // return focus to trigger
-    this.#trigger.focus();
+    _.#trigger.focus()
   }
 }

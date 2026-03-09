@@ -16,10 +16,10 @@ export class SelectTrigger extends HTMLElement {
   }
 
   connectedCallback() {
-    // Add caret if not present
-    if (!this.querySelector('.select-caret')) {
+    // Add icon if not present
+    if (!this.querySelector('.select-icon')) {
       const caret = document.createElement('span');
-      caret.className = 'select-caret';
+      caret.className = 'select-icon';
       this.appendChild(caret);
     }
 
@@ -43,7 +43,7 @@ export class SelectTrigger extends HTMLElement {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       e.stopPropagation(); // Prevent event bubbling
-      this.#toggleDropdown();
+      this.#openDropdown();
     }
   }
 
@@ -53,17 +53,17 @@ export class SelectTrigger extends HTMLElement {
    * @private
    */
   #onClick(e) {
-    this.#toggleDropdown();
+    this.#openDropdown();
   }
 
   /**
    * Toggle the parent dropdown
    * @private
    */
-  #toggleDropdown() {
-    const dropdown = this.closest('select-dropdown');
-    if (dropdown && typeof dropdown.toggleDropdown === 'function') {
-      dropdown.toggleDropdown();
+  #openDropdown() {
+    const dropdown = this.closest('select-dropdown')
+    if (dropdown && typeof dropdown.show === 'function') {
+      dropdown.show()
     }
   }
 }
