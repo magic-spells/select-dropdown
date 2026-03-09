@@ -43,6 +43,7 @@
     static #instanceCount = 0;
 
     // private fields for elements
+    #instanceId;
     #trigger;
     #input;
     #optionsContainer;
@@ -50,6 +51,9 @@
     #currentFocusIndex = -1;
     #typeaheadBuffer = '';
     #typeaheadTimer = null;
+    #defaultValue = null;
+    #defaultValueCaptured = false;
+    #originalLabelText = '';
 
     /**
      * Live getter for option elements — supports dynamically added/removed options
@@ -67,6 +71,28 @@
 
     constructor() {
       super();
+      this.#instanceId = ++SelectDropdown.#instanceCount;
+    }
+
+    get value() {
+      const selectedOption = this.#getSelectedOption();
+      if (selectedOption) return this.#getOptionValue(selectedOption);
+      return this.#input?.value || '';
+    }
+
+    get selectedText() {
+      const selectedOption = this.#getSelectedOption();
+      if (selectedOption) return this.#getOptionText(selectedOption);
+      return '';
+    }
+
+    set value(nextValue) {
+      if (nextValue === null || nextValue === undefined) return;
+
+      const option = this.#findOptionByValue(String(nextValue));
+      if (!option) return;
+
+      this.#applySelection(option);
     }
 
     /**
@@ -105,15 +131,83 @@
     }
 
     /**
-     * Gets the value from an option element, supporting both 'value' and 'data-value' attributes
+     * Gets the value from an option element
      * @param {HTMLElement} option - The option element
      * @returns {string} The option value
      * @private
      */
     #getOptionValue(option) {
       if (option.hasAttribute('value')) return option.getAttribute('value');
-      if (option.hasAttribute('data-value')) return option.dataset.value;
       return option.textContent.trim();
+    }
+
+    /**
+     * Gets the label text from an option element
+     * @param {HTMLElement} option - The option element
+     * @returns {string} The option label
+     * @private
+     */
+    #getOptionText(option) {
+      return option.textContent.trim();
+    }
+
+    /**
+     * Finds the currently selected option
+     * @returns {HTMLElement | undefined}
+     * @private
+     */
+    #getSelectedOption() {
+      return Array.from(this.#options).find(
+        (option) => option.getAttribute('aria-selected') === 'true'
+      );
+    }
+
+    /**
+     * Finds an option matching the provided value
+     * @param {string} value - The option value to match
+     * @returns {HTMLElement | undefined}
+     * @private
+     */
+    #findOptionByValue(value) {
+      return Array.from(this.#options).find((option) => this.#getOptionValue(option) === value);
+    }
+
+    /**
+     * Applies selection state across the control
+     * @param {HTMLElement | null} option - The option to select
+     * @private
+     */
+    #applySelection(option) {
+      this.#options.forEach((opt) => {
+        opt.removeAttribute('selected');
+        opt.setAttribute('aria-selected', 'false');
+      });
+
+      if (!option) {
+        if (this.#input) {
+          this.#input.value = '';
+        }
+
+        if (this.#label) {
+          this.#label.textContent = this.#originalLabelText;
+        }
+
+        this.#currentFocusIndex = -1;
+        return;
+      }
+
+      option.setAttribute('aria-selected', 'true');
+      option.setAttribute('selected', '');
+
+      if (this.#input) {
+        this.#input.value = this.#getOptionValue(option);
+      }
+
+      if (this.#label) {
+        this.#label.textContent = this.#getOptionText(option);
+      }
+
+      this.#currentFocusIndex = Array.from(this.#options).indexOf(option);
     }
 
     /**
@@ -125,28 +219,26 @@
 
       const selectedOption = Array.from(_.#options).find((opt) => opt.hasAttribute('selected'));
 
-      // If we found a selected option, update the component state
-      if (selectedOption) {
-        // Clear all selections first
-        _.#options.forEach((opt) => {
-          opt.removeAttribute('selected');
-          opt.setAttribute('aria-selected', 'false');
-        });
-
-        // Set the selected option (keep both attributes in sync)
-        selectedOption.setAttribute('aria-selected', 'true');
-        selectedOption.setAttribute('selected', '');
-
-        // Update the input value
-        if (_.#input) {
-          _.#input.value = _.#getOptionValue(selectedOption);
-        }
-
-        // Update the visible label
-        if (_.#label) {
-          _.#label.textContent = selectedOption.textContent.trim();
-        }
+      // Capture the default value and label on the first call
+      if (!_.#defaultValueCaptured) {
+        _.#defaultValue = selectedOption ? _.#getOptionValue(selectedOption) : null;
+        _.#originalLabelText = _.#label ? _.#label.textContent : '';
+        _.#defaultValueCaptured = true;
       }
+
+      _.#applySelection(selectedOption || null);
+    }
+
+    /**
+     * Resets the component to its original default selection
+     * @private
+     */
+    #resetToDefault() {
+      const _ = this;
+      const defaultOption =
+        _.#defaultValue === null ? null : _.#findOptionByValue(_.#defaultValue) || null;
+
+      _.#applySelection(defaultOption);
     }
 
     /**
@@ -162,11 +254,17 @@
       // setup trigger button
       trigger.setAttribute('aria-haspopup', 'listbox');
       trigger.setAttribute('aria-expanded', 'false');
-      trigger.setAttribute('role', 'combobox');
+      trigger.setAttribute('role', 'button');
 
       if (!trigger.id) {
-        trigger.id = `select-trigger-${++SelectDropdown.#instanceCount}`;
+        trigger.id = `select-trigger-${_.#instanceId}`;
       }
+
+      // assign an ID to the listbox panel and link via aria-controls
+      if (!listbox.id) {
+        listbox.id = `select-panel-${_.#instanceId}`;
+      }
+      trigger.setAttribute('aria-controls', listbox.id);
 
       // setup listbox
       listbox.setAttribute('role', 'listbox');
@@ -191,13 +289,12 @@
       _.handlers.documentClick = _.handleOutsideClick.bind(_);
       _.handlers.keyDown = _.handleKeyboardNavigation.bind(_);
 
-      // listen for form reset to re-sync UI with markup
+      // listen for form reset to restore the original default selection
       const form = _.closest('form');
       if (form) {
         _.handlers.formReset = () => {
-          // defer to let the browser reset the hidden input first
           requestAnimationFrame(() => {
-            _.initializeSelectedOption();
+            _.#resetToDefault();
           });
         };
         form.addEventListener('reset', _.handlers.formReset);
@@ -395,36 +492,8 @@
       const isAlreadySelected = option.getAttribute('aria-selected') === 'true';
 
       if (!isAlreadySelected) {
-        // update aria-selected on all options
-        _.#options.forEach((opt) => {
-          opt.setAttribute('aria-selected', 'false');
-          opt.removeAttribute('selected');
-        });
-
-        // mark selected option (keep both attributes in sync)
-        option.setAttribute('aria-selected', 'true');
-        option.setAttribute('selected', '');
-
-        // update the input value
-        if (_.#input) {
-          _.#input.value = _.#getOptionValue(option);
-        }
-
-        // update the visible label
-        if (_.#label) {
-          _.#label.textContent = option.textContent.trim();
-        }
-
-        // dispatch change event
-        _.dispatchEvent(
-          new CustomEvent('select-dropdown:change', {
-            detail: {
-              value: _.#getOptionValue(option),
-              text: option.textContent.trim(),
-            },
-            bubbles: true,
-          })
-        );
+        _.#applySelection(option);
+        _.dispatchEvent(new Event('change', { bubbles: true }));
       }
 
       // hide the dropdown

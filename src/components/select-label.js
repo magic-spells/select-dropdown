@@ -4,8 +4,8 @@
  * @extends HTMLElement
  */
 export class SelectLabel extends HTMLElement {
-  constructor() {
-    super();
-    this.setAttribute('role', 'presentation');
-  }
+	constructor() {
+		super();
+		this.setAttribute('role', 'presentation');
+	}
 }

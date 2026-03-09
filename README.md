@@ -73,11 +73,19 @@ Use `<select-label>` and `<select-divider>` to organize options into groups. The
 ## Events
 
 ```js
-dropdown.addEventListener('change', (e) => {
-  console.log(e.detail.value) // selected value
-  console.log(e.detail.text)  // selected text
+dropdown.addEventListener('change', () => {
+  console.log(dropdown.value) // selected value
+  console.log(dropdown.selectedText) // selected label
 })
 ```
+
+Programmatic updates use the same control API:
+
+```js
+dropdown.value = 'banana'
+```
+
+Option values come from the `value` attribute. If an option has no `value`, its trimmed text content is used.
 
 ## Theming
 

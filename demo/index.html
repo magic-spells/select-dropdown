@@ -1149,10 +1149,10 @@
         function wireOutput(dropdownId, outputId) {
           const dropdown = document.getElementById(dropdownId)
           if (!dropdown) return
-          dropdown.addEventListener('select-dropdown:change', function (e) {
+          dropdown.addEventListener('change', function () {
             const output = document.getElementById(outputId)
             if (output) {
-              output.textContent = e.detail.text + ' (' + e.detail.value + ')'
+              output.textContent = dropdown.selectedText + ' (' + dropdown.value + ')'
             }
           })
         }

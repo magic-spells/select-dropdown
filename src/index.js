@@ -20,25 +20,25 @@ export { SelectDropdown, SelectTrigger, SelectPanel, SelectOption, SelectDivider
 
 // define custom elements if not already defined
 if (!customElements.get('select-dropdown')) {
-  customElements.define('select-dropdown', SelectDropdown);
+	customElements.define('select-dropdown', SelectDropdown);
 }
 
 if (!customElements.get('select-trigger')) {
-  customElements.define('select-trigger', SelectTrigger);
+	customElements.define('select-trigger', SelectTrigger);
 }
 
 if (!customElements.get('select-panel')) {
-  customElements.define('select-panel', SelectPanel);
+	customElements.define('select-panel', SelectPanel);
 }
 
 if (!customElements.get('select-option')) {
-  customElements.define('select-option', SelectOption);
+	customElements.define('select-option', SelectOption);
 }
 
 if (!customElements.get('select-divider')) {
-  customElements.define('select-divider', SelectDivider);
+	customElements.define('select-divider', SelectDivider);
 }
 
 if (!customElements.get('select-label')) {
-  customElements.define('select-label', SelectLabel);
+	customElements.define('select-label', SelectLabel);
 }

@@ -4,7 +4,7 @@
  * @extends HTMLElement
  */
 export class SelectPanel extends HTMLElement {
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 }

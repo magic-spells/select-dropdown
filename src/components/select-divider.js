@@ -4,8 +4,8 @@
  * @extends HTMLElement
  */
 export class SelectDivider extends HTMLElement {
-  constructor() {
-    super();
-    this.setAttribute('role', 'separator');
-  }
+	constructor() {
+		super();
+		this.setAttribute('role', 'separator');
+	}
 }

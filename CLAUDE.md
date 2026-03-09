@@ -20,6 +20,13 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **A11y**: Keep WAI-ARIA attributes updated for accessibility compliance
 - **Error Handling**: Validate inputs and handle edge cases gracefully
 
+## Design Decisions
+- **Body scroll lock**: The `body:has(select-dropdown[visible]) { overflow: hidden }` rule is intentional — body scroll is locked whenever a dropdown is open
+- **Events**: Emits a plain `change` event (not a namespaced custom event) to match native HTML element conventions. Consumers read the selected value via `dropdown.value`.
+- **`value` property**: `SelectDropdown` exposes a `value` getter/setter for programmatic read/write of the selected option
+- **Form reset**: Restores the original `selected` option from markup, not the current selection (matches native `<select>` behavior)
+- **ARIA pattern**: Trigger uses `role="button"` + `aria-haspopup="listbox"` + `aria-controls` (listbox popup pattern, not combobox)
+
 ## Component Usage Guidelines
 - **HTML Structure**: Use simplified structure without UL/LI elements for options
 - **Attributes**: Use `value` attribute on `select-option` elements (not `data-value`)
