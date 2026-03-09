@@ -10,7 +10,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - `npm run format` - Format all files with Prettier
 
 ## Code Style Guidelines
-- **File Structure**: Web components in `src/components/`, styles in `src/styles/` (plain CSS, no preprocessors)
+- **File Structure**: Web components in `src/components/`, styles in `src/` (plain CSS, no preprocessors)
 - **Exports**: ES Modules with named exports
 - **Imports**: Order imports by: 1) styles 2) components 3) utilities
 - **JavaScript**: Private class fields with `#` prefix, JSDoc comments on methods

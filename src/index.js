@@ -5,7 +5,7 @@
  */
 
 // import styles
-import './styles/select-dropdown.css';
+import './select-dropdown.css';
 
 // import components
 import { SelectDropdown } from './components/select-dropdown.js';
