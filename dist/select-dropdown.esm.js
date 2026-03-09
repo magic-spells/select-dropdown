@@ -28,11 +28,6 @@ class SelectDropdown extends HTMLElement {
 		return this.querySelectorAll('select-option');
 	}
 
-	// Observed attributes
-	static get observedAttributes() {
-		return [];
-	}
-
 	constructor() {
 		super();
 		const _ = this;
@@ -823,4 +818,3 @@ if (!customElements.get('select-label')) {
 }
 
 export { SelectDivider, SelectDropdown, SelectLabel, SelectOption, SelectPanel, SelectTrigger };
-//# sourceMappingURL=select-dropdown.esm.js.map

@@ -28,11 +28,6 @@ export class SelectDropdown extends HTMLElement {
 		return this.querySelectorAll('select-option');
 	}
 
-	// Observed attributes
-	static get observedAttributes() {
-		return [];
-	}
-
 	constructor() {
 		super();
 		const _ = this;
