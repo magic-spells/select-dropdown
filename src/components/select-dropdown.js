@@ -388,48 +388,38 @@ export class SelectDropdown extends HTMLElement {
     panel.style.maxHeight = ''
     panel.scrollTop = 0
 
-    // Calculate max-height from available viewport space
-    const maxAvailableHeight = window.innerHeight - (viewportMargin * 2)
-    panel.style.maxHeight = `${maxAvailableHeight}px`
-
     // Measure geometry
     const hostRect = _.getBoundingClientRect()
     const triggerRect = _.#trigger.getBoundingClientRect()
     const triggerOffset = triggerRect.top - hostRect.top
-    const panelHeight = panel.offsetHeight
 
     let idealTop = triggerOffset
 
     if (targetOption) {
-      const optionOffsetTop = targetOption.offsetTop
+      // Shift panel up so target option aligns over the trigger
+      idealTop = triggerOffset - targetOption.offsetTop
 
-      // If the option is beyond the visible panel area, scroll internally
-      if (optionOffsetTop > panelHeight - targetOption.offsetHeight) {
-        const scrollTarget = optionOffsetTop - (panelHeight / 2) + (targetOption.offsetHeight / 2)
-        panel.scrollTop = Math.max(0, scrollTarget)
-        const visibleOptionOffset = optionOffsetTop - panel.scrollTop
-        idealTop = triggerOffset - visibleOptionOffset
-      } else {
-        idealTop = triggerOffset - optionOffsetTop
-      }
-
-      // Set transform-origin at the target option's visual position
-      const originY = optionOffsetTop - panel.scrollTop + (targetOption.offsetHeight / 2)
+      // Set transform-origin at the target option
+      const originY = targetOption.offsetTop + (targetOption.offsetHeight / 2)
       panel.style.transformOrigin = `center ${originY}px`
     }
 
-    // Viewport clamping — keep panel within the viewport
+    // Max-height: from panel's top edge down to viewport bottom
     const panelScreenTop = hostRect.top + idealTop
-    const panelScreenBottom = panelScreenTop + panelHeight
+    const availableHeight = window.innerHeight - panelScreenTop - viewportMargin
 
-    if (panelScreenBottom > window.innerHeight - viewportMargin) {
-      idealTop -= (panelScreenBottom - (window.innerHeight - viewportMargin))
-    }
+    // If panel would start above viewport, clamp top and scroll internally
+    if (panelScreenTop < viewportMargin) {
+      const shift = viewportMargin - panelScreenTop
+      idealTop += shift
+      panel.style.maxHeight = `${window.innerHeight - (viewportMargin * 2)}px`
 
-    // Re-check top edge after shifting up
-    const newPanelScreenTop = hostRect.top + idealTop
-    if (newPanelScreenTop < viewportMargin) {
-      idealTop += (viewportMargin - newPanelScreenTop)
+      // Scroll so the target option is still visible
+      if (targetOption) {
+        panel.scrollTop = Math.max(0, targetOption.offsetTop - shift)
+      }
+    } else {
+      panel.style.maxHeight = `${Math.max(availableHeight, 120)}px`
     }
 
     panel.style.top = `${idealTop}px`

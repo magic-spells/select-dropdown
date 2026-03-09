@@ -32,8 +32,8 @@ select-dropdown * {
 /* panel shown state */
 select-dropdown[aria-hidden="false"] select-panel {
   opacity: 1;
-  transform: scale(1);
-  filter: blur(0);
+  scale: 1;
+  filter: none;
   pointer-events: auto;
   visibility: visible;
 }
@@ -89,11 +89,11 @@ select-panel {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
   z-index: 9999;
   opacity: 0;
-  transform: scale(0.97);
+  scale: 0.97;
   filter: blur(3px);
   pointer-events: none;
   visibility: hidden;
-  transition: opacity 150ms ease-out, transform 150ms ease-out, filter 150ms ease-out, visibility 150ms;
+  transition: opacity 150ms ease-out, scale 150ms ease-out, filter 150ms ease-out, visibility 150ms;
 }
 
 /* option items */
