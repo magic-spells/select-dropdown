@@ -1,10 +1,11 @@
 {
 	"env": {
-		"browser": true, // For browser globals
-		"es6": true // For ES6+ features
+		"browser": true,
+		"es6": true
 	},
 	"parserOptions": {
-		"ecmaVersion": 2024, // Latest JS features (private fields, logical assignment, etc.)
-		"sourceType": "module" // Enable ES Modules
-	}
+		"ecmaVersion": 2024,
+		"sourceType": "module"
+	},
+	"ignorePatterns": ["demo/"]
 }

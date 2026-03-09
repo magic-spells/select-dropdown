@@ -75,7 +75,9 @@ export class SelectDropdown extends HTMLElement {
    * @private
    */
   #getOptionValue(option) {
-    return option.getAttribute('value') || option.dataset.value || option.textContent.trim();
+    if (option.hasAttribute('value')) return option.getAttribute('value')
+    if (option.hasAttribute('data-value')) return option.dataset.value
+    return option.textContent.trim()
   }
 
   /**
@@ -119,16 +121,6 @@ export class SelectDropdown extends HTMLElement {
         _.#label.textContent = selectedOption.textContent.trim()
       }
 
-      // Dispatch change event for initial state
-      _.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            value: _.#getOptionValue(selectedOption),
-            text: selectedOption.textContent.trim(),
-          },
-          bubbles: true,
-        })
-      )
     }
   }
 

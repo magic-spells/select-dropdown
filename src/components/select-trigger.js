@@ -39,11 +39,20 @@ export class SelectTrigger extends HTMLElement {
    * @private
    */
   #onKeyDown(e) {
-    // Handle Enter and Space key presses
     if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      e.stopPropagation(); // Prevent event bubbling
-      this.#openDropdown();
+      e.preventDefault()
+      e.stopPropagation()
+      this.#openDropdown()
+      return
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault()
+      const dropdown = this.closest('select-dropdown')
+      if (dropdown && dropdown.getAttribute('aria-hidden') === 'true') {
+        e.stopPropagation()
+        this.#openDropdown()
+      }
     }
   }
 

@@ -75,7 +75,9 @@ class SelectDropdown extends HTMLElement {
    * @private
    */
   #getOptionValue(option) {
-    return option.getAttribute('value') || option.dataset.value || option.textContent.trim();
+    if (option.hasAttribute('value')) return option.getAttribute('value')
+    if (option.hasAttribute('data-value')) return option.dataset.value
+    return option.textContent.trim()
   }
 
   /**
@@ -119,16 +121,6 @@ class SelectDropdown extends HTMLElement {
         _.#label.textContent = selectedOption.textContent.trim();
       }
 
-      // Dispatch change event for initial state
-      _.dispatchEvent(
-        new CustomEvent('change', {
-          detail: {
-            value: _.#getOptionValue(selectedOption),
-            text: selectedOption.textContent.trim(),
-          },
-          bubbles: true,
-        })
-      );
     }
   }
 
@@ -531,11 +523,20 @@ class SelectTrigger extends HTMLElement {
    * @private
    */
   #onKeyDown(e) {
-    // Handle Enter and Space key presses
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      e.stopPropagation(); // Prevent event bubbling
+      e.stopPropagation();
       this.#openDropdown();
+      return
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const dropdown = this.closest('select-dropdown');
+      if (dropdown && dropdown.getAttribute('aria-hidden') === 'true') {
+        e.stopPropagation();
+        this.#openDropdown();
+      }
     }
   }
 
@@ -673,4 +674,3 @@ if (!customElements.get('select-label')) {
 }
 
 export { SelectDivider, SelectDropdown, SelectLabel, SelectOption, SelectPanel, SelectTrigger };
-//# sourceMappingURL=select-dropdown.esm.js.map

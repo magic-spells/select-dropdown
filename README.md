@@ -2,6 +2,9 @@
 
 A fully accessible custom select dropdown web component with keyboard navigation, theming via CSS custom properties, and zero dependencies.
 
+🔍 **[Live Demo](https://magic-spells.github.io/select-dropdown/demo/)** - See it in action!
+
+
 ## Install
 
 ```bash
@@ -100,14 +103,13 @@ select-dropdown {
 |---|---|
 | `Tab` | Focus the dropdown |
 | `Enter` / `Space` | Open dropdown or select option |
-| `↑` `↓` | Navigate options |
+| `↑` `↓` | Open dropdown or navigate options |
 | `Home` / `End` | Jump to first/last option |
 | `Escape` | Close dropdown |
 | Any letter | Jump to matching option |
 
 ## Attributes
 
-- `position="up|down"` on `<select-dropdown>` — force open direction
 - `selected` on `<select-option>` — pre-select an option
 - `value` on `<select-option>` — the option's value
 
