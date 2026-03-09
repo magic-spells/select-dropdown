@@ -152,6 +152,7 @@
       .example:nth-child(5) { animation-delay: 0.4s; }
       .example:nth-child(6) { animation-delay: 0.5s; }
       .example:nth-child(7) { animation-delay: 0.6s; }
+      .example:nth-child(8) { animation-delay: 0.7s; }
 
       .example-label {
         font-family: var(--font-mono);
@@ -443,6 +444,10 @@
         font-size: 0.72rem;
         color: var(--text-dim);
         letter-spacing: 0.04em;
+      }
+
+      select-trigger:focus {
+        outline: none;
       }
 
       /* ------------------------------------------------
@@ -792,6 +797,236 @@
           </div>
         </section>
 
+        <!-- Countries -->
+        <section class="example">
+          <div class="example-label">Example 06</div>
+          <h2>Every Country</h2>
+          <p>
+            195 countries in alphabetical order. Try the multi-character
+            typeahead &mdash; type <code>uni</code> quickly to jump to
+            "United Kingdom", or <code>bra</code> for "Brazil".
+            Repeating the same letter (e.g. <kbd>s</kbd> <kbd>s</kbd>)
+            cycles through all S countries.
+          </p>
+
+          <div class="demo-surface glass-surface">
+            <select-dropdown id="country-dropdown" class="glass-panel">
+              <select-trigger id="country-trigger">
+                <span class="select-label-text">Select a country</span>
+              </select-trigger>
+
+              <input
+                type="hidden"
+                name="country"
+                id="selected-country" />
+
+              <select-panel>
+                <select-option value="AF">Afghanistan</select-option>
+                <select-option value="AL">Albania</select-option>
+                <select-option value="DZ">Algeria</select-option>
+                <select-option value="AD">Andorra</select-option>
+                <select-option value="AO">Angola</select-option>
+                <select-option value="AG">Antigua and Barbuda</select-option>
+                <select-option value="AR">Argentina</select-option>
+                <select-option value="AM">Armenia</select-option>
+                <select-option value="AU">Australia</select-option>
+                <select-option value="AT">Austria</select-option>
+                <select-option value="AZ">Azerbaijan</select-option>
+                <select-option value="BS">Bahamas</select-option>
+                <select-option value="BH">Bahrain</select-option>
+                <select-option value="BD">Bangladesh</select-option>
+                <select-option value="BB">Barbados</select-option>
+                <select-option value="BY">Belarus</select-option>
+                <select-option value="BE">Belgium</select-option>
+                <select-option value="BZ">Belize</select-option>
+                <select-option value="BJ">Benin</select-option>
+                <select-option value="BT">Bhutan</select-option>
+                <select-option value="BO">Bolivia</select-option>
+                <select-option value="BA">Bosnia and Herzegovina</select-option>
+                <select-option value="BW">Botswana</select-option>
+                <select-option value="BR">Brazil</select-option>
+                <select-option value="BN">Brunei</select-option>
+                <select-option value="BG">Bulgaria</select-option>
+                <select-option value="BF">Burkina Faso</select-option>
+                <select-option value="BI">Burundi</select-option>
+                <select-option value="CV">Cabo Verde</select-option>
+                <select-option value="KH">Cambodia</select-option>
+                <select-option value="CM">Cameroon</select-option>
+                <select-option value="CA">Canada</select-option>
+                <select-option value="CF">Central African Republic</select-option>
+                <select-option value="TD">Chad</select-option>
+                <select-option value="CL">Chile</select-option>
+                <select-option value="CN">China</select-option>
+                <select-option value="CO">Colombia</select-option>
+                <select-option value="KM">Comoros</select-option>
+                <select-option value="CD">Congo (DR)</select-option>
+                <select-option value="CG">Congo (Republic)</select-option>
+                <select-option value="CR">Costa Rica</select-option>
+                <select-option value="CI">Cote d'Ivoire</select-option>
+                <select-option value="HR">Croatia</select-option>
+                <select-option value="CU">Cuba</select-option>
+                <select-option value="CY">Cyprus</select-option>
+                <select-option value="CZ">Czech Republic</select-option>
+                <select-option value="DK">Denmark</select-option>
+                <select-option value="DJ">Djibouti</select-option>
+                <select-option value="DM">Dominica</select-option>
+                <select-option value="DO">Dominican Republic</select-option>
+                <select-option value="EC">Ecuador</select-option>
+                <select-option value="EG">Egypt</select-option>
+                <select-option value="SV">El Salvador</select-option>
+                <select-option value="GQ">Equatorial Guinea</select-option>
+                <select-option value="ER">Eritrea</select-option>
+                <select-option value="EE">Estonia</select-option>
+                <select-option value="SZ">Eswatini</select-option>
+                <select-option value="ET">Ethiopia</select-option>
+                <select-option value="FJ">Fiji</select-option>
+                <select-option value="FI">Finland</select-option>
+                <select-option value="FR">France</select-option>
+                <select-option value="GA">Gabon</select-option>
+                <select-option value="GM">Gambia</select-option>
+                <select-option value="GE">Georgia</select-option>
+                <select-option value="DE">Germany</select-option>
+                <select-option value="GH">Ghana</select-option>
+                <select-option value="GR">Greece</select-option>
+                <select-option value="GD">Grenada</select-option>
+                <select-option value="GT">Guatemala</select-option>
+                <select-option value="GN">Guinea</select-option>
+                <select-option value="GW">Guinea-Bissau</select-option>
+                <select-option value="GY">Guyana</select-option>
+                <select-option value="HT">Haiti</select-option>
+                <select-option value="HN">Honduras</select-option>
+                <select-option value="HU">Hungary</select-option>
+                <select-option value="IS">Iceland</select-option>
+                <select-option value="IN">India</select-option>
+                <select-option value="ID">Indonesia</select-option>
+                <select-option value="IR">Iran</select-option>
+                <select-option value="IQ">Iraq</select-option>
+                <select-option value="IE">Ireland</select-option>
+                <select-option value="IL">Israel</select-option>
+                <select-option value="IT">Italy</select-option>
+                <select-option value="JM">Jamaica</select-option>
+                <select-option value="JP">Japan</select-option>
+                <select-option value="JO">Jordan</select-option>
+                <select-option value="KZ">Kazakhstan</select-option>
+                <select-option value="KE">Kenya</select-option>
+                <select-option value="KI">Kiribati</select-option>
+                <select-option value="XK">Kosovo</select-option>
+                <select-option value="KW">Kuwait</select-option>
+                <select-option value="KG">Kyrgyzstan</select-option>
+                <select-option value="LA">Laos</select-option>
+                <select-option value="LV">Latvia</select-option>
+                <select-option value="LB">Lebanon</select-option>
+                <select-option value="LS">Lesotho</select-option>
+                <select-option value="LR">Liberia</select-option>
+                <select-option value="LY">Libya</select-option>
+                <select-option value="LI">Liechtenstein</select-option>
+                <select-option value="LT">Lithuania</select-option>
+                <select-option value="LU">Luxembourg</select-option>
+                <select-option value="MG">Madagascar</select-option>
+                <select-option value="MW">Malawi</select-option>
+                <select-option value="MY">Malaysia</select-option>
+                <select-option value="MV">Maldives</select-option>
+                <select-option value="ML">Mali</select-option>
+                <select-option value="MT">Malta</select-option>
+                <select-option value="MH">Marshall Islands</select-option>
+                <select-option value="MR">Mauritania</select-option>
+                <select-option value="MU">Mauritius</select-option>
+                <select-option value="MX">Mexico</select-option>
+                <select-option value="FM">Micronesia</select-option>
+                <select-option value="MD">Moldova</select-option>
+                <select-option value="MC">Monaco</select-option>
+                <select-option value="MN">Mongolia</select-option>
+                <select-option value="ME">Montenegro</select-option>
+                <select-option value="MA">Morocco</select-option>
+                <select-option value="MZ">Mozambique</select-option>
+                <select-option value="MM">Myanmar</select-option>
+                <select-option value="NA">Namibia</select-option>
+                <select-option value="NR">Nauru</select-option>
+                <select-option value="NP">Nepal</select-option>
+                <select-option value="NL">Netherlands</select-option>
+                <select-option value="NZ">New Zealand</select-option>
+                <select-option value="NI">Nicaragua</select-option>
+                <select-option value="NE">Niger</select-option>
+                <select-option value="NG">Nigeria</select-option>
+                <select-option value="KP">North Korea</select-option>
+                <select-option value="MK">North Macedonia</select-option>
+                <select-option value="NO">Norway</select-option>
+                <select-option value="OM">Oman</select-option>
+                <select-option value="PK">Pakistan</select-option>
+                <select-option value="PW">Palau</select-option>
+                <select-option value="PS">Palestine</select-option>
+                <select-option value="PA">Panama</select-option>
+                <select-option value="PG">Papua New Guinea</select-option>
+                <select-option value="PY">Paraguay</select-option>
+                <select-option value="PE">Peru</select-option>
+                <select-option value="PH">Philippines</select-option>
+                <select-option value="PL">Poland</select-option>
+                <select-option value="PT">Portugal</select-option>
+                <select-option value="QA">Qatar</select-option>
+                <select-option value="RO">Romania</select-option>
+                <select-option value="RU">Russia</select-option>
+                <select-option value="RW">Rwanda</select-option>
+                <select-option value="KN">Saint Kitts and Nevis</select-option>
+                <select-option value="LC">Saint Lucia</select-option>
+                <select-option value="VC">Saint Vincent and the Grenadines</select-option>
+                <select-option value="WS">Samoa</select-option>
+                <select-option value="SM">San Marino</select-option>
+                <select-option value="ST">Sao Tome and Principe</select-option>
+                <select-option value="SA">Saudi Arabia</select-option>
+                <select-option value="SN">Senegal</select-option>
+                <select-option value="RS">Serbia</select-option>
+                <select-option value="SC">Seychelles</select-option>
+                <select-option value="SL">Sierra Leone</select-option>
+                <select-option value="SG">Singapore</select-option>
+                <select-option value="SK">Slovakia</select-option>
+                <select-option value="SI">Slovenia</select-option>
+                <select-option value="SB">Solomon Islands</select-option>
+                <select-option value="SO">Somalia</select-option>
+                <select-option value="ZA">South Africa</select-option>
+                <select-option value="KR">South Korea</select-option>
+                <select-option value="SS">South Sudan</select-option>
+                <select-option value="ES">Spain</select-option>
+                <select-option value="LK">Sri Lanka</select-option>
+                <select-option value="SD">Sudan</select-option>
+                <select-option value="SR">Suriname</select-option>
+                <select-option value="SE">Sweden</select-option>
+                <select-option value="CH">Switzerland</select-option>
+                <select-option value="SY">Syria</select-option>
+                <select-option value="TW">Taiwan</select-option>
+                <select-option value="TJ">Tajikistan</select-option>
+                <select-option value="TZ">Tanzania</select-option>
+                <select-option value="TH">Thailand</select-option>
+                <select-option value="TL">Timor-Leste</select-option>
+                <select-option value="TG">Togo</select-option>
+                <select-option value="TO">Tonga</select-option>
+                <select-option value="TT">Trinidad and Tobago</select-option>
+                <select-option value="TN">Tunisia</select-option>
+                <select-option value="TR">Turkey</select-option>
+                <select-option value="TM">Turkmenistan</select-option>
+                <select-option value="TV">Tuvalu</select-option>
+                <select-option value="UG">Uganda</select-option>
+                <select-option value="UA">Ukraine</select-option>
+                <select-option value="AE">United Arab Emirates</select-option>
+                <select-option value="GB">United Kingdom</select-option>
+                <select-option value="US">United States</select-option>
+                <select-option value="UY">Uruguay</select-option>
+                <select-option value="UZ">Uzbekistan</select-option>
+                <select-option value="VU">Vanuatu</select-option>
+                <select-option value="VA">Vatican City</select-option>
+                <select-option value="VE">Venezuela</select-option>
+                <select-option value="VN">Vietnam</select-option>
+                <select-option value="YE">Yemen</select-option>
+                <select-option value="ZM">Zambia</select-option>
+                <select-option value="ZW">Zimbabwe</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              Selected: <span id="country-output">None</span>
+            </div>
+          </div>
+        </section>
+
         <!-- Keyboard -->
         <section class="example">
           <div class="example-label">Accessibility</div>
@@ -926,6 +1161,7 @@
         wireOutput('snack-dropdown', 'snack-output')
         wireOutput('color-dropdown', 'color-output')
         wireOutput('timezone-dropdown', 'timezone-output')
+        wireOutput('country-dropdown', 'country-output')
         wireOutput('keyboard-dropdown', 'keyboard-output')
 
         // Theme switcher

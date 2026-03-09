@@ -1,7 +1,7 @@
 /**
  * @file Main entry point for select-dropdown web component
  * @author Cory Schulz
- * @version 1.0.0
+ * @version 0.1.0
  */
 
 // import styles

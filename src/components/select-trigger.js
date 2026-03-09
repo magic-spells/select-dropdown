@@ -42,16 +42,16 @@ export class SelectTrigger extends HTMLElement {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault()
       e.stopPropagation()
-      this.#openDropdown()
+      this.#toggleDropdown()
       return
     }
 
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
       const dropdown = this.closest('select-dropdown')
-      if (dropdown && dropdown.getAttribute('aria-hidden') === 'true') {
+      if (dropdown && !dropdown.hasAttribute('data-open')) {
         e.stopPropagation()
-        this.#openDropdown()
+        this.#toggleDropdown()
       }
     }
   }
@@ -62,16 +62,19 @@ export class SelectTrigger extends HTMLElement {
    * @private
    */
   #onClick(e) {
-    this.#openDropdown();
+    this.#toggleDropdown();
   }
 
   /**
    * Toggle the parent dropdown
    * @private
    */
-  #openDropdown() {
+  #toggleDropdown() {
     const dropdown = this.closest('select-dropdown')
-    if (dropdown && typeof dropdown.show === 'function') {
+    if (!dropdown) return
+    if (dropdown.hasAttribute('data-open')) {
+      dropdown.hide()
+    } else {
       dropdown.show()
     }
   }
