@@ -209,12 +209,15 @@ class SelectDropdown extends HTMLElement {
       case 'ArrowDown':
         e.preventDefault();
 
-        // if focus is on trigger, move to first option
+        // if focus is on trigger, start from selected option
         if (document.activeElement === _.#trigger) {
-          _.#currentFocusIndex = -1;
+          const selectedIndex = options.findIndex(
+            (opt) => opt.getAttribute('aria-selected') === 'true'
+          );
+          _.#currentFocusIndex = selectedIndex >= 0 ? selectedIndex : -1;
         }
 
-        // move to next option or loop to first
+        // move to next option
         if (_.#currentFocusIndex < options.length - 1) {
           _.focusOption(_.#currentFocusIndex + 1);
         }
@@ -223,7 +226,18 @@ class SelectDropdown extends HTMLElement {
       case 'ArrowUp':
         e.preventDefault();
 
-        // move to previous option or loop to last
+        // if focus is on trigger, start from selected option
+        if (document.activeElement === _.#trigger) {
+          const selectedIndex = options.findIndex(
+            (opt) => opt.getAttribute('aria-selected') === 'true'
+          );
+          if (selectedIndex >= 0) {
+            _.focusOption(selectedIndex);
+            break
+          }
+        }
+
+        // move to previous option
         if (_.#currentFocusIndex > 0) {
           _.focusOption(_.#currentFocusIndex - 1);
         } else if (_.#currentFocusIndex === 0) {
@@ -436,9 +450,11 @@ class SelectDropdown extends HTMLElement {
     // position the panel overlay
     _.#positionPanel(targetOption);
 
-    // focus the target option
+    // focus the target option (deferred to survive browser click focus)
     if (targetOption) {
-      _.focusOption(options.indexOf(targetOption));
+      requestAnimationFrame(() => {
+        _.focusOption(options.indexOf(targetOption));
+      });
     }
 
     // add global event listeners
@@ -652,4 +668,3 @@ if (!customElements.get('select-label')) {
 }
 
 export { SelectDivider, SelectDropdown, SelectLabel, SelectOption, SelectPanel, SelectTrigger };
-//# sourceMappingURL=select-dropdown.esm.js.map

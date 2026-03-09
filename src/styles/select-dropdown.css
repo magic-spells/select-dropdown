@@ -82,7 +82,7 @@ select-panel {
   position: absolute;
   left: 0;
   width: 100%;
-  max-height: 15rem;
+  max-height: var(--select-panel-max-height, 15rem);
   overflow-y: auto;
   background-color: var(--select-color-background);
   border: 1px solid var(--select-color-border);
