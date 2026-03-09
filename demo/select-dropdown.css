@@ -82,13 +82,12 @@ select-panel {
   position: absolute;
   left: 0;
   width: 100%;
-  max-height: var(--select-panel-max-height, 15rem);
   overflow-y: auto;
   background-color: var(--select-color-background);
   border: 1px solid var(--select-color-border);
   border-radius: 0.25rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-  z-index: 10;
+  z-index: 9999;
   opacity: 0;
   transform: scale(0.97);
   filter: blur(3px);

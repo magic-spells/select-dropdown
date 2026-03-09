@@ -15,6 +15,7 @@ class SelectDropdown extends HTMLElement {
   #options;
   #label;
   #currentFocusIndex = -1;
+  #savedBodyOverflow = '';
 
   // Observed attributes
   static get observedAttributes() {
@@ -379,10 +380,17 @@ class SelectDropdown extends HTMLElement {
     const panel = _.#optionsContainer;
     if (!panel) return
 
+    const viewportMargin = 8;
+
     // Clear previous positioning
     panel.style.top = '';
     panel.style.transformOrigin = '';
+    panel.style.maxHeight = '';
     panel.scrollTop = 0;
+
+    // Calculate max-height from available viewport space
+    const maxAvailableHeight = window.innerHeight - (viewportMargin * 2);
+    panel.style.maxHeight = `${maxAvailableHeight}px`;
 
     // Measure geometry
     const hostRect = _.getBoundingClientRect();
@@ -414,14 +422,14 @@ class SelectDropdown extends HTMLElement {
     const panelScreenTop = hostRect.top + idealTop;
     const panelScreenBottom = panelScreenTop + panelHeight;
 
-    if (panelScreenBottom > window.innerHeight) {
-      idealTop -= (panelScreenBottom - window.innerHeight);
+    if (panelScreenBottom > window.innerHeight - viewportMargin) {
+      idealTop -= (panelScreenBottom - (window.innerHeight - viewportMargin));
     }
 
     // Re-check top edge after shifting up
     const newPanelScreenTop = hostRect.top + idealTop;
-    if (newPanelScreenTop < 0) {
-      idealTop -= newPanelScreenTop;
+    if (newPanelScreenTop < viewportMargin) {
+      idealTop += (viewportMargin - newPanelScreenTop);
     }
 
     panel.style.top = `${idealTop}px`;
@@ -435,6 +443,10 @@ class SelectDropdown extends HTMLElement {
 
     // bail if already shown
     if (_.getAttribute('aria-hidden') === 'false') return
+
+    // Lock body scroll
+    _.#savedBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
     // set attributes for shown state
     _.setAttribute('aria-hidden', 'false');
@@ -467,6 +479,9 @@ class SelectDropdown extends HTMLElement {
    */
   hide() {
     const _ = this;
+
+    // Unlock body scroll
+    document.body.style.overflow = _.#savedBodyOverflow;
 
     // set attributes for hidden state — inline positioning stays
     // so the panel animates out in place (cleared on next show)
