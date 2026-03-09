@@ -9,6 +9,7 @@ class SelectDropdown extends HTMLElement {
   // private fields for event handlers
   #handleDocumentClick;
   #handleKeyDown;
+  #handleFormReset;
 
   // private fields for elements
   #trigger;
@@ -16,7 +17,6 @@ class SelectDropdown extends HTMLElement {
   #optionsContainer;
   #label;
   #currentFocusIndex = -1;
-  #savedBodyOverflow = '';
   #isOpen = false;
   #typeaheadBuffer = '';
   #typeaheadTimer = null;
@@ -27,7 +27,7 @@ class SelectDropdown extends HTMLElement {
    * @private
    */
   get #options() {
-    return this.querySelectorAll('select-option')
+    return this.querySelectorAll('select-option');
   }
 
   // Observed attributes
@@ -37,10 +37,6 @@ class SelectDropdown extends HTMLElement {
 
   constructor() {
     super();
-
-    // bind event handlers
-    this.#handleDocumentClick = this.handleOutsideClick.bind(this);
-    this.#handleKeyDown = this.handleKeyboardNavigation.bind(this);
   }
 
   /**
@@ -84,29 +80,19 @@ class SelectDropdown extends HTMLElement {
    * @private
    */
   #getOptionValue(option) {
-    if (option.hasAttribute('value')) return option.getAttribute('value')
-    if (option.hasAttribute('data-value')) return option.dataset.value
-    return option.textContent.trim()
+    if (option.hasAttribute('value')) return option.getAttribute('value');
+    if (option.hasAttribute('data-value')) return option.dataset.value;
+    return option.textContent.trim();
   }
 
   /**
-   * Initializes any pre-selected options based on 'selected' attribute or existing aria-selected
+   * Initializes any pre-selected options based on 'selected' attribute
    * @private
    */
   initializeSelectedOption() {
     const _ = this;
 
-    // Look for options with 'selected' attribute first
-    let selectedOption = Array.from(_.#options).find(
-      (opt) => opt.hasAttribute('selected')
-    );
-
-    // If no 'selected' attribute, look for aria-selected="true"
-    if (!selectedOption) {
-      selectedOption = Array.from(_.#options).find(
-        (opt) => opt.getAttribute('aria-selected') === 'true'
-      );
-    }
+    const selectedOption = Array.from(_.#options).find((opt) => opt.hasAttribute('selected'));
 
     // If we found a selected option, update the component state
     if (selectedOption) {
@@ -129,7 +115,6 @@ class SelectDropdown extends HTMLElement {
       if (_.#label) {
         _.#label.textContent = selectedOption.textContent.trim();
       }
-
     }
   }
 
@@ -140,6 +125,8 @@ class SelectDropdown extends HTMLElement {
     const _ = this;
     const listbox = _.#optionsContainer;
     const trigger = _.#trigger;
+
+    if (!trigger || !listbox) return;
 
     // setup trigger button
     trigger.setAttribute('aria-haspopup', 'listbox');
@@ -167,20 +154,37 @@ class SelectDropdown extends HTMLElement {
    * binds the necessary ui events to the component
    */
   bindUI() {
-    // No need to bind element events - child components manage their own events
-    // This method is kept for potential future global event binding
+    const _ = this;
+
+    // bind event handlers
+    _.#handleDocumentClick = _.handleOutsideClick.bind(_);
+    _.#handleKeyDown = _.handleKeyboardNavigation.bind(_);
+
+    // listen for form reset to re-sync UI with markup
+    const form = _.closest('form');
+    if (form) {
+      _.#handleFormReset = () => {
+        // defer to let the browser reset the hidden input first
+        requestAnimationFrame(() => {
+          _.initializeSelectedOption();
+        });
+      };
+      form.addEventListener('reset', _.#handleFormReset);
+    }
   }
 
   /**
    * unbinds event listeners
    */
   unbindUI() {
-    // No element events to remove - child components manage their own events
-    // This method is kept for potential future global event cleanup
-
-    // remove document events if they exist
     document.removeEventListener('click', this.#handleDocumentClick);
     document.removeEventListener('keydown', this.#handleKeyDown);
+
+    // remove form reset listener
+    if (this.#handleFormReset) {
+      const form = this.closest('form');
+      form?.removeEventListener('reset', this.#handleFormReset);
+    }
   }
 
   /**
@@ -206,7 +210,7 @@ class SelectDropdown extends HTMLElement {
       case 'Escape':
         e.preventDefault();
         _.hide();
-        break
+        break;
 
       case 'ArrowDown':
         e.preventDefault();
@@ -223,7 +227,7 @@ class SelectDropdown extends HTMLElement {
         if (_.#currentFocusIndex < options.length - 1) {
           _.focusOption(_.#currentFocusIndex + 1);
         }
-        break
+        break;
 
       case 'ArrowUp':
         e.preventDefault();
@@ -235,7 +239,7 @@ class SelectDropdown extends HTMLElement {
           );
           if (selectedIndex >= 0) {
             _.focusOption(selectedIndex);
-            break
+            break;
           }
         }
 
@@ -247,29 +251,26 @@ class SelectDropdown extends HTMLElement {
           _.#trigger.focus();
           _.#currentFocusIndex = -1;
         }
-        break
+        break;
 
       case 'Home':
         e.preventDefault();
         _.focusOption(0);
-        break
+        break;
 
       case 'End':
         e.preventDefault();
         _.focusOption(options.length - 1);
-        break
+        break;
 
       case 'Enter':
       case ' ':
         e.preventDefault();
 
         // if dropdown is hidden and trigger is focused, show it
-        if (
-          !_.hasAttribute('data-open') &&
-          document.activeElement === _.#trigger
-        ) {
+        if (!_.hasAttribute('data-open') && document.activeElement === _.#trigger) {
           _.show();
-          return
+          return;
         }
 
         // if focus is on an option, select it
@@ -278,12 +279,12 @@ class SelectDropdown extends HTMLElement {
         } else if (document.activeElement === _.#trigger) {
           _.show();
         }
-        break
+        break;
 
       case 'Tab':
         // Close without preventing default — let focus move naturally
         _.hide({ restoreFocus: false });
-        break
+        break;
 
       default:
         // handle typeahead - accumulate keystrokes for multi-char matching
@@ -292,9 +293,11 @@ class SelectDropdown extends HTMLElement {
         if (key.length === 1) {
           _.#typeaheadBuffer += key;
           clearTimeout(_.#typeaheadTimer);
-          _.#typeaheadTimer = setTimeout(() => { _.#typeaheadBuffer = ''; }, 500);
+          _.#typeaheadTimer = setTimeout(() => {
+            _.#typeaheadBuffer = '';
+          }, 500);
 
-          const allSameChar = _.#typeaheadBuffer.split('').every(c => c === key);
+          const allSameChar = _.#typeaheadBuffer.split('').every((c) => c === key);
 
           if (allSameChar) {
             // cycle through options starting with this letter
@@ -304,12 +307,12 @@ class SelectDropdown extends HTMLElement {
               const idx = (startIndex + i) % len;
               if (options[idx].textContent.trim().toLowerCase().startsWith(key)) {
                 _.focusOption(idx);
-                break
+                break;
               }
             }
           } else {
             // multi-char prefix search from the beginning
-            const match = options.findIndex(opt =>
+            const match = options.findIndex((opt) =>
               opt.textContent.trim().toLowerCase().startsWith(_.#typeaheadBuffer)
             );
             if (match >= 0) {
@@ -317,7 +320,7 @@ class SelectDropdown extends HTMLElement {
             }
           }
         }
-        break
+        break;
     }
   }
 
@@ -343,7 +346,7 @@ class SelectDropdown extends HTMLElement {
       // Ensure the option is visible in the dropdown
       options[index].scrollIntoView({
         block: 'nearest',
-        behavior: 'instant'
+        behavior: 'instant',
       });
     }
   }
@@ -355,38 +358,43 @@ class SelectDropdown extends HTMLElement {
   selectOption(e) {
     const _ = this;
     const option = e.target.closest('select-option');
-    if (!option) return
+    if (!option) return;
 
-    // update aria-selected on all options
-    _.#options.forEach((opt) => {
-      opt.setAttribute('aria-selected', 'false');
-      opt.removeAttribute('selected');
-    });
+    // skip if already selected (match native <select> behavior)
+    const isAlreadySelected = option.getAttribute('aria-selected') === 'true';
 
-    // mark selected option (keep both attributes in sync)
-    option.setAttribute('aria-selected', 'true');
-    option.setAttribute('selected', '');
+    if (!isAlreadySelected) {
+      // update aria-selected on all options
+      _.#options.forEach((opt) => {
+        opt.setAttribute('aria-selected', 'false');
+        opt.removeAttribute('selected');
+      });
 
-    // update the input value
-    if (_.#input) {
-      _.#input.value = _.#getOptionValue(option);
+      // mark selected option (keep both attributes in sync)
+      option.setAttribute('aria-selected', 'true');
+      option.setAttribute('selected', '');
+
+      // update the input value
+      if (_.#input) {
+        _.#input.value = _.#getOptionValue(option);
+      }
+
+      // update the visible label
+      if (_.#label) {
+        _.#label.textContent = option.textContent.trim();
+      }
+
+      // dispatch change event
+      _.dispatchEvent(
+        new CustomEvent('change', {
+          detail: {
+            value: _.#getOptionValue(option),
+            text: option.textContent.trim(),
+          },
+          bubbles: true,
+        })
+      );
     }
-
-    // update the visible label
-    if (_.#label) {
-      _.#label.textContent = option.textContent.trim();
-    }
-
-    // dispatch change event
-    _.dispatchEvent(
-      new CustomEvent('change', {
-        detail: {
-          value: _.#getOptionValue(option),
-          text: option.textContent.trim(),
-        },
-        bubbles: true,
-      })
-    );
 
     // hide the dropdown
     _.hide();
@@ -400,7 +408,7 @@ class SelectDropdown extends HTMLElement {
   #positionPanel(targetOption) {
     const _ = this;
     const panel = _.#optionsContainer;
-    if (!panel) return
+    if (!panel) return;
 
     const viewportMargin = 8;
 
@@ -422,7 +430,7 @@ class SelectDropdown extends HTMLElement {
       idealTop = triggerOffset - targetOption.offsetTop;
 
       // Set transform-origin at the target option
-      const originY = targetOption.offsetTop + (targetOption.offsetHeight / 2);
+      const originY = targetOption.offsetTop + targetOption.offsetHeight / 2;
       panel.style.transformOrigin = `center ${originY}px`;
     }
 
@@ -433,7 +441,7 @@ class SelectDropdown extends HTMLElement {
     // If panel would start above viewport, clamp top and scroll internally
     if (panelScreenTop < viewportMargin) {
       idealTop += viewportMargin - panelScreenTop;
-      panel.style.maxHeight = `${window.innerHeight - (viewportMargin * 2)}px`;
+      panel.style.maxHeight = `${window.innerHeight - viewportMargin * 2}px`;
 
       // Scroll so the target option aligns with the trigger's screen position
       if (targetOption) {
@@ -454,11 +462,7 @@ class SelectDropdown extends HTMLElement {
     const _ = this;
 
     // bail if already shown
-    if (_.hasAttribute('data-open')) return
-
-    // Lock body scroll
-    _.#savedBodyOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
+    if (_.hasAttribute('data-open')) return;
 
     // set attributes for shown state
     _.setAttribute('data-open', '');
@@ -471,9 +475,7 @@ class SelectDropdown extends HTMLElement {
 
     // find selected option or default to first
     const options = Array.from(_.#options);
-    const selectedOption = options.find(
-      (opt) => opt.getAttribute('aria-selected') === 'true'
-    );
+    const selectedOption = options.find((opt) => opt.getAttribute('aria-selected') === 'true');
     const targetOption = selectedOption || options[0];
 
     // position the panel overlay
@@ -482,6 +484,7 @@ class SelectDropdown extends HTMLElement {
     // focus the target option (deferred to survive browser click focus)
     if (targetOption) {
       requestAnimationFrame(() => {
+        if (!_.#isOpen) return;
         _.focusOption(options.indexOf(targetOption));
       });
     }
@@ -504,14 +507,11 @@ class SelectDropdown extends HTMLElement {
     _.#typeaheadBuffer = '';
     clearTimeout(_.#typeaheadTimer);
 
-    // Unlock body scroll
-    document.body.style.overflow = _.#savedBodyOverflow;
-
     // set attributes for hidden state — inline positioning stays
     // so the panel animates out in place (cleared on next show)
     _.removeAttribute('data-open');
-    _.#optionsContainer.setAttribute('aria-hidden', 'true');
-    _.#trigger.setAttribute('aria-expanded', 'false');
+    _.#optionsContainer?.setAttribute('aria-hidden', 'true');
+    _.#trigger?.setAttribute('aria-expanded', 'false');
     _.#isOpen = false;
 
     // reset the current focus index
@@ -523,7 +523,7 @@ class SelectDropdown extends HTMLElement {
 
     // return focus to trigger only when closing an open panel
     if (wasOpen && restoreFocus) {
-      _.#trigger.focus();
+      _.#trigger?.focus();
     }
   }
 }
