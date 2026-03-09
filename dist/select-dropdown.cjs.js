@@ -27,7 +27,7 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = "/* select dropdown color variables */\n:root {\n  --select-color-text: #333;\n  --select-color-background: #fff;\n  --select-color-border: #ddd;\n  --select-color-border-hover: #aaa;\n  --select-color-border-dark: #666;\n  --select-color-primary: #4299e1;\n  --select-color-hover: #f0f0f0;\n  --select-color-focus: #e6f7ff;\n  --select-color-selected: #e6f7ff;\n  --select-color-label: #999;\n}\n\nbody:has(select-dropdown[visible]) {\n  overflow: hidden;\n}\n\n/* dropdown component styles */\nselect-dropdown {\n  position: relative;\n  width: 300px;\n  margin-bottom: 1rem;\n  display: block;\n  font-family: -apple-system, BlinkMacSystemFont, \"Segoe UI\", Roboto, Oxygen,\n    Ubuntu, Cantarell, \"Open Sans\", \"Helvetica Neue\", sans-serif;\n  font-size: 1rem;\n  line-height: 1.5;\n  color: var(--select-color-text);\n  box-sizing: border-box;\n}\n\nselect-dropdown * {\n  box-sizing: border-box;\n}\n\n/* panel shown state */\nselect-dropdown[visible] select-panel {\n  opacity: 1;\n  filter: none;\n  pointer-events: auto;\n  visibility: visible;\n}\n\n/* trigger button styles */\nselect-trigger {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  width: 100%;\n  padding: 0.75rem 1rem;\n  background-color: var(--select-color-background);\n  border: 1px solid var(--select-color-border);\n  border-radius: 0.25rem;\n  cursor: pointer;\n  transition: border-color 0.2s, box-shadow 0.2s;\n}\n\nselect-trigger:hover {\n  border-color: var(--select-color-border-hover);\n}\n\nselect-trigger:focus-visible {\n  outline: 2px solid var(--select-color-primary);\n  outline-offset: 2px;\n}\n\n/* caret icon */\n.select-icon {\n  border-style: solid;\n  border-width: 0.25rem 0.25rem 0;\n  border-color: var(--select-color-border-dark) transparent transparent;\n  margin-left: 0.75rem;\n  transition: transform 0.2s;\n}\n\n/* Flipped caret when expanded */\nselect-trigger[aria-expanded=\"true\"] .select-icon {\n  transform: rotate(180deg);\n}\n\n/* options container */\nselect-panel {\n  position: absolute;\n  left: 0;\n  width: 100%;\n  overflow-y: auto;\n  background-color: var(--select-color-background);\n  border: 1px solid var(--select-color-border);\n  border-radius: 0.25rem;\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12), 0 0 4px rgba(0, 0, 0, 0.08);\n  z-index: 10;\n  opacity: 0;\n  filter: blur(3px);\n  pointer-events: none;\n  visibility: hidden;\n  transition: opacity 150ms ease-out, filter 150ms ease-out, visibility 150ms;\n}\n\n/* option items */\nselect-option {\n  padding: 0.75rem 1rem;\n  cursor: pointer;\n  transition: background-color 0.2s;\n  display: block;\n}\n\nselect-option:hover {\n  background-color: var(--select-color-hover);\n}\n\nselect-option:focus {\n  outline: none;\n  background-color: var(--select-color-focus);\n}\n\nselect-option[aria-selected=\"true\"] {\n  background-color: var(--select-color-selected);\n  font-weight: 500;\n}\n\n/* hidden input */\nselect-dropdown > input {\n  display: none;\n}\n\n/* divider between option groups */\nselect-divider {\n  display: block;\n  height: 1px;\n  margin: 0.25rem 0;\n  background-color: var(--select-color-border);\n}\n\n/* label for option groups */\nselect-label {\n  display: block;\n  padding: 0.25rem 1rem;\n  font-size: 0.75rem;\n  font-weight: 600;\n  text-transform: uppercase;\n  letter-spacing: 0.05em;\n  color: var(--select-color-label);\n  cursor: default;\n  user-select: none;\n}\n";
+var css_248z = "/* select dropdown color variables */\n:root {\n\t--select-color-text: #333;\n\t--select-color-background: #fff;\n\t--select-color-border: #ddd;\n\t--select-color-border-hover: #aaa;\n\t--select-color-border-dark: #666;\n\t--select-color-primary: #4299e1;\n\t--select-color-hover: #f0f0f0;\n\t--select-color-focus: #e6f7ff;\n\t--select-color-selected: #e6f7ff;\n\t--select-color-label: #999;\n}\n\nbody:has(select-dropdown[visible]) {\n\toverflow: hidden;\n}\n\n/* dropdown component styles */\nselect-dropdown {\n\tposition: relative;\n\twidth: 300px;\n\tmargin-bottom: 1rem;\n\tdisplay: block;\n\tfont-family:\n\t\t-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',\n\t\t'Helvetica Neue', sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5;\n\tcolor: var(--select-color-text);\n\tbox-sizing: border-box;\n}\n\nselect-dropdown * {\n\tbox-sizing: border-box;\n}\n\n/* panel shown state */\nselect-dropdown[visible] select-panel {\n\topacity: 1;\n\tfilter: none;\n\tpointer-events: auto;\n\tvisibility: visible;\n}\n\n/* trigger button styles */\nselect-trigger {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\twidth: 100%;\n\tpadding: 0.75rem 1rem;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tcursor: pointer;\n\ttransition:\n\t\tborder-color 0.2s,\n\t\tbox-shadow 0.2s;\n}\n\nselect-trigger:hover {\n\tborder-color: var(--select-color-border-hover);\n}\n\nselect-trigger:focus-visible {\n\toutline: 2px solid var(--select-color-primary);\n\toutline-offset: 2px;\n}\n\n/* caret icon */\n.select-icon {\n\tborder-style: solid;\n\tborder-width: 0.25rem 0.25rem 0;\n\tborder-color: var(--select-color-border-dark) transparent transparent;\n\tmargin-left: 0.75rem;\n\ttransition: transform 0.2s;\n}\n\n/* Flipped caret when expanded */\nselect-trigger[aria-expanded='true'] .select-icon {\n\ttransform: rotate(180deg);\n}\n\n/* options container */\nselect-panel {\n\tposition: absolute;\n\tleft: 0;\n\twidth: 100%;\n\toverflow-y: auto;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tbox-shadow:\n\t\t0 4px 12px rgba(0, 0, 0, 0.12),\n\t\t0 0 4px rgba(0, 0, 0, 0.08);\n\tz-index: 10;\n\topacity: 0;\n\tfilter: blur(3px);\n\tpointer-events: none;\n\tvisibility: hidden;\n\ttransition:\n\t\topacity 150ms ease-out,\n\t\tfilter 150ms ease-out,\n\t\tvisibility 150ms;\n}\n\n/* option items */\nselect-option {\n\tpadding: 0.75rem 1rem;\n\tcursor: pointer;\n\ttransition: background-color 0.2s;\n\tdisplay: block;\n}\n\nselect-option:hover {\n\tbackground-color: var(--select-color-hover);\n}\n\nselect-option:focus {\n\toutline: none;\n\tbackground-color: var(--select-color-focus);\n}\n\nselect-option[aria-selected='true'] {\n\tbackground-color: var(--select-color-selected);\n\tfont-weight: 500;\n}\n\n/* hidden input */\nselect-dropdown > input {\n\tdisplay: none;\n}\n\n/* divider between option groups */\nselect-divider {\n\tdisplay: block;\n\theight: 1px;\n\tmargin: 0.25rem 0;\n\tbackground-color: var(--select-color-border);\n}\n\n/* label for option groups */\nselect-label {\n\tdisplay: block;\n\tpadding: 0.25rem 1rem;\n\tfont-size: 0.75rem;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.05em;\n\tcolor: var(--select-color-label);\n\tcursor: default;\n\tuser-select: none;\n}\n\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNlbGVjdC1kcm9wZG93bi5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsb0NBQW9DO0FBQ3BDO0NBQ0MseUJBQXlCO0NBQ3pCLCtCQUErQjtDQUMvQiwyQkFBMkI7Q0FDM0IsaUNBQWlDO0NBQ2pDLGdDQUFnQztDQUNoQywrQkFBK0I7Q0FDL0IsNkJBQTZCO0NBQzdCLDZCQUE2QjtDQUM3QixnQ0FBZ0M7Q0FDaEMsMEJBQTBCO0FBQzNCOztBQUVBO0NBQ0MsZ0JBQWdCO0FBQ2pCOztBQUVBLDhCQUE4QjtBQUM5QjtDQUNDLGtCQUFrQjtDQUNsQixZQUFZO0NBQ1osbUJBQW1CO0NBQ25CLGNBQWM7Q0FDZDs7OEJBRTZCO0NBQzdCLGVBQWU7Q0FDZixnQkFBZ0I7Q0FDaEIsK0JBQStCO0NBQy9CLHNCQUFzQjtBQUN2Qjs7QUFFQTtDQUNDLHNCQUFzQjtBQUN2Qjs7QUFFQSxzQkFBc0I7QUFDdEI7Q0FDQyxVQUFVO0NBQ1YsWUFBWTtDQUNaLG9CQUFvQjtDQUNwQixtQkFBbUI7QUFDcEI7O0FBRUEsMEJBQTBCO0FBQzFCO0NBQ0MsYUFBYTtDQUNiLDhCQUE4QjtDQUM5QixtQkFBbUI7Q0FDbkIsV0FBVztDQUNYLHFCQUFxQjtDQUNyQixnREFBZ0Q7Q0FDaEQsNENBQTRDO0NBQzVDLHNCQUFzQjtDQUN0QixlQUFlO0NBQ2Y7O2lCQUVnQjtBQUNqQjs7QUFFQTtDQUNDLDhDQUE4QztBQUMvQzs7QUFFQTtDQUNDLDhDQUE4QztDQUM5QyxtQkFBbUI7QUFDcEI7O0FBRUEsZUFBZTtBQUNmO0NBQ0MsbUJBQW1CO0NBQ25CLCtCQUErQjtDQUMvQixxRUFBcUU7Q0FDckUsb0JBQW9CO0NBQ3BCLDBCQUEwQjtBQUMzQjs7QUFFQSxnQ0FBZ0M7QUFDaEM7Q0FDQyx5QkFBeUI7QUFDMUI7O0FBRUEsc0JBQXNCO0FBQ3RCO0NBQ0Msa0JBQWtCO0NBQ2xCLE9BQU87Q0FDUCxXQUFXO0NBQ1gsZ0JBQWdCO0NBQ2hCLGdEQUFnRDtDQUNoRCw0Q0FBNEM7Q0FDNUMsc0JBQXNCO0NBQ3RCOzs2QkFFNEI7Q0FDNUIsV0FBVztDQUNYLFVBQVU7Q0FDVixpQkFBaUI7Q0FDakIsb0JBQW9CO0NBQ3BCLGtCQUFrQjtDQUNsQjs7O2tCQUdpQjtBQUNsQjs7QUFFQSxpQkFBaUI7QUFDakI7Q0FDQyxxQkFBcUI7Q0FDckIsZUFBZTtDQUNmLGlDQUFpQztDQUNqQyxjQUFjO0FBQ2Y7O0FBRUE7Q0FDQywyQ0FBMkM7QUFDNUM7O0FBRUE7Q0FDQyxhQUFhO0NBQ2IsMkNBQTJDO0FBQzVDOztBQUVBO0NBQ0MsOENBQThDO0NBQzlDLGdCQUFnQjtBQUNqQjs7QUFFQSxpQkFBaUI7QUFDakI7Q0FDQyxhQUFhO0FBQ2Q7O0FBRUEsa0NBQWtDO0FBQ2xDO0NBQ0MsY0FBYztDQUNkLFdBQVc7Q0FDWCxpQkFBaUI7Q0FDakIsNENBQTRDO0FBQzdDOztBQUVBLDRCQUE0QjtBQUM1QjtDQUNDLGNBQWM7Q0FDZCxxQkFBcUI7Q0FDckIsa0JBQWtCO0NBQ2xCLGdCQUFnQjtDQUNoQix5QkFBeUI7Q0FDekIsc0JBQXNCO0NBQ3RCLGdDQUFnQztDQUNoQyxlQUFlO0NBQ2YsaUJBQWlCO0FBQ2xCIiwiZmlsZSI6InNlbGVjdC1kcm9wZG93bi5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyIvKiBzZWxlY3QgZHJvcGRvd24gY29sb3IgdmFyaWFibGVzICovXG46cm9vdCB7XG5cdC0tc2VsZWN0LWNvbG9yLXRleHQ6ICMzMzM7XG5cdC0tc2VsZWN0LWNvbG9yLWJhY2tncm91bmQ6ICNmZmY7XG5cdC0tc2VsZWN0LWNvbG9yLWJvcmRlcjogI2RkZDtcblx0LS1zZWxlY3QtY29sb3ItYm9yZGVyLWhvdmVyOiAjYWFhO1xuXHQtLXNlbGVjdC1jb2xvci1ib3JkZXItZGFyazogIzY2Njtcblx0LS1zZWxlY3QtY29sb3ItcHJpbWFyeTogIzQyOTllMTtcblx0LS1zZWxlY3QtY29sb3ItaG92ZXI6ICNmMGYwZjA7XG5cdC0tc2VsZWN0LWNvbG9yLWZvY3VzOiAjZTZmN2ZmO1xuXHQtLXNlbGVjdC1jb2xvci1zZWxlY3RlZDogI2U2ZjdmZjtcblx0LS1zZWxlY3QtY29sb3ItbGFiZWw6ICM5OTk7XG59XG5cbmJvZHk6aGFzKHNlbGVjdC1kcm9wZG93blt2aXNpYmxlXSkge1xuXHRvdmVyZmxvdzogaGlkZGVuO1xufVxuXG4vKiBkcm9wZG93biBjb21wb25lbnQgc3R5bGVzICovXG5zZWxlY3QtZHJvcGRvd24ge1xuXHRwb3NpdGlvbjogcmVsYXRpdmU7XG5cdHdpZHRoOiAzMDBweDtcblx0bWFyZ2luLWJvdHRvbTogMXJlbTtcblx0ZGlzcGxheTogYmxvY2s7XG5cdGZvbnQtZmFtaWx5OlxuXHRcdC1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgJ1NlZ29lIFVJJywgUm9ib3RvLCBPeHlnZW4sIFVidW50dSwgQ2FudGFyZWxsLCAnT3BlbiBTYW5zJyxcblx0XHQnSGVsdmV0aWNhIE5ldWUnLCBzYW5zLXNlcmlmO1xuXHRmb250LXNpemU6IDFyZW07XG5cdGxpbmUtaGVpZ2h0OiAxLjU7XG5cdGNvbG9yOiB2YXIoLS1zZWxlY3QtY29sb3ItdGV4dCk7XG5cdGJveC1zaXppbmc6IGJvcmRlci1ib3g7XG59XG5cbnNlbGVjdC1kcm9wZG93biAqIHtcblx0Ym94LXNpemluZzogYm9yZGVyLWJveDtcbn1cblxuLyogcGFuZWwgc2hvd24gc3RhdGUgKi9cbnNlbGVjdC1kcm9wZG93blt2aXNpYmxlXSBzZWxlY3QtcGFuZWwge1xuXHRvcGFjaXR5OiAxO1xuXHRmaWx0ZXI6IG5vbmU7XG5cdHBvaW50ZXItZXZlbnRzOiBhdXRvO1xuXHR2aXNpYmlsaXR5OiB2aXNpYmxlO1xufVxuXG4vKiB0cmlnZ2VyIGJ1dHRvbiBzdHlsZXMgKi9cbnNlbGVjdC10cmlnZ2VyIHtcblx0ZGlzcGxheTogZmxleDtcblx0anVzdGlmeS1jb250ZW50OiBzcGFjZS1iZXR3ZWVuO1xuXHRhbGlnbi1pdGVtczogY2VudGVyO1xuXHR3aWR0aDogMTAwJTtcblx0cGFkZGluZzogMC43NXJlbSAxcmVtO1xuXHRiYWNrZ3JvdW5kLWNvbG9yOiB2YXIoLS1zZWxlY3QtY29sb3ItYmFja2dyb3VuZCk7XG5cdGJvcmRlcjogMXB4IHNvbGlkIHZhcigtLXNlbGVjdC1jb2xvci1ib3JkZXIpO1xuXHRib3JkZXItcmFkaXVzOiAwLjI1cmVtO1xuXHRjdXJzb3I6IHBvaW50ZXI7XG5cdHRyYW5zaXRpb246XG5cdFx0Ym9yZGVyLWNvbG9yIDAuMnMsXG5cdFx0Ym94LXNoYWRvdyAwLjJzO1xufVxuXG5zZWxlY3QtdHJpZ2dlcjpob3ZlciB7XG5cdGJvcmRlci1jb2xvcjogdmFyKC0tc2VsZWN0LWNvbG9yLWJvcmRlci1ob3Zlcik7XG59XG5cbnNlbGVjdC10cmlnZ2VyOmZvY3VzLXZpc2libGUge1xuXHRvdXRsaW5lOiAycHggc29saWQgdmFyKC0tc2VsZWN0LWNvbG9yLXByaW1hcnkpO1xuXHRvdXRsaW5lLW9mZnNldDogMnB4O1xufVxuXG4vKiBjYXJldCBpY29uICovXG4uc2VsZWN0LWljb24ge1xuXHRib3JkZXItc3R5bGU6IHNvbGlkO1xuXHRib3JkZXItd2lkdGg6IDAuMjVyZW0gMC4yNXJlbSAwO1xuXHRib3JkZXItY29sb3I6IHZhcigtLXNlbGVjdC1jb2xvci1ib3JkZXItZGFyaykgdHJhbnNwYXJlbnQgdHJhbnNwYXJlbnQ7XG5cdG1hcmdpbi1sZWZ0OiAwLjc1cmVtO1xuXHR0cmFuc2l0aW9uOiB0cmFuc2Zvcm0gMC4ycztcbn1cblxuLyogRmxpcHBlZCBjYXJldCB3aGVuIGV4cGFuZGVkICovXG5zZWxlY3QtdHJpZ2dlclthcmlhLWV4cGFuZGVkPSd0cnVlJ10gLnNlbGVjdC1pY29uIHtcblx0dHJhbnNmb3JtOiByb3RhdGUoMTgwZGVnKTtcbn1cblxuLyogb3B0aW9ucyBjb250YWluZXIgKi9cbnNlbGVjdC1wYW5lbCB7XG5cdHBvc2l0aW9uOiBhYnNvbHV0ZTtcblx0bGVmdDogMDtcblx0d2lkdGg6IDEwMCU7XG5cdG92ZXJmbG93LXk6IGF1dG87XG5cdGJhY2tncm91bmQtY29sb3I6IHZhcigtLXNlbGVjdC1jb2xvci1iYWNrZ3JvdW5kKTtcblx0Ym9yZGVyOiAxcHggc29saWQgdmFyKC0tc2VsZWN0LWNvbG9yLWJvcmRlcik7XG5cdGJvcmRlci1yYWRpdXM6IDAuMjVyZW07XG5cdGJveC1zaGFkb3c6XG5cdFx0MCA0cHggMTJweCByZ2JhKDAsIDAsIDAsIDAuMTIpLFxuXHRcdDAgMCA0cHggcmdiYSgwLCAwLCAwLCAwLjA4KTtcblx0ei1pbmRleDogMTA7XG5cdG9wYWNpdHk6IDA7XG5cdGZpbHRlcjogYmx1cigzcHgpO1xuXHRwb2ludGVyLWV2ZW50czogbm9uZTtcblx0dmlzaWJpbGl0eTogaGlkZGVuO1xuXHR0cmFuc2l0aW9uOlxuXHRcdG9wYWNpdHkgMTUwbXMgZWFzZS1vdXQsXG5cdFx0ZmlsdGVyIDE1MG1zIGVhc2Utb3V0LFxuXHRcdHZpc2liaWxpdHkgMTUwbXM7XG59XG5cbi8qIG9wdGlvbiBpdGVtcyAqL1xuc2VsZWN0LW9wdGlvbiB7XG5cdHBhZGRpbmc6IDAuNzVyZW0gMXJlbTtcblx0Y3Vyc29yOiBwb2ludGVyO1xuXHR0cmFuc2l0aW9uOiBiYWNrZ3JvdW5kLWNvbG9yIDAuMnM7XG5cdGRpc3BsYXk6IGJsb2NrO1xufVxuXG5zZWxlY3Qtb3B0aW9uOmhvdmVyIHtcblx0YmFja2dyb3VuZC1jb2xvcjogdmFyKC0tc2VsZWN0LWNvbG9yLWhvdmVyKTtcbn1cblxuc2VsZWN0LW9wdGlvbjpmb2N1cyB7XG5cdG91dGxpbmU6IG5vbmU7XG5cdGJhY2tncm91bmQtY29sb3I6IHZhcigtLXNlbGVjdC1jb2xvci1mb2N1cyk7XG59XG5cbnNlbGVjdC1vcHRpb25bYXJpYS1zZWxlY3RlZD0ndHJ1ZSddIHtcblx0YmFja2dyb3VuZC1jb2xvcjogdmFyKC0tc2VsZWN0LWNvbG9yLXNlbGVjdGVkKTtcblx0Zm9udC13ZWlnaHQ6IDUwMDtcbn1cblxuLyogaGlkZGVuIGlucHV0ICovXG5zZWxlY3QtZHJvcGRvd24gPiBpbnB1dCB7XG5cdGRpc3BsYXk6IG5vbmU7XG59XG5cbi8qIGRpdmlkZXIgYmV0d2VlbiBvcHRpb24gZ3JvdXBzICovXG5zZWxlY3QtZGl2aWRlciB7XG5cdGRpc3BsYXk6IGJsb2NrO1xuXHRoZWlnaHQ6IDFweDtcblx0bWFyZ2luOiAwLjI1cmVtIDA7XG5cdGJhY2tncm91bmQtY29sb3I6IHZhcigtLXNlbGVjdC1jb2xvci1ib3JkZXIpO1xufVxuXG4vKiBsYWJlbCBmb3Igb3B0aW9uIGdyb3VwcyAqL1xuc2VsZWN0LWxhYmVsIHtcblx0ZGlzcGxheTogYmxvY2s7XG5cdHBhZGRpbmc6IDAuMjVyZW0gMXJlbTtcblx0Zm9udC1zaXplOiAwLjc1cmVtO1xuXHRmb250LXdlaWdodDogNjAwO1xuXHR0ZXh0LXRyYW5zZm9ybTogdXBwZXJjYXNlO1xuXHRsZXR0ZXItc3BhY2luZzogMC4wNWVtO1xuXHRjb2xvcjogdmFyKC0tc2VsZWN0LWNvbG9yLWxhYmVsKTtcblx0Y3Vyc29yOiBkZWZhdWx0O1xuXHR1c2VyLXNlbGVjdDogbm9uZTtcbn1cbiJdfQ== */";
 styleInject(css_248z);
 
 /**
@@ -36,598 +36,599 @@ styleInject(css_248z);
  * @extends HTMLElement
  */
 class SelectDropdown extends HTMLElement {
-  static #instanceCount = 0;
-
-  // private fields for elements
-  #instanceId;
-  #trigger;
-  #input;
-  #optionsContainer;
-  #label;
-  #currentFocusIndex = -1;
-  #typeaheadBuffer = '';
-  #typeaheadTimer = null;
-  #defaultValue = null;
-  #defaultValueCaptured = false;
-  #originalLabelText = '';
-
-  /**
-   * Live getter for option elements — supports dynamically added/removed options
-   * @returns {NodeList}
-   * @private
-   */
-  get #options() {
-    return this.querySelectorAll('select-option');
-  }
-
-  // Observed attributes
-  static get observedAttributes() {
-    return [];
-  }
-
-  constructor() {
-    super();
-    this.#instanceId = ++SelectDropdown.#instanceCount;
-  }
-
-  get value() {
-    const selectedOption = this.#getSelectedOption();
-    if (selectedOption) return this.#getOptionValue(selectedOption);
-    return this.#input?.value || '';
-  }
-
-  get selectedText() {
-    const selectedOption = this.#getSelectedOption();
-    if (selectedOption) return this.#getOptionText(selectedOption);
-    return '';
-  }
-
-  set value(nextValue) {
-    if (nextValue === null || nextValue === undefined) return;
-
-    const option = this.#findOptionByValue(String(nextValue));
-    if (!option) return;
-
-    this.#applySelection(option);
-  }
-
-  /**
-   * when element is connected to the dom
-   */
-  connectedCallback() {
-    const _ = this;
-
-    _.handlers = {};
-    _.queryDOM();
-    _.setAttribute('tabindex', '-1');
-    _.setupAriaAttributes();
-    _.attachListeners();
-    _.initializeSelectedOption();
-    _.hide();
-  }
-
-  /**
-   * Queries and caches all DOM elements needed for the component
-   * @private
-   */
-  queryDOM() {
-    const _ = this;
-
-    _.#trigger = _.querySelector('select-trigger');
-    _.#input = _.querySelector('input');
-    _.#optionsContainer = _.querySelector('select-panel');
-    _.#label = _.#trigger?.querySelector('.select-label-text');
-  }
-
-  /**
-   * clean up event listeners when element is removed
-   */
-  disconnectedCallback() {
-    this.detachListeners();
-  }
-
-  /**
-   * Gets the value from an option element
-   * @param {HTMLElement} option - The option element
-   * @returns {string} The option value
-   * @private
-   */
-  #getOptionValue(option) {
-    if (option.hasAttribute('value')) return option.getAttribute('value');
-    return option.textContent.trim();
-  }
-
-  /**
-   * Gets the label text from an option element
-   * @param {HTMLElement} option - The option element
-   * @returns {string} The option label
-   * @private
-   */
-  #getOptionText(option) {
-    return option.textContent.trim();
-  }
-
-  /**
-   * Finds the currently selected option
-   * @returns {HTMLElement | undefined}
-   * @private
-   */
-  #getSelectedOption() {
-    return Array.from(this.#options).find(
-      (option) => option.getAttribute('aria-selected') === 'true'
-    );
-  }
-
-  /**
-   * Finds an option matching the provided value
-   * @param {string} value - The option value to match
-   * @returns {HTMLElement | undefined}
-   * @private
-   */
-  #findOptionByValue(value) {
-    return Array.from(this.#options).find((option) => this.#getOptionValue(option) === value);
-  }
-
-  /**
-   * Applies selection state across the control
-   * @param {HTMLElement | null} option - The option to select
-   * @private
-   */
-  #applySelection(option) {
-    this.#options.forEach((opt) => {
-      opt.removeAttribute('selected');
-      opt.setAttribute('aria-selected', 'false');
-    });
-
-    if (!option) {
-      if (this.#input) {
-        this.#input.value = '';
-      }
-
-      if (this.#label) {
-        this.#label.textContent = this.#originalLabelText;
-      }
-
-      this.#currentFocusIndex = -1;
-      return;
-    }
-
-    option.setAttribute('aria-selected', 'true');
-    option.setAttribute('selected', '');
-
-    if (this.#input) {
-      this.#input.value = this.#getOptionValue(option);
-    }
-
-    if (this.#label) {
-      this.#label.textContent = this.#getOptionText(option);
-    }
-
-    this.#currentFocusIndex = Array.from(this.#options).indexOf(option);
-  }
-
-  /**
-   * Initializes any pre-selected options based on 'selected' attribute
-   * @private
-   */
-  initializeSelectedOption() {
-    const _ = this;
-
-    const selectedOption = Array.from(_.#options).find((opt) => opt.hasAttribute('selected'));
-
-    // Capture the default value and label on the first call
-    if (!_.#defaultValueCaptured) {
-      _.#defaultValue = selectedOption ? _.#getOptionValue(selectedOption) : null;
-      _.#originalLabelText = _.#label ? _.#label.textContent : '';
-      _.#defaultValueCaptured = true;
-    }
-
-    _.#applySelection(selectedOption || null);
-  }
-
-  /**
-   * Resets the component to its original default selection
-   * @private
-   */
-  #resetToDefault() {
-    const _ = this;
-    const defaultOption =
-      _.#defaultValue === null ? null : _.#findOptionByValue(_.#defaultValue) || null;
-
-    _.#applySelection(defaultOption);
-  }
-
-  /**
-   * sets up aria attributes for accessibility
-   */
-  setupAriaAttributes() {
-    const _ = this;
-    const listbox = _.#optionsContainer;
-    const trigger = _.#trigger;
-
-    if (!trigger || !listbox) return;
-
-    // setup trigger button
-    trigger.setAttribute('aria-haspopup', 'listbox');
-    trigger.setAttribute('aria-expanded', 'false');
-    trigger.setAttribute('role', 'button');
-
-    if (!trigger.id) {
-      trigger.id = `select-trigger-${_.#instanceId}`;
-    }
-
-    // assign an ID to the listbox panel and link via aria-controls
-    if (!listbox.id) {
-      listbox.id = `select-panel-${_.#instanceId}`;
-    }
-    trigger.setAttribute('aria-controls', listbox.id);
-
-    // setup listbox
-    listbox.setAttribute('role', 'listbox');
-    listbox.setAttribute('aria-labelledby', trigger.id);
-
-    // setup options
-    _.#options.forEach((option, index) => {
-      option.setAttribute('role', 'option');
-      option.setAttribute('aria-selected', 'false');
-      option.setAttribute('tabindex', '-1');
-      option.id = `${trigger.id}-option-${index}`;
-    });
-  }
-
-  /**
-   * Attaches event listeners to the component
-   */
-  attachListeners() {
-    const _ = this;
-
-    // bind event handlers
-    _.handlers.documentClick = _.handleOutsideClick.bind(_);
-    _.handlers.keyDown = _.handleKeyboardNavigation.bind(_);
-
-    // listen for form reset to restore the original default selection
-    const form = _.closest('form');
-    if (form) {
-      _.handlers.formReset = () => {
-        requestAnimationFrame(() => {
-          _.#resetToDefault();
-        });
-      };
-      form.addEventListener('reset', _.handlers.formReset);
-    }
-  }
-
-  /**
-   * Detaches event listeners from the component
-   */
-  detachListeners() {
-    document.removeEventListener('click', this.handlers.documentClick);
-    document.removeEventListener('keydown', this.handlers.keyDown);
-
-    // remove form reset listener
-    if (this.handlers.formReset) {
-      const form = this.closest('form');
-      form?.removeEventListener('reset', this.handlers.formReset);
-    }
-  }
-
-  /**
-   * handles click events outside of the dropdown to hide it
-   * @param {Event} e - the click event
-   */
-  handleOutsideClick(e) {
-    // if click is outside of the dropdown, hide it
-    if (!this.contains(e.target)) {
-      this.hide({ restoreFocus: false });
-    }
-  }
-
-  /**
-   * handles keyboard navigation in the dropdown
-   * @param {KeyboardEvent} e - the keyboard event
-   */
-  handleKeyboardNavigation(e) {
-    const _ = this;
-    const options = Array.from(_.#options);
-
-    switch (e.key) {
-      case 'Escape':
-        e.preventDefault();
-        _.hide();
-        break;
-
-      case 'ArrowDown':
-        e.preventDefault();
-
-        // if focus is on trigger, start from selected option
-        if (document.activeElement === _.#trigger) {
-          const selectedIndex = options.findIndex(
-            (opt) => opt.getAttribute('aria-selected') === 'true'
-          );
-          _.#currentFocusIndex = selectedIndex >= 0 ? selectedIndex : -1;
-        }
-
-        // move to next option
-        if (_.#currentFocusIndex < options.length - 1) {
-          _.focusOption(_.#currentFocusIndex + 1);
-        }
-        break;
-
-      case 'ArrowUp':
-        e.preventDefault();
-
-        // if focus is on trigger, start from selected option
-        if (document.activeElement === _.#trigger) {
-          const selectedIndex = options.findIndex(
-            (opt) => opt.getAttribute('aria-selected') === 'true'
-          );
-          if (selectedIndex >= 0) {
-            _.focusOption(selectedIndex);
-            break;
-          }
-        }
-
-        // move to previous option
-        if (_.#currentFocusIndex > 0) {
-          _.focusOption(_.#currentFocusIndex - 1);
-        } else if (_.#currentFocusIndex === 0) {
-          // if on first option, move focus back to trigger
-          _.#trigger.focus();
-          _.#currentFocusIndex = -1;
-        }
-        break;
-
-      case 'Home':
-        e.preventDefault();
-        _.focusOption(0);
-        break;
-
-      case 'End':
-        e.preventDefault();
-        _.focusOption(options.length - 1);
-        break;
-
-      case 'Enter':
-      case ' ':
-        e.preventDefault();
-
-        // if dropdown is hidden and trigger is focused, show it
-        if (!_.hasAttribute('visible') && document.activeElement === _.#trigger) {
-          _.show();
-          return;
-        }
-
-        // if focus is on an option, select it
-        if (_.#currentFocusIndex >= 0) {
-          _.selectOption({ target: options[_.#currentFocusIndex] });
-        } else if (document.activeElement === _.#trigger) {
-          _.show();
-        }
-        break;
-
-      case 'Tab':
-        // Close without preventing default — let focus move naturally
-        _.hide({ restoreFocus: false });
-        break;
-
-      default:
-        // handle typeahead - accumulate keystrokes for multi-char matching
-        const key = e.key.toLowerCase();
-
-        if (key.length === 1) {
-          _.#typeaheadBuffer += key;
-          clearTimeout(_.#typeaheadTimer);
-          _.#typeaheadTimer = setTimeout(() => {
-            _.#typeaheadBuffer = '';
-          }, 500);
-
-          const allSameChar = _.#typeaheadBuffer.split('').every((c) => c === key);
-
-          if (allSameChar) {
-            // cycle through options starting with this letter
-            const startIndex = _.#currentFocusIndex + 1;
-            const len = options.length;
-            for (let i = 0; i < len; i++) {
-              const idx = (startIndex + i) % len;
-              if (options[idx].textContent.trim().toLowerCase().startsWith(key)) {
-                _.focusOption(idx);
-                break;
-              }
-            }
-          } else {
-            // multi-char prefix search from the beginning
-            const match = options.findIndex((opt) =>
-              opt.textContent.trim().toLowerCase().startsWith(_.#typeaheadBuffer)
-            );
-            if (match >= 0) {
-              _.focusOption(match);
-            }
-          }
-        }
-        break;
-    }
-  }
-
-  /**
-   * focuses a specific option by index
-   * @param {number} index - the index of the option to focus
-   */
-  focusOption(index) {
-    const _ = this;
-    const options = Array.from(_.#options);
-
-    // reset tabindex on all options
-    options.forEach((opt) => {
-      opt.setAttribute('tabindex', '-1');
-    });
-
-    // set tabindex on target option and focus it
-    if (options[index]) {
-      options[index].setAttribute('tabindex', '0');
-      options[index].focus();
-      _.#currentFocusIndex = index;
-
-      // Ensure the option is visible in the dropdown
-      options[index].scrollIntoView({
-        block: 'nearest',
-        behavior: 'instant',
-      });
-    }
-  }
-
-  /**
-   * selects an option from the dropdown
-   * @param {Event} e - the click event
-   */
-  selectOption(e) {
-    const _ = this;
-    const option = e.target.closest('select-option');
-    if (!option) return;
-
-    // skip if already selected (match native <select> behavior)
-    const isAlreadySelected = option.getAttribute('aria-selected') === 'true';
-
-    if (!isAlreadySelected) {
-      _.#applySelection(option);
-      _.dispatchEvent(new Event('change', { bubbles: true }));
-    }
-
-    // hide the dropdown
-    _.hide();
-  }
-
-  /**
-   * Positions the panel so the target option overlays the trigger
-   * @param {HTMLElement} targetOption - the option to align over the trigger
-   * @private
-   */
-  #positionPanel(targetOption) {
-    const _ = this;
-    const panel = _.#optionsContainer;
-    if (!panel) return;
-
-    const viewportMargin = 8;
-
-    // Clear previous positioning
-    panel.style.top = '';
-    panel.style.transformOrigin = '';
-    panel.style.maxHeight = '';
-    panel.scrollTop = 0;
-
-    // Measure geometry
-    const hostRect = _.getBoundingClientRect();
-    const triggerRect = _.#trigger.getBoundingClientRect();
-    const triggerOffset = triggerRect.top - hostRect.top;
-
-    let idealTop = triggerOffset;
-
-    if (targetOption) {
-      // Shift panel up so target option aligns over the trigger
-      idealTop = triggerOffset - targetOption.offsetTop;
-
-      // Set transform-origin at the target option
-      const originY = targetOption.offsetTop + targetOption.offsetHeight / 2;
-      panel.style.transformOrigin = `center ${originY}px`;
-    }
-
-    // Max-height: from panel's top edge down to viewport bottom
-    const panelScreenTop = hostRect.top + idealTop;
-    const availableHeight = window.innerHeight - panelScreenTop - viewportMargin;
-
-    // If panel would start above viewport, clamp top and scroll internally
-    if (panelScreenTop < viewportMargin) {
-      idealTop += viewportMargin - panelScreenTop;
-      panel.style.maxHeight = `${window.innerHeight - viewportMargin * 2}px`;
-
-      // Scroll so the target option aligns with the trigger's screen position
-      if (targetOption) {
-        const triggerScreenY = triggerRect.top - viewportMargin;
-        panel.scrollTop = Math.max(0, targetOption.offsetTop - triggerScreenY);
-      }
-    } else {
-      panel.style.maxHeight = `${Math.max(availableHeight, 120)}px`;
-    }
-
-    panel.style.top = `${idealTop}px`;
-  }
-
-  /**
-   * shows the dropdown options
-   */
-  show() {
-    const _ = this;
-
-    // bail if already shown
-    if (_.hasAttribute('visible')) return;
-
-    // set attributes for shown state
-    _.setAttribute('visible', '');
-    _.#optionsContainer.setAttribute('aria-hidden', 'false');
-    _.#trigger.setAttribute('aria-expanded', 'true');
-
-    // reset typeahead buffer
-    _.#typeaheadBuffer = '';
-
-    // find selected option or default to first
-    const options = Array.from(_.#options);
-    const selectedOption = options.find((opt) => opt.getAttribute('aria-selected') === 'true');
-    const targetOption = selectedOption || options[0];
-
-    // position the panel overlay
-    _.#positionPanel(targetOption);
-
-    // focus the target option (deferred to survive browser click focus)
-    if (targetOption) {
-      requestAnimationFrame(() => {
-        if (!_.hasAttribute('visible')) return;
-        _.focusOption(options.indexOf(targetOption));
-      });
-    }
-
-    // add global event listeners
-    document.addEventListener('click', _.handlers.documentClick);
-    document.addEventListener('keydown', _.handlers.keyDown);
-
-    // dispatch show event
-    _.dispatchEvent(new CustomEvent('select-dropdown:show', { bubbles: true }));
-  }
-
-  /**
-   * hides the dropdown options
-   * @param {Object} [options] - hide options
-   * @param {boolean} [options.restoreFocus=true] - whether to return focus to the trigger
-   */
-  hide({ restoreFocus = true } = {}) {
-    const _ = this;
-    const wasOpen = _.hasAttribute('visible');
-
-    // reset typeahead buffer
-    _.#typeaheadBuffer = '';
-    clearTimeout(_.#typeaheadTimer);
-
-    // set attributes for hidden state — inline positioning stays
-    // so the panel animates out in place (cleared on next show)
-    _.removeAttribute('visible');
-    _.#optionsContainer?.setAttribute('aria-hidden', 'true');
-    _.#trigger?.setAttribute('aria-expanded', 'false');
-
-    // reset the current focus index
-    _.#currentFocusIndex = -1;
-
-    // remove global event listeners
-    document.removeEventListener('click', _.handlers.documentClick);
-    document.removeEventListener('keydown', _.handlers.keyDown);
-
-    // return focus to trigger only when closing an open panel
-    if (wasOpen && restoreFocus) {
-      _.#trigger?.focus();
-    }
-
-    // dispatch hide event
-    if (wasOpen) {
-      _.dispatchEvent(new CustomEvent('select-dropdown:hide', { bubbles: true }));
-    }
-  }
+	static #instanceCount = 0;
+
+	// private fields for elements
+	#instanceId;
+	#trigger;
+	#input;
+	#optionsContainer;
+	#label;
+	#currentFocusIndex = -1;
+	#typeaheadBuffer = '';
+	#typeaheadTimer = null;
+	#defaultValue = null;
+	#defaultValueCaptured = false;
+	#originalLabelText = '';
+
+	/**
+	 * Live getter for option elements — supports dynamically added/removed options
+	 * @returns {NodeList}
+	 * @private
+	 */
+	get #options() {
+		return this.querySelectorAll('select-option');
+	}
+
+	// Observed attributes
+	static get observedAttributes() {
+		return [];
+	}
+
+	constructor() {
+		super();
+		const _ = this;
+		_.#instanceId = ++SelectDropdown.#instanceCount;
+		_.handlers = {};
+	}
+
+	get value() {
+		const selectedOption = this.#getSelectedOption();
+		if (selectedOption) return this.#getOptionValue(selectedOption);
+		return this.#input?.value || '';
+	}
+
+	get selectedText() {
+		const selectedOption = this.#getSelectedOption();
+		if (selectedOption) return this.#getOptionText(selectedOption);
+		return '';
+	}
+
+	set value(nextValue) {
+		if (nextValue === null || nextValue === undefined) return;
+
+		const option = this.#findOptionByValue(String(nextValue));
+		if (!option) return;
+
+		this.#applySelection(option);
+	}
+
+	/**
+	 * when element is connected to the dom
+	 */
+	connectedCallback() {
+		const _ = this;
+
+		_.queryDOM();
+		_.setAttribute('tabindex', '-1');
+		_.setupAriaAttributes();
+		_.attachListeners();
+		_.initializeSelectedOption();
+		_.hide();
+	}
+
+	/**
+	 * Queries and caches all DOM elements needed for the component
+	 * @private
+	 */
+	queryDOM() {
+		const _ = this;
+
+		_.#trigger = _.querySelector('select-trigger');
+		_.#input = _.querySelector('input');
+		_.#optionsContainer = _.querySelector('select-panel');
+		_.#label = _.#trigger?.querySelector('.select-label-text');
+	}
+
+	/**
+	 * clean up event listeners when element is removed
+	 */
+	disconnectedCallback() {
+		this.detachListeners();
+	}
+
+	/**
+	 * Gets the value from an option element
+	 * @param {HTMLElement} option - The option element
+	 * @returns {string} The option value
+	 * @private
+	 */
+	#getOptionValue(option) {
+		if (option.hasAttribute('value')) return option.getAttribute('value');
+		return option.textContent.trim();
+	}
+
+	/**
+	 * Gets the label text from an option element
+	 * @param {HTMLElement} option - The option element
+	 * @returns {string} The option label
+	 * @private
+	 */
+	#getOptionText(option) {
+		return option.textContent.trim();
+	}
+
+	/**
+	 * Finds the currently selected option
+	 * @returns {HTMLElement | undefined}
+	 * @private
+	 */
+	#getSelectedOption() {
+		return Array.from(this.#options).find(
+			(option) => option.getAttribute('aria-selected') === 'true'
+		);
+	}
+
+	/**
+	 * Finds an option matching the provided value
+	 * @param {string} value - The option value to match
+	 * @returns {HTMLElement | undefined}
+	 * @private
+	 */
+	#findOptionByValue(value) {
+		return Array.from(this.#options).find((option) => this.#getOptionValue(option) === value);
+	}
+
+	/**
+	 * Applies selection state across the control
+	 * @param {HTMLElement | null} option - The option to select
+	 * @private
+	 */
+	#applySelection(option) {
+		this.#options.forEach((opt) => {
+			opt.removeAttribute('selected');
+			opt.setAttribute('aria-selected', 'false');
+		});
+
+		if (!option) {
+			if (this.#input) {
+				this.#input.value = '';
+			}
+
+			if (this.#label) {
+				this.#label.textContent = this.#originalLabelText;
+			}
+
+			this.#currentFocusIndex = -1;
+			return;
+		}
+
+		option.setAttribute('aria-selected', 'true');
+		option.setAttribute('selected', '');
+
+		if (this.#input) {
+			this.#input.value = this.#getOptionValue(option);
+		}
+
+		if (this.#label) {
+			this.#label.textContent = this.#getOptionText(option);
+		}
+
+		this.#currentFocusIndex = Array.from(this.#options).indexOf(option);
+	}
+
+	/**
+	 * Initializes any pre-selected options based on 'selected' attribute
+	 * @private
+	 */
+	initializeSelectedOption() {
+		const _ = this;
+
+		const selectedOption = Array.from(_.#options).find((opt) => opt.hasAttribute('selected'));
+
+		// Capture the default value and label on the first call
+		if (!_.#defaultValueCaptured) {
+			_.#defaultValue = selectedOption ? _.#getOptionValue(selectedOption) : null;
+			_.#originalLabelText = _.#label ? _.#label.textContent : '';
+			_.#defaultValueCaptured = true;
+		}
+
+		_.#applySelection(selectedOption || null);
+	}
+
+	/**
+	 * Resets the component to its original default selection
+	 * @private
+	 */
+	#resetToDefault() {
+		const _ = this;
+		const defaultOption =
+			_.#defaultValue === null ? null : _.#findOptionByValue(_.#defaultValue) || null;
+
+		_.#applySelection(defaultOption);
+	}
+
+	/**
+	 * sets up aria attributes for accessibility
+	 */
+	setupAriaAttributes() {
+		const _ = this;
+		const listbox = _.#optionsContainer;
+		const trigger = _.#trigger;
+
+		if (!trigger || !listbox) return;
+
+		// setup trigger button
+		trigger.setAttribute('aria-haspopup', 'listbox');
+		trigger.setAttribute('aria-expanded', 'false');
+		trigger.setAttribute('role', 'button');
+
+		if (!trigger.id) {
+			trigger.id = `select-trigger-${_.#instanceId}`;
+		}
+
+		// assign an ID to the listbox panel and link via aria-controls
+		if (!listbox.id) {
+			listbox.id = `select-panel-${_.#instanceId}`;
+		}
+		trigger.setAttribute('aria-controls', listbox.id);
+
+		// setup listbox
+		listbox.setAttribute('role', 'listbox');
+		listbox.setAttribute('aria-labelledby', trigger.id);
+
+		// setup options
+		_.#options.forEach((option, index) => {
+			option.setAttribute('role', 'option');
+			option.setAttribute('aria-selected', 'false');
+			option.setAttribute('tabindex', '-1');
+			option.id = `${trigger.id}-option-${index}`;
+		});
+	}
+
+	/**
+	 * Attaches event listeners to the component
+	 */
+	attachListeners() {
+		const _ = this;
+
+		// bind event handlers
+		_.handlers.documentClick = _.handleOutsideClick.bind(_);
+		_.handlers.keyDown = _.handleKeyboardNavigation.bind(_);
+
+		// listen for form reset to restore the original default selection
+		const form = _.closest('form');
+		if (form) {
+			_.handlers.formReset = () => {
+				requestAnimationFrame(() => {
+					_.#resetToDefault();
+				});
+			};
+			form.addEventListener('reset', _.handlers.formReset);
+		}
+	}
+
+	/**
+	 * Detaches event listeners from the component
+	 */
+	detachListeners() {
+		document.removeEventListener('click', this.handlers.documentClick);
+		document.removeEventListener('keydown', this.handlers.keyDown);
+
+		// remove form reset listener
+		if (this.handlers.formReset) {
+			const form = this.closest('form');
+			form?.removeEventListener('reset', this.handlers.formReset);
+		}
+	}
+
+	/**
+	 * handles click events outside of the dropdown to hide it
+	 * @param {Event} e - the click event
+	 */
+	handleOutsideClick(e) {
+		// if click is outside of the dropdown, hide it
+		if (!this.contains(e.target)) {
+			this.hide({ restoreFocus: false });
+		}
+	}
+
+	/**
+	 * handles keyboard navigation in the dropdown
+	 * @param {KeyboardEvent} e - the keyboard event
+	 */
+	handleKeyboardNavigation(e) {
+		const _ = this;
+		const options = Array.from(_.#options);
+
+		switch (e.key) {
+			case 'Escape':
+				e.preventDefault();
+				_.hide();
+				break;
+
+			case 'ArrowDown':
+				e.preventDefault();
+
+				// if focus is on trigger, start from selected option
+				if (document.activeElement === _.#trigger) {
+					const selectedIndex = options.findIndex(
+						(opt) => opt.getAttribute('aria-selected') === 'true'
+					);
+					_.#currentFocusIndex = selectedIndex >= 0 ? selectedIndex : -1;
+				}
+
+				// move to next option
+				if (_.#currentFocusIndex < options.length - 1) {
+					_.focusOption(_.#currentFocusIndex + 1);
+				}
+				break;
+
+			case 'ArrowUp':
+				e.preventDefault();
+
+				// if focus is on trigger, start from selected option
+				if (document.activeElement === _.#trigger) {
+					const selectedIndex = options.findIndex(
+						(opt) => opt.getAttribute('aria-selected') === 'true'
+					);
+					if (selectedIndex >= 0) {
+						_.focusOption(selectedIndex);
+						break;
+					}
+				}
+
+				// move to previous option
+				if (_.#currentFocusIndex > 0) {
+					_.focusOption(_.#currentFocusIndex - 1);
+				} else if (_.#currentFocusIndex === 0) {
+					// if on first option, move focus back to trigger
+					_.#trigger.focus();
+					_.#currentFocusIndex = -1;
+				}
+				break;
+
+			case 'Home':
+				e.preventDefault();
+				_.focusOption(0);
+				break;
+
+			case 'End':
+				e.preventDefault();
+				_.focusOption(options.length - 1);
+				break;
+
+			case 'Enter':
+			case ' ':
+				e.preventDefault();
+
+				// if dropdown is hidden and trigger is focused, show it
+				if (!_.hasAttribute('visible') && document.activeElement === _.#trigger) {
+					_.show();
+					return;
+				}
+
+				// if focus is on an option, select it
+				if (_.#currentFocusIndex >= 0) {
+					_.selectOption({ target: options[_.#currentFocusIndex] });
+				} else if (document.activeElement === _.#trigger) {
+					_.show();
+				}
+				break;
+
+			case 'Tab':
+				// Close without preventing default — let focus move naturally
+				_.hide({ restoreFocus: false });
+				break;
+
+			default:
+				// handle typeahead - accumulate keystrokes for multi-char matching
+				const key = e.key.toLowerCase();
+
+				if (key.length === 1) {
+					_.#typeaheadBuffer += key;
+					clearTimeout(_.#typeaheadTimer);
+					_.#typeaheadTimer = setTimeout(() => {
+						_.#typeaheadBuffer = '';
+					}, 500);
+
+					const allSameChar = _.#typeaheadBuffer.split('').every((c) => c === key);
+
+					if (allSameChar) {
+						// cycle through options starting with this letter
+						const startIndex = _.#currentFocusIndex + 1;
+						const len = options.length;
+						for (let i = 0; i < len; i++) {
+							const idx = (startIndex + i) % len;
+							if (options[idx].textContent.trim().toLowerCase().startsWith(key)) {
+								_.focusOption(idx);
+								break;
+							}
+						}
+					} else {
+						// multi-char prefix search from the beginning
+						const match = options.findIndex((opt) =>
+							opt.textContent.trim().toLowerCase().startsWith(_.#typeaheadBuffer)
+						);
+						if (match >= 0) {
+							_.focusOption(match);
+						}
+					}
+				}
+				break;
+		}
+	}
+
+	/**
+	 * focuses a specific option by index
+	 * @param {number} index - the index of the option to focus
+	 */
+	focusOption(index) {
+		const _ = this;
+		const options = Array.from(_.#options);
+
+		// reset tabindex on all options
+		options.forEach((opt) => {
+			opt.setAttribute('tabindex', '-1');
+		});
+
+		// set tabindex on target option and focus it
+		if (options[index]) {
+			options[index].setAttribute('tabindex', '0');
+			options[index].focus();
+			_.#currentFocusIndex = index;
+
+			// Ensure the option is visible in the dropdown
+			options[index].scrollIntoView({
+				block: 'nearest',
+				behavior: 'instant',
+			});
+		}
+	}
+
+	/**
+	 * selects an option from the dropdown
+	 * @param {Event} e - the click event
+	 */
+	selectOption(e) {
+		const _ = this;
+		const option = e.target.closest('select-option');
+		if (!option) return;
+
+		// skip if already selected (match native <select> behavior)
+		const isAlreadySelected = option.getAttribute('aria-selected') === 'true';
+
+		if (!isAlreadySelected) {
+			_.#applySelection(option);
+			_.dispatchEvent(new Event('change', { bubbles: true }));
+		}
+
+		// hide the dropdown
+		_.hide();
+	}
+
+	/**
+	 * Positions the panel so the target option overlays the trigger
+	 * @param {HTMLElement} targetOption - the option to align over the trigger
+	 * @private
+	 */
+	#positionPanel(targetOption) {
+		const _ = this;
+		const panel = _.#optionsContainer;
+		if (!panel) return;
+
+		const viewportMargin = 8;
+
+		// Clear previous positioning
+		panel.style.top = '';
+		panel.style.transformOrigin = '';
+		panel.style.maxHeight = '';
+		panel.scrollTop = 0;
+
+		// Measure geometry
+		const hostRect = _.getBoundingClientRect();
+		const triggerRect = _.#trigger.getBoundingClientRect();
+		const triggerOffset = triggerRect.top - hostRect.top;
+
+		let idealTop = triggerOffset;
+
+		if (targetOption) {
+			// Shift panel up so target option aligns over the trigger
+			idealTop = triggerOffset - targetOption.offsetTop;
+
+			// Set transform-origin at the target option
+			const originY = targetOption.offsetTop + targetOption.offsetHeight / 2;
+			panel.style.transformOrigin = `center ${originY}px`;
+		}
+
+		// Max-height: from panel's top edge down to viewport bottom
+		const panelScreenTop = hostRect.top + idealTop;
+		const availableHeight = window.innerHeight - panelScreenTop - viewportMargin;
+
+		// If panel would start above viewport, clamp top and scroll internally
+		if (panelScreenTop < viewportMargin) {
+			idealTop += viewportMargin - panelScreenTop;
+			panel.style.maxHeight = `${window.innerHeight - viewportMargin * 2}px`;
+
+			// Scroll so the target option aligns with the trigger's screen position
+			if (targetOption) {
+				const triggerScreenY = triggerRect.top - viewportMargin;
+				panel.scrollTop = Math.max(0, targetOption.offsetTop - triggerScreenY);
+			}
+		} else {
+			panel.style.maxHeight = `${Math.max(availableHeight, 120)}px`;
+		}
+
+		panel.style.top = `${idealTop}px`;
+	}
+
+	/**
+	 * shows the dropdown options
+	 */
+	show() {
+		const _ = this;
+
+		// bail if already shown
+		if (_.hasAttribute('visible')) return;
+
+		// set attributes for shown state
+		_.setAttribute('visible', '');
+		_.#optionsContainer.setAttribute('aria-hidden', 'false');
+		_.#trigger.setAttribute('aria-expanded', 'true');
+
+		// reset typeahead buffer
+		_.#typeaheadBuffer = '';
+
+		// find selected option or default to first
+		const options = Array.from(_.#options);
+		const selectedOption = options.find((opt) => opt.getAttribute('aria-selected') === 'true');
+		const targetOption = selectedOption || options[0];
+
+		// position the panel overlay
+		_.#positionPanel(targetOption);
+
+		// focus the target option (deferred to survive browser click focus)
+		if (targetOption) {
+			requestAnimationFrame(() => {
+				if (!_.hasAttribute('visible')) return;
+				_.focusOption(options.indexOf(targetOption));
+			});
+		}
+
+		// add global event listeners
+		document.addEventListener('click', _.handlers.documentClick);
+		document.addEventListener('keydown', _.handlers.keyDown);
+
+		// dispatch show event
+		_.dispatchEvent(new CustomEvent('select-dropdown:show', { bubbles: true }));
+	}
+
+	/**
+	 * hides the dropdown options
+	 * @param {Object} [options] - hide options
+	 * @param {boolean} [options.restoreFocus=true] - whether to return focus to the trigger
+	 */
+	hide({ restoreFocus = true } = {}) {
+		const _ = this;
+		const wasOpen = _.hasAttribute('visible');
+
+		// reset typeahead buffer
+		_.#typeaheadBuffer = '';
+		clearTimeout(_.#typeaheadTimer);
+
+		// set attributes for hidden state — inline positioning stays
+		// so the panel animates out in place (cleared on next show)
+		_.removeAttribute('visible');
+		_.#optionsContainer?.setAttribute('aria-hidden', 'true');
+		_.#trigger?.setAttribute('aria-expanded', 'false');
+
+		// reset the current focus index
+		_.#currentFocusIndex = -1;
+
+		// remove global event listeners
+		document.removeEventListener('click', _.handlers.documentClick);
+		document.removeEventListener('keydown', _.handlers.keyDown);
+
+		// return focus to trigger only when closing an open panel
+		if (wasOpen && restoreFocus) {
+			_.#trigger?.focus();
+		}
+
+		// dispatch hide event
+		if (wasOpen) {
+			_.dispatchEvent(new CustomEvent('select-dropdown:hide', { bubbles: true }));
+		}
+	}
 }
 
 /**
@@ -636,91 +637,97 @@ class SelectDropdown extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectTrigger extends HTMLElement {
-  constructor() {
-    super();
-    // Make the trigger focusable
-    this.setAttribute('tabindex', '0');
-    this.handlers = {};
-    this.handlers.keyDown = this.#onKeyDown.bind(this);
-    this.handlers.click = this.#onClick.bind(this);
-  }
+	constructor() {
+		super();
+		const _ = this;
 
-  connectedCallback() {
-    // Add icon if not present
-    if (!this.querySelector('.select-icon')) {
-      const caret = document.createElement('span');
-      caret.className = 'select-icon';
-      this.appendChild(caret);
-    }
+		// Make the trigger focusable
+		_.setAttribute('tabindex', '0');
+		_.handlers = {};
+		_.handlers.keyDown = _.#onKeyDown.bind(_);
+		_.handlers.click = _.#onClick.bind(_);
+	}
 
-    this.attachListeners();
-  }
+	connectedCallback() {
+		const _ = this;
 
-  disconnectedCallback() {
-    this.detachListeners();
-  }
+		// Add icon if not present
+		if (!_.querySelector('.select-icon')) {
+			const caret = document.createElement('span');
+			caret.className = 'select-icon';
+			_.appendChild(caret);
+		}
 
-  /**
-   * Attaches event listeners to the trigger
-   */
-  attachListeners() {
-    this.addEventListener('keydown', this.handlers.keyDown);
-    this.addEventListener('click', this.handlers.click);
-  }
+		_.attachListeners();
+	}
 
-  /**
-   * Detaches event listeners from the trigger
-   */
-  detachListeners() {
-    this.removeEventListener('keydown', this.handlers.keyDown);
-    this.removeEventListener('click', this.handlers.click);
-  }
+	disconnectedCallback() {
+		this.detachListeners();
+	}
 
-  /**
-   * Handle keydown events on the trigger
-   * @param {KeyboardEvent} e - The keyboard event
-   * @private
-   */
-  #onKeyDown(e) {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      e.stopPropagation();
-      this.#toggleDropdown();
-      return
-    }
+	/**
+	 * Attaches event listeners to the trigger
+	 */
+	attachListeners() {
+		const _ = this;
+		_.addEventListener('keydown', _.handlers.keyDown);
+		_.addEventListener('click', _.handlers.click);
+	}
 
-    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const dropdown = this.closest('select-dropdown');
-      if (dropdown && !dropdown.hasAttribute('visible')) {
-        e.stopPropagation();
-        this.#toggleDropdown();
-      }
-    }
-  }
+	/**
+	 * Detaches event listeners from the trigger
+	 */
+	detachListeners() {
+		const _ = this;
+		_.removeEventListener('keydown', _.handlers.keyDown);
+		_.removeEventListener('click', _.handlers.click);
+	}
 
-  /**
-   * Handle click events on the trigger
-   * @param {MouseEvent} e - The mouse event
-   * @private
-   */
-  #onClick(e) {
-    this.#toggleDropdown();
-  }
+	/**
+	 * Handle keydown events on the trigger
+	 * @param {KeyboardEvent} e - The keyboard event
+	 * @private
+	 */
+	#onKeyDown(e) {
+		if (e.key === 'Enter' || e.key === ' ') {
+			e.preventDefault();
+			e.stopPropagation();
+			this.#toggleDropdown();
+			return;
+		}
 
-  /**
-   * Toggle the parent dropdown
-   * @private
-   */
-  #toggleDropdown() {
-    const dropdown = this.closest('select-dropdown');
-    if (!dropdown) return
-    if (dropdown.hasAttribute('visible')) {
-      dropdown.hide();
-    } else {
-      dropdown.show();
-    }
-  }
+		if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+			e.preventDefault();
+			const dropdown = this.closest('select-dropdown');
+			if (dropdown && !dropdown.hasAttribute('visible')) {
+				e.stopPropagation();
+				this.#toggleDropdown();
+			}
+		}
+	}
+
+	/**
+	 * Handle click events on the trigger
+	 * @param {MouseEvent} e - The mouse event
+	 * @private
+	 */
+	#onClick(e) {
+		this.#toggleDropdown();
+	}
+
+	/**
+	 * Toggle the parent dropdown
+	 * @private
+	 */
+	#toggleDropdown() {
+		const dropdown = this.closest('select-dropdown');
+		if (!dropdown) return;
+		if (dropdown.hasAttribute('visible')) {
+			dropdown.hide();
+		} else {
+			dropdown.show();
+		}
+	}
 }
 
 /**
@@ -729,9 +736,9 @@ class SelectTrigger extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectPanel extends HTMLElement {
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 }
 
 /**
@@ -740,54 +747,55 @@ class SelectPanel extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectOption extends HTMLElement {
-  constructor() {
-    super();
-    this.handlers = {};
-    this.handlers.click = this.#onClick.bind(this);
-  }
+	constructor() {
+		super();
+		const _ = this;
+		_.handlers = {};
+		_.handlers.click = _.#onClick.bind(_);
+	}
 
-  connectedCallback() {
-    this.attachListeners();
-  }
+	connectedCallback() {
+		this.attachListeners();
+	}
 
-  disconnectedCallback() {
-    this.detachListeners();
-  }
+	disconnectedCallback() {
+		this.detachListeners();
+	}
 
-  /**
-   * Attaches event listeners to the option
-   */
-  attachListeners() {
-    this.addEventListener('click', this.handlers.click);
-  }
+	/**
+	 * Attaches event listeners to the option
+	 */
+	attachListeners() {
+		this.addEventListener('click', this.handlers.click);
+	}
 
-  /**
-   * Detaches event listeners from the option
-   */
-  detachListeners() {
-    this.removeEventListener('click', this.handlers.click);
-  }
+	/**
+	 * Detaches event listeners from the option
+	 */
+	detachListeners() {
+		this.removeEventListener('click', this.handlers.click);
+	}
 
-  /**
-   * Handle click events on the option
-   * @param {MouseEvent} e - The mouse event
-   * @private
-   */
-  #onClick(e) {
-    e.preventDefault();
-    this.#notifySelection();
-  }
+	/**
+	 * Handle click events on the option
+	 * @param {MouseEvent} e - The mouse event
+	 * @private
+	 */
+	#onClick(e) {
+		e.preventDefault();
+		this.#notifySelection();
+	}
 
-  /**
-   * Notify the parent dropdown that this option was selected
-   * @private
-   */
-  #notifySelection() {
-    const dropdown = this.closest('select-dropdown');
-    if (dropdown && typeof dropdown.selectOption === 'function') {
-      dropdown.selectOption({ target: this });
-    }
-  }
+	/**
+	 * Notify the parent dropdown that this option was selected
+	 * @private
+	 */
+	#notifySelection() {
+		const dropdown = this.closest('select-dropdown');
+		if (dropdown && typeof dropdown.selectOption === 'function') {
+			dropdown.selectOption({ target: this });
+		}
+	}
 }
 
 /**
@@ -796,10 +804,10 @@ class SelectOption extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectDivider extends HTMLElement {
-  constructor() {
-    super();
-    this.setAttribute('role', 'separator');
-  }
+	constructor() {
+		super();
+		this.setAttribute('role', 'separator');
+	}
 }
 
 /**
@@ -808,10 +816,10 @@ class SelectDivider extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectLabel extends HTMLElement {
-  constructor() {
-    super();
-    this.setAttribute('role', 'presentation');
-  }
+	constructor() {
+		super();
+		this.setAttribute('role', 'presentation');
+	}
 }
 
 /**
@@ -823,27 +831,27 @@ class SelectLabel extends HTMLElement {
 
 // define custom elements if not already defined
 if (!customElements.get('select-dropdown')) {
-  customElements.define('select-dropdown', SelectDropdown);
+	customElements.define('select-dropdown', SelectDropdown);
 }
 
 if (!customElements.get('select-trigger')) {
-  customElements.define('select-trigger', SelectTrigger);
+	customElements.define('select-trigger', SelectTrigger);
 }
 
 if (!customElements.get('select-panel')) {
-  customElements.define('select-panel', SelectPanel);
+	customElements.define('select-panel', SelectPanel);
 }
 
 if (!customElements.get('select-option')) {
-  customElements.define('select-option', SelectOption);
+	customElements.define('select-option', SelectOption);
 }
 
 if (!customElements.get('select-divider')) {
-  customElements.define('select-divider', SelectDivider);
+	customElements.define('select-divider', SelectDivider);
 }
 
 if (!customElements.get('select-label')) {
-  customElements.define('select-label', SelectLabel);
+	customElements.define('select-label', SelectLabel);
 }
 
 exports.SelectDivider = SelectDivider;
@@ -852,3 +860,4 @@ exports.SelectLabel = SelectLabel;
 exports.SelectOption = SelectOption;
 exports.SelectPanel = SelectPanel;
 exports.SelectTrigger = SelectTrigger;
+//# sourceMappingURL=select-dropdown.cjs.js.map

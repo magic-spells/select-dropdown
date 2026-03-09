@@ -35,7 +35,9 @@ export class SelectDropdown extends HTMLElement {
 
 	constructor() {
 		super();
-		this.#instanceId = ++SelectDropdown.#instanceCount;
+		const _ = this;
+		_.#instanceId = ++SelectDropdown.#instanceCount;
+		_.handlers = {};
 	}
 
 	get value() {
@@ -65,7 +67,6 @@ export class SelectDropdown extends HTMLElement {
 	connectedCallback() {
 		const _ = this;
 
-		_.handlers = {};
 		_.queryDOM();
 		_.setAttribute('tabindex', '-1');
 		_.setupAriaAttributes();

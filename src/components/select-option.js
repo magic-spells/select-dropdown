@@ -6,8 +6,9 @@
 export class SelectOption extends HTMLElement {
 	constructor() {
 		super();
-		this.handlers = {};
-		this.handlers.click = this.#onClick.bind(this);
+		const _ = this;
+		_.handlers = {};
+		_.handlers.click = _.#onClick.bind(_);
 	}
 
 	connectedCallback() {

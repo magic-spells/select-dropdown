@@ -6,22 +6,26 @@
 export class SelectTrigger extends HTMLElement {
 	constructor() {
 		super();
+		const _ = this;
+
 		// Make the trigger focusable
-		this.setAttribute('tabindex', '0');
-		this.handlers = {};
-		this.handlers.keyDown = this.#onKeyDown.bind(this);
-		this.handlers.click = this.#onClick.bind(this);
+		_.setAttribute('tabindex', '0');
+		_.handlers = {};
+		_.handlers.keyDown = _.#onKeyDown.bind(_);
+		_.handlers.click = _.#onClick.bind(_);
 	}
 
 	connectedCallback() {
+		const _ = this;
+
 		// Add icon if not present
-		if (!this.querySelector('.select-icon')) {
+		if (!_.querySelector('.select-icon')) {
 			const caret = document.createElement('span');
 			caret.className = 'select-icon';
-			this.appendChild(caret);
+			_.appendChild(caret);
 		}
 
-		this.attachListeners();
+		_.attachListeners();
 	}
 
 	disconnectedCallback() {
@@ -32,16 +36,18 @@ export class SelectTrigger extends HTMLElement {
 	 * Attaches event listeners to the trigger
 	 */
 	attachListeners() {
-		this.addEventListener('keydown', this.handlers.keyDown);
-		this.addEventListener('click', this.handlers.click);
+		const _ = this;
+		_.addEventListener('keydown', _.handlers.keyDown);
+		_.addEventListener('click', _.handlers.click);
 	}
 
 	/**
 	 * Detaches event listeners from the trigger
 	 */
 	detachListeners() {
-		this.removeEventListener('keydown', this.handlers.keyDown);
-		this.removeEventListener('click', this.handlers.click);
+		const _ = this;
+		_.removeEventListener('keydown', _.handlers.keyDown);
+		_.removeEventListener('click', _.handlers.click);
 	}
 
 	/**
