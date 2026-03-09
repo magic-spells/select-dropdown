@@ -6,18 +6,12 @@
 class SelectDropdown extends HTMLElement {
   static #instanceCount = 0;
 
-  // private fields for event handlers
-  #handleDocumentClick;
-  #handleKeyDown;
-  #handleFormReset;
-
   // private fields for elements
   #trigger;
   #input;
   #optionsContainer;
   #label;
   #currentFocusIndex = -1;
-  #isOpen = false;
   #typeaheadBuffer = '';
   #typeaheadTimer = null;
 
@@ -45,10 +39,11 @@ class SelectDropdown extends HTMLElement {
   connectedCallback() {
     const _ = this;
 
+    _.handlers = {};
     _.queryDOM();
     _.setAttribute('tabindex', '-1');
     _.setupAriaAttributes();
-    _.bindUI();
+    _.attachListeners();
     _.initializeSelectedOption();
     _.hide();
   }
@@ -70,7 +65,7 @@ class SelectDropdown extends HTMLElement {
    * clean up event listeners when element is removed
    */
   disconnectedCallback() {
-    this.unbindUI();
+    this.detachListeners();
   }
 
   /**
@@ -151,39 +146,39 @@ class SelectDropdown extends HTMLElement {
   }
 
   /**
-   * binds the necessary ui events to the component
+   * Attaches event listeners to the component
    */
-  bindUI() {
+  attachListeners() {
     const _ = this;
 
     // bind event handlers
-    _.#handleDocumentClick = _.handleOutsideClick.bind(_);
-    _.#handleKeyDown = _.handleKeyboardNavigation.bind(_);
+    _.handlers.documentClick = _.handleOutsideClick.bind(_);
+    _.handlers.keyDown = _.handleKeyboardNavigation.bind(_);
 
     // listen for form reset to re-sync UI with markup
     const form = _.closest('form');
     if (form) {
-      _.#handleFormReset = () => {
+      _.handlers.formReset = () => {
         // defer to let the browser reset the hidden input first
         requestAnimationFrame(() => {
           _.initializeSelectedOption();
         });
       };
-      form.addEventListener('reset', _.#handleFormReset);
+      form.addEventListener('reset', _.handlers.formReset);
     }
   }
 
   /**
-   * unbinds event listeners
+   * Detaches event listeners from the component
    */
-  unbindUI() {
-    document.removeEventListener('click', this.#handleDocumentClick);
-    document.removeEventListener('keydown', this.#handleKeyDown);
+  detachListeners() {
+    document.removeEventListener('click', this.handlers.documentClick);
+    document.removeEventListener('keydown', this.handlers.keyDown);
 
     // remove form reset listener
-    if (this.#handleFormReset) {
+    if (this.handlers.formReset) {
       const form = this.closest('form');
-      form?.removeEventListener('reset', this.#handleFormReset);
+      form?.removeEventListener('reset', this.handlers.formReset);
     }
   }
 
@@ -268,7 +263,7 @@ class SelectDropdown extends HTMLElement {
         e.preventDefault();
 
         // if dropdown is hidden and trigger is focused, show it
-        if (!_.hasAttribute('data-open') && document.activeElement === _.#trigger) {
+        if (!_.hasAttribute('visible') && document.activeElement === _.#trigger) {
           _.show();
           return;
         }
@@ -386,7 +381,7 @@ class SelectDropdown extends HTMLElement {
 
       // dispatch change event
       _.dispatchEvent(
-        new CustomEvent('change', {
+        new CustomEvent('select-dropdown:change', {
           detail: {
             value: _.#getOptionValue(option),
             text: option.textContent.trim(),
@@ -462,13 +457,12 @@ class SelectDropdown extends HTMLElement {
     const _ = this;
 
     // bail if already shown
-    if (_.hasAttribute('data-open')) return;
+    if (_.hasAttribute('visible')) return;
 
     // set attributes for shown state
-    _.setAttribute('data-open', '');
+    _.setAttribute('visible', '');
     _.#optionsContainer.setAttribute('aria-hidden', 'false');
     _.#trigger.setAttribute('aria-expanded', 'true');
-    _.#isOpen = true;
 
     // reset typeahead buffer
     _.#typeaheadBuffer = '';
@@ -484,14 +478,17 @@ class SelectDropdown extends HTMLElement {
     // focus the target option (deferred to survive browser click focus)
     if (targetOption) {
       requestAnimationFrame(() => {
-        if (!_.#isOpen) return;
+        if (!_.hasAttribute('visible')) return;
         _.focusOption(options.indexOf(targetOption));
       });
     }
 
     // add global event listeners
-    document.addEventListener('click', _.#handleDocumentClick);
-    document.addEventListener('keydown', _.#handleKeyDown);
+    document.addEventListener('click', _.handlers.documentClick);
+    document.addEventListener('keydown', _.handlers.keyDown);
+
+    // dispatch show event
+    _.dispatchEvent(new CustomEvent('select-dropdown:show', { bubbles: true }));
   }
 
   /**
@@ -501,7 +498,7 @@ class SelectDropdown extends HTMLElement {
    */
   hide({ restoreFocus = true } = {}) {
     const _ = this;
-    const wasOpen = _.#isOpen;
+    const wasOpen = _.hasAttribute('visible');
 
     // reset typeahead buffer
     _.#typeaheadBuffer = '';
@@ -509,21 +506,25 @@ class SelectDropdown extends HTMLElement {
 
     // set attributes for hidden state — inline positioning stays
     // so the panel animates out in place (cleared on next show)
-    _.removeAttribute('data-open');
+    _.removeAttribute('visible');
     _.#optionsContainer?.setAttribute('aria-hidden', 'true');
     _.#trigger?.setAttribute('aria-expanded', 'false');
-    _.#isOpen = false;
 
     // reset the current focus index
     _.#currentFocusIndex = -1;
 
     // remove global event listeners
-    document.removeEventListener('click', _.#handleDocumentClick);
-    document.removeEventListener('keydown', _.#handleKeyDown);
+    document.removeEventListener('click', _.handlers.documentClick);
+    document.removeEventListener('keydown', _.handlers.keyDown);
 
     // return focus to trigger only when closing an open panel
     if (wasOpen && restoreFocus) {
       _.#trigger?.focus();
+    }
+
+    // dispatch hide event
+    if (wasOpen) {
+      _.dispatchEvent(new CustomEvent('select-dropdown:hide', { bubbles: true }));
     }
   }
 }
@@ -534,15 +535,13 @@ class SelectDropdown extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectTrigger extends HTMLElement {
-  #handleKeyDown;
-  #handleClick;
-
   constructor() {
     super();
     // Make the trigger focusable
     this.setAttribute('tabindex', '0');
-    this.#handleKeyDown = this.#onKeyDown.bind(this);
-    this.#handleClick = this.#onClick.bind(this);
+    this.handlers = {};
+    this.handlers.keyDown = this.#onKeyDown.bind(this);
+    this.handlers.click = this.#onClick.bind(this);
   }
 
   connectedCallback() {
@@ -553,14 +552,27 @@ class SelectTrigger extends HTMLElement {
       this.appendChild(caret);
     }
 
-    // Add event listeners
-    this.addEventListener('keydown', this.#handleKeyDown);
-    this.addEventListener('click', this.#handleClick);
+    this.attachListeners();
   }
 
   disconnectedCallback() {
-    this.removeEventListener('keydown', this.#handleKeyDown);
-    this.removeEventListener('click', this.#handleClick);
+    this.detachListeners();
+  }
+
+  /**
+   * Attaches event listeners to the trigger
+   */
+  attachListeners() {
+    this.addEventListener('keydown', this.handlers.keyDown);
+    this.addEventListener('click', this.handlers.click);
+  }
+
+  /**
+   * Detaches event listeners from the trigger
+   */
+  detachListeners() {
+    this.removeEventListener('keydown', this.handlers.keyDown);
+    this.removeEventListener('click', this.handlers.click);
   }
 
   /**
@@ -579,7 +591,7 @@ class SelectTrigger extends HTMLElement {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       const dropdown = this.closest('select-dropdown');
-      if (dropdown && !dropdown.hasAttribute('data-open')) {
+      if (dropdown && !dropdown.hasAttribute('visible')) {
         e.stopPropagation();
         this.#toggleDropdown();
       }
@@ -602,7 +614,7 @@ class SelectTrigger extends HTMLElement {
   #toggleDropdown() {
     const dropdown = this.closest('select-dropdown');
     if (!dropdown) return
-    if (dropdown.hasAttribute('data-open')) {
+    if (dropdown.hasAttribute('visible')) {
       dropdown.hide();
     } else {
       dropdown.show();
@@ -627,21 +639,32 @@ class SelectPanel extends HTMLElement {
  * @extends HTMLElement
  */
 class SelectOption extends HTMLElement {
-  #handleClick;
-
   constructor() {
     super();
-    this.#handleClick = this.#onClick.bind(this);
+    this.handlers = {};
+    this.handlers.click = this.#onClick.bind(this);
   }
 
   connectedCallback() {
-    // Add click event listener
-    this.addEventListener('click', this.#handleClick);
+    this.attachListeners();
   }
 
   disconnectedCallback() {
-    // Clean up event listener
-    this.removeEventListener('click', this.#handleClick);
+    this.detachListeners();
+  }
+
+  /**
+   * Attaches event listeners to the option
+   */
+  attachListeners() {
+    this.addEventListener('click', this.handlers.click);
+  }
+
+  /**
+   * Detaches event listeners from the option
+   */
+  detachListeners() {
+    this.removeEventListener('click', this.handlers.click);
   }
 
   /**
@@ -723,3 +746,4 @@ if (!customElements.get('select-label')) {
 }
 
 export { SelectDivider, SelectDropdown, SelectLabel, SelectOption, SelectPanel, SelectTrigger };
+//# sourceMappingURL=select-dropdown.esm.js.map

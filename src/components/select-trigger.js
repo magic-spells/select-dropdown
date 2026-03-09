@@ -4,15 +4,13 @@
  * @extends HTMLElement
  */
 export class SelectTrigger extends HTMLElement {
-  #handleKeyDown;
-  #handleClick;
-
   constructor() {
     super();
     // Make the trigger focusable
     this.setAttribute('tabindex', '0');
-    this.#handleKeyDown = this.#onKeyDown.bind(this);
-    this.#handleClick = this.#onClick.bind(this);
+    this.handlers = {};
+    this.handlers.keyDown = this.#onKeyDown.bind(this);
+    this.handlers.click = this.#onClick.bind(this);
   }
 
   connectedCallback() {
@@ -23,14 +21,27 @@ export class SelectTrigger extends HTMLElement {
       this.appendChild(caret);
     }
 
-    // Add event listeners
-    this.addEventListener('keydown', this.#handleKeyDown);
-    this.addEventListener('click', this.#handleClick);
+    this.attachListeners();
   }
 
   disconnectedCallback() {
-    this.removeEventListener('keydown', this.#handleKeyDown);
-    this.removeEventListener('click', this.#handleClick);
+    this.detachListeners();
+  }
+
+  /**
+   * Attaches event listeners to the trigger
+   */
+  attachListeners() {
+    this.addEventListener('keydown', this.handlers.keyDown);
+    this.addEventListener('click', this.handlers.click);
+  }
+
+  /**
+   * Detaches event listeners from the trigger
+   */
+  detachListeners() {
+    this.removeEventListener('keydown', this.handlers.keyDown);
+    this.removeEventListener('click', this.handlers.click);
   }
 
   /**
@@ -49,7 +60,7 @@ export class SelectTrigger extends HTMLElement {
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault()
       const dropdown = this.closest('select-dropdown')
-      if (dropdown && !dropdown.hasAttribute('data-open')) {
+      if (dropdown && !dropdown.hasAttribute('visible')) {
         e.stopPropagation()
         this.#toggleDropdown()
       }
@@ -72,7 +83,7 @@ export class SelectTrigger extends HTMLElement {
   #toggleDropdown() {
     const dropdown = this.closest('select-dropdown')
     if (!dropdown) return
-    if (dropdown.hasAttribute('data-open')) {
+    if (dropdown.hasAttribute('visible')) {
       dropdown.hide()
     } else {
       dropdown.show()

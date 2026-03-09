@@ -39,9 +39,10 @@
     "custom-elements",
     "form-elements"
   ],
+  "types": "./types.d.ts",
   "files": [
     "dist/",
-    "src/"
+    "types.d.ts"
   ],
   "scripts": {
     "build": "rollup -c",

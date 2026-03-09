@@ -4,21 +4,32 @@
  * @extends HTMLElement
  */
 export class SelectOption extends HTMLElement {
-  #handleClick;
-
   constructor() {
     super();
-    this.#handleClick = this.#onClick.bind(this);
+    this.handlers = {};
+    this.handlers.click = this.#onClick.bind(this);
   }
 
   connectedCallback() {
-    // Add click event listener
-    this.addEventListener('click', this.#handleClick);
+    this.attachListeners();
   }
 
   disconnectedCallback() {
-    // Clean up event listener
-    this.removeEventListener('click', this.#handleClick);
+    this.detachListeners();
+  }
+
+  /**
+   * Attaches event listeners to the option
+   */
+  attachListeners() {
+    this.addEventListener('click', this.handlers.click);
+  }
+
+  /**
+   * Detaches event listeners from the option
+   */
+  detachListeners() {
+    this.removeEventListener('click', this.handlers.click);
   }
 
   /**

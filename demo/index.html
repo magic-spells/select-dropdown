@@ -1149,7 +1149,7 @@
         function wireOutput(dropdownId, outputId) {
           const dropdown = document.getElementById(dropdownId)
           if (!dropdown) return
-          dropdown.addEventListener('change', function (e) {
+          dropdown.addEventListener('select-dropdown:change', function (e) {
             const output = document.getElementById(outputId)
             if (output) {
               output.textContent = e.detail.text + ' (' + e.detail.value + ')'

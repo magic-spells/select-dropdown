@@ -9,9 +9,10 @@
   --select-color-hover: #f0f0f0;
   --select-color-focus: #e6f7ff;
   --select-color-selected: #e6f7ff;
+  --select-color-label: #999;
 }
 
-body:has(select-dropdown[data-open]) {
+body:has(select-dropdown[visible]) {
   overflow: hidden;
 }
 
@@ -34,7 +35,7 @@ select-dropdown * {
 }
 
 /* panel shown state */
-select-dropdown[data-open] select-panel {
+select-dropdown[visible] select-panel {
   opacity: 1;
   filter: none;
   pointer-events: auto;
@@ -139,7 +140,9 @@ select-label {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: #999;
+  color: var(--select-color-label);
   cursor: default;
   user-select: none;
 }
+
+/*# sourceMappingURL=select-dropdown.css.map */
