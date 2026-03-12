@@ -2,7 +2,7 @@
 
 **~3.5 KB** gzipped (JS + CSS) · Zero dependencies
 
-A fully accessible custom select dropdown web component with keyboard navigation, theming via CSS custom properties, and zero dependencies.
+A fully accessible custom select dropdown web component with keyboard navigation, theming via CSS custom properties.
 
 🔍 **[Live Demo](https://magic-spells.github.io/select-dropdown/demo/)** - See it in action!
 

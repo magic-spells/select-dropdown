@@ -1,6 +1,6 @@
 {
 	"name": "@magic-spells/select-dropdown",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Accessible custom select dropdown web component.",
 	"author": "Cory Schulz",
 	"license": "MIT",
