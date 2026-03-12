@@ -1236,6 +1236,20 @@
         wireOutput('country-dropdown', 'country-output')
         wireOutput('keyboard-dropdown', 'keyboard-output')
 
+        // Copy install command to clipboard
+        var installValue = document.querySelector('.install-value')
+        if (installValue) {
+          installValue.addEventListener('click', function () {
+            navigator.clipboard.writeText(this.textContent.trim()).then(function () {
+              var original = installValue.textContent
+              installValue.textContent = 'Copied!'
+              setTimeout(function () {
+                installValue.textContent = original
+              }, 1500)
+            })
+          })
+        }
+
         // Theme switcher
         const themeButtons = document.querySelectorAll('.theme-button')
         const themeDemo = document.getElementById('theme-demo')
