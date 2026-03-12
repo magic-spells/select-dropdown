@@ -133,6 +133,13 @@
         padding: 0.3rem 1rem;
         margin-bottom: 1.5rem;
         background: var(--accent-glow);
+        text-decoration: none;
+        transition: border-color 0.3s ease, color 0.3s ease;
+      }
+
+      .hero-badge:hover {
+        border-color: var(--accent);
+        color: var(--text);
       }
 
       .hero h1 {
@@ -620,7 +627,7 @@
     <div class="page">
       <!-- Hero -->
       <header class="hero">
-        <div class="hero-badge">@magic-spells/select-dropdown</div>
+        <a class="hero-badge" href="https://github.com/magic-spells/select-dropdown" target="_blank" rel="noopener">@magic-spells/select-dropdown</a>
         <h1>Dropdowns done<br /><em>right</em></h1>
         <p>
           A fully accessible custom select component with keyboard
