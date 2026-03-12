@@ -45,22 +45,6 @@ export default [
 				}),
 		],
 	},
-	// cjs version
-	{
-		input: 'src/index.js',
-		output: {
-			file: `dist/${name}.cjs.js`,
-			format: 'cjs',
-			sourcemap: !production,
-		},
-		plugins: [
-			resolve(),
-			postcss({
-				...cssConfig,
-				extract: false,
-			}),
-		],
-	},
 	// umd version (for direct browser usage and more compatibility)
 	{
 		input: 'src/index.js',

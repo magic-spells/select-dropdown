@@ -5,14 +5,13 @@
 	"author": "Cory Schulz",
 	"license": "MIT",
 	"type": "module",
-	"main": "dist/select-dropdown.cjs.js",
+	"main": "dist/select-dropdown.esm.js",
 	"module": "dist/select-dropdown.esm.js",
 	"unpkg": "dist/select-dropdown.min.js",
 	"style": "dist/select-dropdown.min.css",
 	"exports": {
 		".": {
 			"import": "./dist/select-dropdown.esm.js",
-			"require": "./dist/select-dropdown.cjs.js",
 			"default": "./dist/select-dropdown.esm.js"
 		},
 		"./css": "./dist/select-dropdown.css",

@@ -97,10 +97,28 @@
          Hero
       ------------------------------------------------ */
       .hero {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
         padding-bottom: 4rem;
-        border-bottom: 1px solid var(--border);
-        margin-bottom: 4rem;
+        margin-bottom: 0;
         animation: fadeUp 0.8s var(--ease-out) backwards;
+        position: relative;
+      }
+
+      .hero::before {
+        content: '';
+        position: absolute;
+        top: -120px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+        pointer-events: none;
+        z-index: -1;
       }
 
       .hero-badge {
@@ -138,30 +156,73 @@
         line-height: 1.7;
       }
 
+      .hero-line {
+        width: 1px;
+        height: 64px;
+        margin-top: 2.5rem;
+        background: linear-gradient(to bottom, var(--accent), transparent);
+      }
+
+      /* ------------------------------------------------
+         Install banner
+      ------------------------------------------------ */
+      .install-banner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2.5rem;
+        padding: 1.25rem 2rem;
+        margin-bottom: 4rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        animation: fadeUp 0.8s var(--ease-out) 0.2s backwards;
+      }
+
+      .install-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .install-label {
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        font-weight: 400;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+      }
+
+      .install-value {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text);
+        cursor: copy;
+        padding: 0.3rem 0.75rem;
+        background: var(--surface-raised);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        transition: border-color 0.2s;
+      }
+
+      .install-value:hover {
+        border-color: var(--accent);
+      }
+
+      .install-size {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: var(--accent);
+      }
+
       /* ------------------------------------------------
          Sections
       ------------------------------------------------ */
       .example {
         margin-bottom: 5rem;
         animation: fadeUp 0.8s var(--ease-out) backwards;
-      }
-
-      .example:nth-child(2) { animation-delay: 0.1s; }
-      .example:nth-child(3) { animation-delay: 0.2s; }
-      .example:nth-child(4) { animation-delay: 0.3s; }
-      .example:nth-child(5) { animation-delay: 0.4s; }
-      .example:nth-child(6) { animation-delay: 0.5s; }
-      .example:nth-child(7) { animation-delay: 0.6s; }
-      .example:nth-child(8) { animation-delay: 0.7s; }
-
-      .example-label {
-        font-family: var(--font-mono);
-        font-size: 0.7rem;
-        font-weight: 400;
-        letter-spacing: 0.12em;
-        text-transform: uppercase;
-        color: var(--text-dim);
-        margin-bottom: 0.75rem;
       }
 
       .example h2 {
@@ -546,6 +607,12 @@
         .keyboard-grid {
           grid-template-columns: 1fr;
         }
+
+        .install-banner {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
       }
     </style>
   </head>
@@ -560,12 +627,46 @@
           navigation, ARIA support, and CSS-variable theming. No Shadow
           DOM &mdash; style it directly.
         </p>
+        <div class="hero-line"></div>
       </header>
 
+      <div class="install-banner">
+        <div class="install-item">
+          <span class="install-label">Install</span>
+          <code class="install-value">npm i @magic-spells/select-dropdown</code>
+        </div>
+        <div class="install-item">
+          <span class="install-label">Size (gzip)</span>
+          <span class="install-size">~3.5 KB</span>
+        </div>
+      </div>
+
       <main>
+        <!-- Markup -->
+        <section class="example">
+          <h2>Markup</h2>
+          <p>Drop-in HTML structure with zero configuration.</p>
+
+          <div class="code-block"><code
+><span class="hl-tag">&lt;select-dropdown&gt;</span>
+  <span class="hl-tag">&lt;select-trigger&gt;</span>
+    <span class="hl-tag">&lt;span</span> <span class="hl-attr">class</span>=<span class="hl-value">"select-label-text"</span><span class="hl-tag">&gt;</span>Pick one<span class="hl-tag">&lt;/span&gt;</span>
+  <span class="hl-tag">&lt;/select-trigger&gt;</span>
+
+  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-value">"hidden"</span> <span class="hl-attr">name</span>=<span class="hl-value">"field"</span> <span class="hl-tag">/&gt;</span>
+
+  <span class="hl-tag">&lt;select-panel&gt;</span>
+    <span class="hl-tag">&lt;select-label&gt;</span>Group<span class="hl-tag">&lt;/select-label&gt;</span>
+    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"a"</span><span class="hl-tag">&gt;</span>Option A<span class="hl-tag">&lt;/select-option&gt;</span>
+    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"b"</span> <span class="hl-attr">selected</span><span class="hl-tag">&gt;</span>Option B<span class="hl-tag">&lt;/select-option&gt;</span>
+    <span class="hl-tag">&lt;select-divider&gt;&lt;/select-divider&gt;</span>
+    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"c"</span><span class="hl-tag">&gt;</span>Option C<span class="hl-tag">&lt;/select-option&gt;</span>
+  <span class="hl-tag">&lt;/select-panel&gt;</span>
+<span class="hl-tag">&lt;/select-dropdown&gt;</span></code></div>
+        </section>
+
         <!-- Basic -->
         <section class="example">
-          <div class="example-label">Example 01</div>
           <h2>Simple Select</h2>
           <p>
             A straightforward dropdown with a preselected value.
@@ -601,7 +702,6 @@
 
         <!-- Grouped -->
         <section class="example">
-          <div class="example-label">Example 02</div>
           <h2>Grouped Options</h2>
           <p>
             Organize options with
@@ -646,7 +746,6 @@
 
         <!-- Themed -->
         <section class="example">
-          <div class="example-label">Example 03</div>
           <h2>CSS Variable Theming</h2>
           <p>
             Every color is driven by custom properties. Override them
@@ -692,7 +791,6 @@
 
         <!-- Form -->
         <section class="example">
-          <div class="example-label">Example 04</div>
           <h2>Form Integration</h2>
           <p>
             A hidden <code>&lt;input&gt;</code> inside the component
@@ -735,7 +833,6 @@
 
         <!-- Large list -->
         <section class="example">
-          <div class="example-label">Example 05</div>
           <h2>Large Dataset</h2>
           <p>
             A long scrollable list with grouped regions.
@@ -799,7 +896,6 @@
 
         <!-- Countries -->
         <section class="example">
-          <div class="example-label">Example 06</div>
           <h2>Every Country</h2>
           <p>
             195 countries in alphabetical order. Try the multi-character
@@ -1029,7 +1125,6 @@
 
         <!-- Keyboard -->
         <section class="example">
-          <div class="example-label">Accessibility</div>
           <h2>Keyboard Navigation</h2>
           <p>
             Full WAI-ARIA compliant keyboard support. Every interaction
@@ -1114,29 +1209,6 @@
           </div>
         </section>
 
-        <!-- Markup -->
-        <section class="example">
-          <div class="example-label">Usage</div>
-          <h2>Markup</h2>
-          <p>Drop-in HTML structure with zero configuration.</p>
-
-          <div class="code-block"><code
-><span class="hl-tag">&lt;select-dropdown&gt;</span>
-  <span class="hl-tag">&lt;select-trigger&gt;</span>
-    <span class="hl-tag">&lt;span</span> <span class="hl-attr">class</span>=<span class="hl-value">"select-label-text"</span><span class="hl-tag">&gt;</span>Pick one<span class="hl-tag">&lt;/span&gt;</span>
-  <span class="hl-tag">&lt;/select-trigger&gt;</span>
-
-  <span class="hl-tag">&lt;input</span> <span class="hl-attr">type</span>=<span class="hl-value">"hidden"</span> <span class="hl-attr">name</span>=<span class="hl-value">"field"</span> <span class="hl-tag">/&gt;</span>
-
-  <span class="hl-tag">&lt;select-panel&gt;</span>
-    <span class="hl-tag">&lt;select-label&gt;</span>Group<span class="hl-tag">&lt;/select-label&gt;</span>
-    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"a"</span><span class="hl-tag">&gt;</span>Option A<span class="hl-tag">&lt;/select-option&gt;</span>
-    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"b"</span> <span class="hl-attr">selected</span><span class="hl-tag">&gt;</span>Option B<span class="hl-tag">&lt;/select-option&gt;</span>
-    <span class="hl-tag">&lt;select-divider&gt;&lt;/select-divider&gt;</span>
-    <span class="hl-tag">&lt;select-option</span> <span class="hl-attr">value</span>=<span class="hl-value">"c"</span><span class="hl-tag">&gt;</span>Option C<span class="hl-tag">&lt;/select-option&gt;</span>
-  <span class="hl-tag">&lt;/select-panel&gt;</span>
-<span class="hl-tag">&lt;/select-dropdown&gt;</span></code></div>
-        </section>
       </main>
 
       <footer>
