@@ -1292,6 +1292,38 @@
           </div>
         </section>
 
+        <!-- External open -->
+        <section class="example">
+          <h2>Opened From Outside</h2>
+          <p>
+            A button outside the component calling <code>el.show()</code> from its
+            own click handler leaves the panel open — the outside-click listener
+            waits for the opening event to finish before it attaches.
+          </p>
+
+          <div class="demo-surface">
+            <select-dropdown id="remote-dropdown" class="glass-panel">
+              <select-trigger id="remote-trigger">
+                <span class="select-label-text">Remote control</span>
+              </select-trigger>
+
+              <input type="hidden" name="remote" id="remote-input" />
+
+              <select-panel>
+                <select-option value="north">North</select-option>
+                <select-option value="south">South</select-option>
+                <select-option value="east">East</select-option>
+                <select-option value="west">West</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              <button type="button" class="theme-button" id="remote-open">Open from here</button>
+              <span id="remote-output">closed</span>
+            </div>
+          </div>
+        </section>
+
         <!-- Keyboard -->
         <section class="example">
           <h2>Keyboard Navigation</h2>
@@ -1406,6 +1438,21 @@
         wireOutput('keyboard-dropdown', 'keyboard-output')
         wireOutput('tier-dropdown', 'tier-output')
         wireOutput('caret-dropdown', 'caret-output')
+
+        // opening from a button OUTSIDE the component
+        const remoteDropdown = document.getElementById('remote-dropdown')
+        const remoteOpen = document.getElementById('remote-open')
+        if (remoteDropdown && remoteOpen) {
+          remoteOpen.addEventListener('click', function () {
+            remoteDropdown.show()
+          })
+          remoteDropdown.addEventListener('select-dropdown:show', function () {
+            document.getElementById('remote-output').textContent = 'open'
+          })
+          remoteDropdown.addEventListener('select-dropdown:hide', function () {
+            document.getElementById('remote-output').textContent = 'closed'
+          })
+        }
 
         // select-dropdown:change carries the value + label in detail
         document.addEventListener('select-dropdown:change', function (e) {

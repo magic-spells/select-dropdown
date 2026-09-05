@@ -61,6 +61,25 @@ and the stylesheet no longer reaches outside the component.
 - Expanded `types.d.ts`: `SelectDropdownChangeDetail`, `HTMLElementTagNameMap` and
   `HTMLElementEventMap` entries.
 
+### Fixed
+
+- **`document.createElement('select-label')` / `('select-divider')` no longer throws.**
+  Both set `role` in their constructor, which the custom-element spec forbids —
+  once the element was defined, creating one imperatively threw
+  `NotSupportedError: The result must not have attributes`. Every framework that
+  creates elements after the module loads hit it. The `role` is now applied in
+  `connectedCallback`, and only when the author has not set one.
+- **No more "Blocked aria-hidden on an element because its descendant retained
+  focus".** `hide()` restores focus to the trigger *before* marking the panel
+  `aria-hidden`, and when focus is still inside the panel (a `Tab` out, where
+  focus has not moved yet at keydown time) the attribute write waits one task
+  instead of blurring and breaking sequential navigation.
+- **`show()` called from a click handler outside the trigger no longer closes
+  immediately.** The outside-click `document` listener is attached after the
+  current event finishes, so the very click that opened the panel — a host
+  framework flipping its own `open` state from its own button — does not bubble
+  up and close it again. The trigger's own click path is unchanged.
+
 ### Changed
 
 - **The stock caret is now conditional.** `<select-trigger>` injects its

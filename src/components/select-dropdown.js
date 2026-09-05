@@ -20,6 +20,8 @@ export class SelectDropdown extends HTMLElement {
 	#pendingValue = null;
 	#observer = null;
 	#refreshScheduled = false;
+	#outsideClickTimer = null;
+	#ariaHiddenTimer = null;
 	#optionIdSeq = 0;
 
 	/**
@@ -291,6 +293,10 @@ export class SelectDropdown extends HTMLElement {
 		this.detachListeners();
 		this.#observer?.disconnect();
 		this.#observer = null;
+		clearTimeout(this.#outsideClickTimer);
+		this.#outsideClickTimer = null;
+		clearTimeout(this.#ariaHiddenTimer);
+		this.#ariaHiddenTimer = null;
 	}
 
 	/**
@@ -780,6 +786,8 @@ export class SelectDropdown extends HTMLElement {
 
 		// set attributes for shown state
 		_.setAttribute('visible', '');
+		clearTimeout(_.#ariaHiddenTimer);
+		_.#ariaHiddenTimer = null;
 		_.#optionsContainer.setAttribute('aria-hidden', 'false');
 		_.#trigger.setAttribute('aria-expanded', 'true');
 
@@ -805,8 +813,17 @@ export class SelectDropdown extends HTMLElement {
 			});
 		}
 
-		// add global event listeners
-		document.addEventListener('click', _.handlers.documentClick);
+		// add global event listeners. The outside-click listener waits for the
+		// current event to finish: show() is often called FROM a click handler on
+		// some element outside the trigger (a host framework flipping its own
+		// `open` state), and that same click would otherwise bubble to document
+		// and close the panel again.
+		clearTimeout(_.#outsideClickTimer);
+		_.#outsideClickTimer = setTimeout(() => {
+			_.#outsideClickTimer = null;
+			if (!_.hasAttribute('visible')) return;
+			document.addEventListener('click', _.handlers.documentClick);
+		}, 0);
 		document.addEventListener('keydown', _.handlers.keyDown);
 
 		// dispatch show event
@@ -829,13 +846,14 @@ export class SelectDropdown extends HTMLElement {
 		// set attributes for hidden state — inline positioning stays
 		// so the panel animates out in place (cleared on next show)
 		_.removeAttribute('visible');
-		_.#optionsContainer?.setAttribute('aria-hidden', 'true');
 		_.#trigger?.setAttribute('aria-expanded', 'false');
 
 		// reset the current focus index
 		_.#currentFocusIndex = -1;
 
 		// remove global event listeners
+		clearTimeout(_.#outsideClickTimer);
+		_.#outsideClickTimer = null;
 		document.removeEventListener('click', _.handlers.documentClick);
 		document.removeEventListener('keydown', _.handlers.keyDown);
 
@@ -844,9 +862,39 @@ export class SelectDropdown extends HTMLElement {
 			_.#trigger?.focus();
 		}
 
+		// hide the panel from assistive tech only once focus has actually left it
+		// — the browser blocks (and warns about) aria-hidden on an element whose
+		// descendant still holds focus. On Tab, focus has not moved yet at keydown
+		// time, so defer to the next task rather than blurring and breaking it.
+		_.#applyPanelAriaHidden();
+
 		// dispatch hide event
 		if (wasOpen) {
 			_.dispatchEvent(new CustomEvent('select-dropdown:hide', { bubbles: true }));
 		}
+	}
+
+	/**
+	 * Marks the panel aria-hidden, waiting a task when focus is still inside it
+	 * @private
+	 */
+	#applyPanelAriaHidden() {
+		const _ = this;
+		const panel = _.#optionsContainer;
+		if (!panel) return;
+
+		clearTimeout(_.#ariaHiddenTimer);
+		_.#ariaHiddenTimer = null;
+
+		if (!panel.contains(document.activeElement)) {
+			panel.setAttribute('aria-hidden', 'true');
+			return;
+		}
+
+		_.#ariaHiddenTimer = setTimeout(() => {
+			_.#ariaHiddenTimer = null;
+			if (_.hasAttribute('visible')) return;
+			panel.setAttribute('aria-hidden', 'true');
+		}, 0);
 	}
 }
