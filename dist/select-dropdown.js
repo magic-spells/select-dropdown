@@ -31,7 +31,7 @@
     }
   }
 
-  var css_248z = "/* select dropdown color variables */\n:root {\n\t--select-color-text: #333;\n\t--select-color-background: #fff;\n\t--select-color-border: #ddd;\n\t--select-color-border-hover: #aaa;\n\t--select-color-border-dark: #666;\n\t--select-color-primary: #4299e1;\n\t--select-color-hover: #f0f0f0;\n\t--select-color-focus: #e6f7ff;\n\t--select-color-selected: #e6f7ff;\n\t--select-color-label: #999;\n}\n\nbody:has(select-dropdown[visible]) {\n\toverflow: hidden;\n}\n\n/* dropdown component styles */\nselect-dropdown {\n\tposition: relative;\n\twidth: 300px;\n\tmargin-bottom: 1rem;\n\tdisplay: block;\n\tfont-family:\n\t\t-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',\n\t\t'Helvetica Neue', sans-serif;\n\tfont-size: 1rem;\n\tline-height: 1.5;\n\tcolor: var(--select-color-text);\n\tbox-sizing: border-box;\n}\n\nselect-dropdown * {\n\tbox-sizing: border-box;\n}\n\n/* panel shown state */\nselect-dropdown[visible] select-panel {\n\topacity: 1;\n\tfilter: none;\n\tpointer-events: auto;\n\tvisibility: visible;\n}\n\n/* trigger button styles */\nselect-trigger {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\twidth: 100%;\n\tpadding: 0.75rem 1rem;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tcursor: pointer;\n\ttransition:\n\t\tborder-color 0.2s,\n\t\tbox-shadow 0.2s;\n}\n\nselect-trigger:hover {\n\tborder-color: var(--select-color-border-hover);\n}\n\nselect-trigger:focus-visible {\n\toutline: 2px solid var(--select-color-primary);\n\toutline-offset: 2px;\n}\n\n/* caret icon */\n.select-icon {\n\tborder-style: solid;\n\tborder-width: 0.25rem 0.25rem 0;\n\tborder-color: var(--select-color-border-dark) transparent transparent;\n\tmargin-left: 0.75rem;\n\ttransition: transform 0.2s;\n}\n\n/* Flipped caret when expanded */\nselect-trigger[aria-expanded='true'] .select-icon {\n\ttransform: rotate(180deg);\n}\n\n/* options container */\nselect-panel {\n\tposition: absolute;\n\tleft: 0;\n\twidth: 100%;\n\toverflow-y: auto;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tbox-shadow:\n\t\t0 4px 12px rgba(0, 0, 0, 0.12),\n\t\t0 0 4px rgba(0, 0, 0, 0.08);\n\tz-index: 10;\n\topacity: 0;\n\tfilter: blur(3px);\n\tpointer-events: none;\n\tvisibility: hidden;\n\ttransition:\n\t\topacity 150ms ease-out,\n\t\tfilter 150ms ease-out,\n\t\tvisibility 150ms;\n}\n\n/* option items */\nselect-option {\n\tpadding: 0.75rem 1rem;\n\tcursor: pointer;\n\ttransition: background-color 0.2s;\n\tdisplay: block;\n}\n\nselect-option:hover {\n\tbackground-color: var(--select-color-hover);\n}\n\nselect-option:focus {\n\toutline: none;\n\tbackground-color: var(--select-color-focus);\n}\n\nselect-option[aria-selected='true'] {\n\tbackground-color: var(--select-color-selected);\n\tfont-weight: 500;\n}\n\n/* hidden input */\nselect-dropdown > input {\n\tdisplay: none;\n}\n\n/* divider between option groups */\nselect-divider {\n\tdisplay: block;\n\theight: 1px;\n\tmargin: 0.25rem 0;\n\tbackground-color: var(--select-color-border);\n}\n\n/* label for option groups */\nselect-label {\n\tdisplay: block;\n\tpadding: 0.25rem 1rem;\n\tfont-size: 0.75rem;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.05em;\n\tcolor: var(--select-color-label);\n\tcursor: default;\n\tuser-select: none;\n}\n";
+  var css_248z = "/* select dropdown color variables */\n:root {\n\t--select-color-text: #333;\n\t--select-color-background: #fff;\n\t--select-color-border: #ddd;\n\t--select-color-border-hover: #aaa;\n\t--select-color-border-dark: #666;\n\t--select-color-primary: #4299e1;\n\t--select-color-hover: #f0f0f0;\n\t--select-color-focus: #e6f7ff;\n\t--select-color-selected: #e6f7ff;\n\t--select-color-label: #999;\n}\n\n/* keep the un-upgraded option list out of the page */\nselect-dropdown:not(:defined) select-panel {\n\tdisplay: none;\n}\n\n/* dropdown component styles */\nselect-dropdown {\n\tposition: relative;\n\tdisplay: block;\n\tline-height: 1.5;\n\tcolor: var(--select-color-text);\n\tbox-sizing: border-box;\n}\n\nselect-dropdown * {\n\tbox-sizing: border-box;\n}\n\n/* panel shown state */\nselect-dropdown[visible] select-panel {\n\topacity: 1;\n\tfilter: none;\n\tpointer-events: auto;\n\tvisibility: visible;\n}\n\n/* trigger button styles */\nselect-trigger {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\twidth: 100%;\n\tpadding: 0.75rem 1rem;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tcursor: pointer;\n\ttransition:\n\t\tborder-color 0.2s,\n\t\tbox-shadow 0.2s;\n}\n\nselect-trigger:hover {\n\tborder-color: var(--select-color-border-hover);\n}\n\nselect-trigger:focus-visible {\n\toutline: 2px solid var(--select-color-primary);\n\toutline-offset: 2px;\n}\n\n/* caret icon */\n.select-icon {\n\tborder-style: solid;\n\tborder-width: 0.25rem 0.25rem 0;\n\tborder-color: var(--select-color-border-dark) transparent transparent;\n\tmargin-left: 0.75rem;\n\ttransition: transform 0.2s;\n}\n\n/* Flipped caret when expanded */\nselect-trigger[aria-expanded='true'] .select-icon {\n\ttransform: rotate(180deg);\n}\n\n/* options container */\nselect-panel {\n\tposition: absolute;\n\tleft: 0;\n\twidth: 100%;\n\toverflow-y: auto;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tbox-shadow:\n\t\tvar(--select-shadow, 0 4px 12px rgba(0, 0, 0, 0.12)),\n\t\tvar(--select-shadow-soft, 0 0 4px rgba(0, 0, 0, 0.08));\n\tz-index: 10;\n\topacity: 0;\n\tfilter: blur(3px);\n\tpointer-events: none;\n\tvisibility: hidden;\n\ttransition:\n\t\topacity 150ms ease-out,\n\t\tfilter 150ms ease-out,\n\t\tvisibility 150ms;\n}\n\n/* option items */\nselect-option {\n\tpadding: 0.75rem 1rem;\n\tcursor: pointer;\n\ttransition: background-color 0.2s;\n\tdisplay: block;\n}\n\nselect-option:hover {\n\tbackground-color: var(--select-color-hover);\n}\n\nselect-option:focus {\n\toutline: none;\n\tbackground-color: var(--select-color-focus);\n}\n\nselect-option[aria-selected='true'] {\n\tbackground-color: var(--select-color-selected);\n\tfont-weight: 500;\n}\n\n/* hidden input */\nselect-dropdown > input {\n\tdisplay: none;\n}\n\n/* divider between option groups */\nselect-divider {\n\tdisplay: block;\n\theight: 1px;\n\tmargin: 0.25rem 0;\n\tbackground-color: var(--select-color-border);\n}\n\n/* label for option groups */\nselect-label {\n\tdisplay: block;\n\tpadding: 0.25rem 1rem;\n\tfont-size: 0.75rem;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.05em;\n\tcolor: var(--select-color-label);\n\tcursor: default;\n\tuser-select: none;\n}\n";
   styleInject(css_248z);
 
   /**
@@ -47,13 +47,24 @@
   	#trigger;
   	#input;
   	#optionsContainer;
-  	#label;
   	#currentFocusIndex = -1;
   	#typeaheadBuffer = '';
   	#typeaheadTimer = null;
   	#defaultValue = null;
   	#defaultValueCaptured = false;
   	#originalLabelText = '';
+  	#pendingValue = null;
+  	#observer = null;
+  	#refreshScheduled = false;
+  	#optionIdSeq = 0;
+
+  	/**
+  	 * Attributes observed on the host element
+  	 * @returns {string[]}
+  	 */
+  	static get observedAttributes() {
+  		return ['value', 'disabled'];
+  	}
 
   	/**
   	 * Live getter for option elements — supports dynamically added/removed options
@@ -62,6 +73,41 @@
   	 */
   	get #options() {
   		return this.querySelectorAll('select-option');
+  	}
+
+  	/**
+  	 * Live getter for the trigger's label element — the trigger may be filled in
+  	 * after upgrade (framework wrappers), so never cache it
+  	 * @returns {HTMLElement | null}
+  	 * @private
+  	 */
+  	get #label() {
+  		return this.#trigger?.querySelector('.select-label-text') || null;
+  	}
+
+  	/**
+  	 * Whether an option is disabled
+  	 * @param {HTMLElement} option - the option element
+  	 * @returns {boolean}
+  	 * @private
+  	 */
+  	#isOptionDisabled(option) {
+  		return !!option && option.hasAttribute('disabled');
+  	}
+
+  	/**
+  	 * Finds the nearest enabled option index walking in one direction
+  	 * @param {HTMLElement[]} options - the full option list
+  	 * @param {number} from - index to start at (inclusive)
+  	 * @param {number} direction - 1 forward, -1 backward
+  	 * @returns {number} the index, or -1 when none is found
+  	 * @private
+  	 */
+  	#enabledIndex(options, from, direction) {
+  		for (let i = from; i >= 0 && i < options.length; i += direction) {
+  			if (!this.#isOptionDisabled(options[i])) return i;
+  		}
+  		return -1;
   	}
 
   	constructor() {
@@ -86,10 +132,28 @@
   	set value(nextValue) {
   		if (nextValue === null || nextValue === undefined) return;
 
-  		const option = this.#findOptionByValue(String(nextValue));
-  		if (!option) return;
+  		// remember the request even when the matching option does not exist yet —
+  		// it is re-applied as soon as options appear (see #refreshOptions)
+  		this.#pendingValue = String(nextValue);
+  		this.#resolvePendingValue();
+  	}
+
+  	/**
+  	 * Applies #pendingValue when its option exists. The request is kept so that
+  	 * late-arriving options — and a wholesale re-render of the option list —
+  	 * still resolve it. A user selection replaces it with the picked value, so
+  	 * a re-render can never revert a user's choice to an older request.
+  	 * @returns {boolean} true when the pending value was applied
+  	 * @private
+  	 */
+  	#resolvePendingValue() {
+  		if (this.#pendingValue === null) return false;
+
+  		const option = this.#findOptionByValue(this.#pendingValue);
+  		if (!option) return false;
 
   		this.#applySelection(option);
+  		return true;
   	}
 
   	/**
@@ -103,7 +167,145 @@
   		_.setupAriaAttributes();
   		_.attachListeners();
   		_.initializeSelectedOption();
+
+  		// an authored `value` attribute wins over the markup `selected` option
+  		if (_.hasAttribute('value')) _.value = _.getAttribute('value');
+  		else _.#resolvePendingValue();
+
+  		_.#applyDisabledState();
+  		_.#observeOptions();
   		_.hide();
+  	}
+
+  	/**
+  	 * Routes observed attribute changes
+  	 * @param {string} name - attribute name
+  	 * @param {string | null} oldValue - previous value
+  	 * @param {string | null} newValue - next value
+  	 */
+  	attributeChangedCallback(name, oldValue, newValue) {
+  		if (oldValue === newValue) return;
+
+  		if (name === 'value') {
+  			if (newValue === null) return;
+  			this.value = newValue;
+  			return;
+  		}
+
+  		if (name === 'disabled') {
+  			this.#applyDisabledState();
+  		}
+  	}
+
+  	/**
+  	 * Mirrors the host `disabled` attribute onto the trigger
+  	 * @private
+  	 */
+  	#applyDisabledState() {
+  		const _ = this;
+  		const trigger = _.#trigger;
+  		if (!trigger) return;
+
+  		if (_.hasAttribute('disabled')) {
+  			trigger.setAttribute('tabindex', '-1');
+  			trigger.setAttribute('aria-disabled', 'true');
+  			_.hide({ restoreFocus: false });
+  			return;
+  		}
+
+  		trigger.setAttribute('tabindex', '0');
+  		trigger.removeAttribute('aria-disabled');
+  	}
+
+  	/**
+  	 * Watches the panel subtree so options added after upgrade get their aria
+  	 * wiring and any pending value is applied.
+  	 *
+  	 * When the panel does not exist yet — the host can connect before its
+  	 * children are parsed (a classic script in `<head>`, streamed HTML) or
+  	 * before a framework renders them — the HOST is watched instead, until the
+  	 * panel shows up. Only then is the narrow panel observer attached: writing
+  	 * the trigger label is itself a childList mutation inside the host, so
+  	 * watching the host is never a steady state.
+  	 * @private
+  	 */
+  	#observeOptions() {
+  		const _ = this;
+  		if (typeof MutationObserver === 'undefined') return;
+
+  		const bootstrapping = !_.#optionsContainer;
+
+  		_.#observer = new MutationObserver(() => {
+  			// coalesce a burst of mutations into one microtask
+  			if (_.#refreshScheduled) return;
+  			_.#refreshScheduled = true;
+  			Promise.resolve().then(() => {
+  				_.#refreshScheduled = false;
+  				if (!_.isConnected) return;
+
+  				if (bootstrapping) {
+  					// re-find the trigger / hidden input / panel as they arrive
+  					_.queryDOM();
+
+  					// mirror `disabled` onto a trigger that has only just landed
+  					_.#applyDisabledState();
+
+  					// no panel yet — keep waiting, and touch nothing that would
+  					// mutate the host subtree and retrigger this observer
+  					if (!_.#optionsContainer) return;
+
+  					// panel is here: swap to the panel observer BEFORE any work
+  					_.#observer.disconnect();
+  					_.#observer = null;
+  					_.#observeOptions();
+
+  					// the first capture ran against an empty host, so the markup
+  					// default and the placeholder label were never seen — redo it
+  					_.#defaultValueCaptured = false;
+  					_.initializeSelectedOption();
+  				}
+
+  				_.#refreshOptions();
+  			});
+  		});
+
+  		_.#observer.observe(bootstrapping ? _ : _.#optionsContainer, {
+  			childList: true,
+  			subtree: true,
+  		});
+  	}
+
+  	/**
+  	 * Re-runs the (idempotent) aria wiring and re-applies the selection
+  	 * @private
+  	 */
+  	#refreshOptions() {
+  		const _ = this;
+  		_.setupAriaAttributes();
+
+  		if (_.#resolvePendingValue()) return;
+  		if (_.#getSelectedOption()) {
+  			_.#syncSelectionOutputs();
+  			return;
+  		}
+
+  		// the selected option is gone from the new set and nothing resolves —
+  		// fall back to the placeholder rather than leaving a stale label behind.
+  		// No event: this is not a user selection.
+  		_.#applySelection(null);
+  	}
+
+  	/**
+  	 * Re-writes the hidden input and trigger label from the current selection
+  	 * without touching focus state
+  	 * @private
+  	 */
+  	#syncSelectionOutputs() {
+  		const option = this.#getSelectedOption();
+  		if (!option) return;
+
+  		if (this.#input) this.#input.value = this.#getOptionValue(option);
+  		if (this.#label) this.#label.textContent = this.#getOptionText(option);
   	}
 
   	/**
@@ -116,7 +318,6 @@
   		_.#trigger = _.querySelector('select-trigger');
   		_.#input = _.querySelector('input');
   		_.#optionsContainer = _.querySelector('select-panel');
-  		_.#label = _.#trigger?.querySelector('.select-label-text');
   	}
 
   	/**
@@ -124,6 +325,8 @@
   	 */
   	disconnectedCallback() {
   		this.detachListeners();
+  		this.#observer?.disconnect();
+  		this.#observer = null;
   	}
 
   	/**
@@ -234,6 +437,7 @@
   		const defaultOption =
   			_.#defaultValue === null ? null : _.#findOptionByValue(_.#defaultValue) || null;
 
+  		_.#pendingValue = null;
   		_.#applySelection(defaultOption);
   	}
 
@@ -266,12 +470,25 @@
   		listbox.setAttribute('role', 'listbox');
   		listbox.setAttribute('aria-labelledby', trigger.id);
 
-  		// setup options
-  		_.#options.forEach((option, index) => {
+  		// setup options — idempotent so it can re-run when options change
+  		_.#options.forEach((option) => {
   			option.setAttribute('role', 'option');
-  			option.setAttribute('aria-selected', 'false');
-  			option.setAttribute('tabindex', '-1');
-  			option.id = `${trigger.id}-option-${index}`;
+
+  			if (option.getAttribute('aria-selected') !== 'true') {
+  				option.setAttribute('aria-selected', 'false');
+  			}
+
+  			if (!option.hasAttribute('tabindex')) {
+  				option.setAttribute('tabindex', '-1');
+  			}
+
+  			if (_.#isOptionDisabled(option)) option.setAttribute('aria-disabled', 'true');
+  			else option.removeAttribute('aria-disabled');
+
+  			// keep ids stable across re-runs so aria references never dangle
+  			if (!option.id) {
+  				option.id = `${trigger.id}-option-${_.#optionIdSeq++}`;
+  			}
   		});
   	}
 
@@ -336,7 +553,7 @@
   				_.hide();
   				break;
 
-  			case 'ArrowDown':
+  			case 'ArrowDown': {
   				e.preventDefault();
 
   				// if focus is on trigger, start from selected option
@@ -347,13 +564,13 @@
   					_.#currentFocusIndex = selectedIndex >= 0 ? selectedIndex : -1;
   				}
 
-  				// move to next option
-  				if (_.#currentFocusIndex < options.length - 1) {
-  					_.focusOption(_.#currentFocusIndex + 1);
-  				}
+  				// move to the next ENABLED option
+  				const next = _.#enabledIndex(options, _.#currentFocusIndex + 1, 1);
+  				if (next >= 0) _.focusOption(next);
   				break;
+  			}
 
-  			case 'ArrowUp':
+  			case 'ArrowUp': {
   				e.preventDefault();
 
   				// if focus is on trigger, start from selected option
@@ -361,31 +578,37 @@
   					const selectedIndex = options.findIndex(
   						(opt) => opt.getAttribute('aria-selected') === 'true'
   					);
-  					if (selectedIndex >= 0) {
+  					if (selectedIndex >= 0 && !_.#isOptionDisabled(options[selectedIndex])) {
   						_.focusOption(selectedIndex);
   						break;
   					}
   				}
 
-  				// move to previous option
-  				if (_.#currentFocusIndex > 0) {
-  					_.focusOption(_.#currentFocusIndex - 1);
-  				} else if (_.#currentFocusIndex === 0) {
-  					// if on first option, move focus back to trigger
-  					_.#trigger.focus();
+  				// move to the previous ENABLED option
+  				const prev = _.#enabledIndex(options, _.#currentFocusIndex - 1, -1);
+  				if (prev >= 0) {
+  					_.focusOption(prev);
+  				} else if (_.#currentFocusIndex >= 0) {
+  					// nothing enabled above — move focus back to the trigger
+  					_.#trigger?.focus();
   					_.#currentFocusIndex = -1;
   				}
   				break;
+  			}
 
-  			case 'Home':
+  			case 'Home': {
   				e.preventDefault();
-  				_.focusOption(0);
+  				const first = _.#enabledIndex(options, 0, 1);
+  				if (first >= 0) _.focusOption(first);
   				break;
+  			}
 
-  			case 'End':
+  			case 'End': {
   				e.preventDefault();
-  				_.focusOption(options.length - 1);
+  				const last = _.#enabledIndex(options, options.length - 1, -1);
+  				if (last >= 0) _.focusOption(last);
   				break;
+  			}
 
   			case 'Enter':
   			case ' ':
@@ -429,6 +652,7 @@
   						const len = options.length;
   						for (let i = 0; i < len; i++) {
   							const idx = (startIndex + i) % len;
+  							if (_.#isOptionDisabled(options[idx])) continue;
   							if (options[idx].textContent.trim().toLowerCase().startsWith(key)) {
   								_.focusOption(idx);
   								break;
@@ -436,8 +660,10 @@
   						}
   					} else {
   						// multi-char prefix search from the beginning
-  						const match = options.findIndex((opt) =>
-  							opt.textContent.trim().toLowerCase().startsWith(_.#typeaheadBuffer)
+  						const match = options.findIndex(
+  							(opt) =>
+  								!_.#isOptionDisabled(opt) &&
+  								opt.textContent.trim().toLowerCase().startsWith(_.#typeaheadBuffer)
   						);
   						if (match >= 0) {
   							_.focusOption(match);
@@ -461,8 +687,8 @@
   			opt.setAttribute('tabindex', '-1');
   		});
 
-  		// set tabindex on target option and focus it
-  		if (options[index]) {
+  		// set tabindex on target option and focus it — disabled options are skipped
+  		if (options[index] && !_.#isOptionDisabled(options[index])) {
   			options[index].setAttribute('tabindex', '0');
   			options[index].focus();
   			_.#currentFocusIndex = index;
@@ -481,15 +707,39 @@
   	 */
   	selectOption(e) {
   		const _ = this;
+
+  		// a disabled control selects nothing
+  		if (_.hasAttribute('disabled')) return;
+
   		const option = e.target.closest('select-option');
   		if (!option) return;
+
+  		// disabled options are not selectable and do not close the panel
+  		if (_.#isOptionDisabled(option)) return;
 
   		// skip if already selected (match native <select> behavior)
   		const isAlreadySelected = option.getAttribute('aria-selected') === 'true';
 
   		if (!isAlreadySelected) {
+  			// a user selection supersedes any programmatic request — and becomes
+  			// the standing one, so re-rendering the option list restores it
+  			// instead of dropping the selection or reverting to an older value
+  			_.#pendingValue = _.#getOptionValue(option);
   			_.#applySelection(option);
+
+  			// bare `change`, matching native form controls
   			_.dispatchEvent(new Event('change', { bubbles: true }));
+
+  			// value-carrying event — user selection only, never a programmatic set
+  			_.dispatchEvent(
+  				new CustomEvent('select-dropdown:change', {
+  					bubbles: true,
+  					detail: {
+  						value: _.#getOptionValue(option),
+  						label: _.#getOptionText(option),
+  					},
+  				})
+  			);
   		}
 
   		// hide the dropdown
@@ -557,8 +807,12 @@
   	show() {
   		const _ = this;
 
-  		// bail if already shown
-  		if (_.hasAttribute('visible')) return;
+  		// bail if already shown or disabled
+  		if (_.hasAttribute('visible') || _.hasAttribute('disabled')) return;
+
+  		// nothing to show yet — a host driven imperatively can be asked to open
+  		// before its trigger and panel exist
+  		if (!_.#optionsContainer || !_.#trigger) return;
 
   		// set attributes for shown state
   		_.setAttribute('visible', '');
@@ -570,8 +824,11 @@
 
   		// find selected option or default to first
   		const options = Array.from(_.#options);
-  		const selectedOption = options.find((opt) => opt.getAttribute('aria-selected') === 'true');
-  		const targetOption = selectedOption || options[0];
+  		const selectedOption = options.find(
+  			(opt) => opt.getAttribute('aria-selected') === 'true' && !_.#isOptionDisabled(opt)
+  		);
+  		const firstEnabledIndex = _.#enabledIndex(options, 0, 1);
+  		const targetOption = selectedOption || options[firstEnabledIndex] || null;
 
   		// position the panel overlay
   		_.#positionPanel(targetOption);
@@ -639,9 +896,6 @@
   	constructor() {
   		super();
   		const _ = this;
-
-  		// Make the trigger focusable
-  		_.setAttribute('tabindex', '0');
   		_.handlers = {};
   		_.handlers.keyDown = _.#onKeyDown.bind(_);
   		_.handlers.click = _.#onClick.bind(_);
@@ -650,14 +904,35 @@
   	connectedCallback() {
   		const _ = this;
 
-  		// Add icon if not present
-  		if (!_.querySelector('.select-icon')) {
+  		// Make the trigger focusable. Set here, not in the constructor: the host
+  		// upgrades first and may already have stamped tabindex="-1" for a
+  		// disabled control — a constructor write would clobber it.
+  		if (!_.hasAttribute('tabindex')) {
+  			const host = _.closest('select-dropdown');
+  			_.setAttribute('tabindex', host?.hasAttribute('disabled') ? '-1' : '0');
+  		}
+
+  		// Add the stock caret only when the author owns no chrome of their own.
+  		// Any element child other than `.select-label-text` (an svg, a custom
+  		// span, an already-present `.select-icon`) means hands off.
+  		if (_.#shouldInjectCaret()) {
   			const caret = document.createElement('span');
   			caret.className = 'select-icon';
   			_.appendChild(caret);
   		}
 
   		_.attachListeners();
+  	}
+
+  	/**
+  	 * Whether the stock caret should be injected
+  	 * @returns {boolean}
+  	 * @private
+  	 */
+  	#shouldInjectCaret() {
+  		return !Array.from(this.children).some(
+  			(child) => !child.classList.contains('select-label-text')
+  		);
   	}
 
   	disconnectedCallback() {

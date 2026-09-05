@@ -518,6 +518,44 @@
         outline: none;
       }
 
+      /* layout defaults live on the page as of 0.3.0 —
+         the component no longer ships width/margin/font */
+      select-dropdown {
+        width: 300px;
+        margin-bottom: 1rem;
+        font-family: inherit;
+        font-size: 1rem;
+      }
+
+      /* disabled option / disabled control */
+      select-option[aria-disabled='true'] {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      select-option[aria-disabled='true']:hover {
+        background-color: transparent;
+      }
+
+      select-dropdown[disabled] select-trigger {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      /* custom trigger chrome — no stock caret is injected */
+      .custom-caret {
+        width: 1rem;
+        height: 1rem;
+        margin-left: 0.75rem;
+        flex: none;
+        color: var(--select-color-primary, #4299e1);
+        transition: transform 0.2s;
+      }
+
+      select-trigger[aria-expanded='true'] .custom-caret {
+        transform: rotate(180deg);
+      }
+
       /* ------------------------------------------------
          Animations
       ------------------------------------------------ */
@@ -644,7 +682,7 @@
         </div>
         <div class="install-item">
           <span class="install-label">Size (gzip)</span>
-          <span class="install-size">~3.5 KB</span>
+          <span class="install-size">~3.9 KB</span>
         </div>
       </div>
 
@@ -1130,6 +1168,130 @@
           </div>
         </section>
 
+        <!-- Disabled options -->
+        <section class="example">
+          <h2>Disabled Options</h2>
+          <p>
+            <code>disabled</code> on a <code>&lt;select-option&gt;</code> gets
+            <code>aria-disabled</code>, is skipped by the arrow keys, Home/End
+            and type-ahead, and cannot be clicked.
+          </p>
+
+          <div class="demo-surface">
+            <select-dropdown id="tier-dropdown" class="glass-panel">
+              <select-trigger id="tier-trigger">
+                <span class="select-label-text">Pick a tier</span>
+              </select-trigger>
+
+              <input type="hidden" name="tier" id="tier-input" />
+
+              <select-panel>
+                <select-option value="free">Free</select-option>
+                <select-option value="pro" disabled>Pro (sold out)</select-option>
+                <select-option value="team">Team</select-option>
+                <select-option value="enterprise" disabled>Enterprise (contact us)</select-option>
+                <select-option value="custom">Custom</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              Selected: <span id="tier-output">None</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Disabled control -->
+        <section class="example">
+          <h2>Disabled Control</h2>
+          <p>
+            <code>disabled</code> on the host is observed: the panel refuses to
+            open, the trigger drops out of the tab order and reports
+            <code>aria-disabled</code>. Toggle it live.
+          </p>
+
+          <div class="demo-surface">
+            <select-dropdown id="locked-dropdown" class="glass-panel" disabled>
+              <select-trigger id="locked-trigger">
+                <span class="select-label-text">Locked</span>
+              </select-trigger>
+
+              <input type="hidden" name="locked" id="locked-input" />
+
+              <select-panel>
+                <select-option value="one">One</select-option>
+                <select-option value="two">Two</select-option>
+                <select-option value="three">Three</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              <button type="button" class="theme-button" id="locked-toggle">Toggle disabled</button>
+              <span id="locked-output">disabled</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Custom trigger chrome -->
+        <section class="example">
+          <h2>Bring Your Own Caret</h2>
+          <p>
+            The stock caret is injected only when the trigger has no element
+            child other than <code>.select-label-text</code>. Give it an
+            <code>&lt;svg&gt;</code> and the component leaves the chrome to you.
+          </p>
+
+          <div class="demo-surface">
+            <select-dropdown id="caret-dropdown" class="glass-panel">
+              <select-trigger id="caret-trigger">
+                <span class="select-label-text">Custom chrome</span>
+                <svg class="custom-caret" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M5 7l5 6 5-6" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </select-trigger>
+
+              <input type="hidden" name="caret" id="caret-input" />
+
+              <select-panel>
+                <select-option value="alpha">Alpha</select-option>
+                <select-option value="beta">Beta</select-option>
+                <select-option value="gamma">Gamma</select-option>
+              </select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              Injected <code>.select-icon</code> spans:
+              <span id="caret-output">-</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Late options -->
+        <section class="example">
+          <h2>Value Before Options</h2>
+          <p>
+            <code>value</code> is an observed attribute and the setter remembers
+            a value whose option does not exist yet. Here the value is set
+            immediately, and the options arrive a second later.
+          </p>
+
+          <div class="demo-surface">
+            <select-dropdown id="late-dropdown" class="glass-panel" value="mars">
+              <select-trigger id="late-trigger">
+                <span class="select-label-text">Loading…</span>
+              </select-trigger>
+
+              <input type="hidden" name="late" id="late-input" />
+
+              <select-panel></select-panel>
+            </select-dropdown>
+
+            <div class="output-area">
+              <button type="button" class="theme-button" id="late-load">Load options</button>
+              <span id="late-output">no options yet</span>
+            </div>
+          </div>
+        </section>
+
         <!-- Keyboard -->
         <section class="example">
           <h2>Keyboard Navigation</h2>
@@ -1242,6 +1404,58 @@
         wireOutput('timezone-dropdown', 'timezone-output')
         wireOutput('country-dropdown', 'country-output')
         wireOutput('keyboard-dropdown', 'keyboard-output')
+        wireOutput('tier-dropdown', 'tier-output')
+        wireOutput('caret-dropdown', 'caret-output')
+
+        // select-dropdown:change carries the value + label in detail
+        document.addEventListener('select-dropdown:change', function (e) {
+          console.log('select-dropdown:change', e.target.id, e.detail)
+        })
+
+        // toggle the disabled control
+        const lockedDropdown = document.getElementById('locked-dropdown')
+        const lockedToggle = document.getElementById('locked-toggle')
+        if (lockedDropdown && lockedToggle) {
+          lockedToggle.addEventListener('click', function () {
+            lockedDropdown.toggleAttribute('disabled')
+            document.getElementById('locked-output').textContent =
+              lockedDropdown.hasAttribute('disabled') ? 'disabled' : 'enabled'
+          })
+        }
+
+        // report how many stock carets the custom trigger got (expected: 0)
+        const caretTrigger = document.getElementById('caret-trigger')
+        if (caretTrigger) {
+          document.getElementById('caret-output').textContent =
+            String(caretTrigger.querySelectorAll('.select-icon').length)
+        }
+
+        // append options a beat after the value was set
+        const lateDropdown = document.getElementById('late-dropdown')
+        const lateLoad = document.getElementById('late-load')
+        if (lateDropdown && lateLoad) {
+          lateLoad.addEventListener('click', function () {
+            const panel = lateDropdown.querySelector('select-panel')
+            panel.innerHTML = ''
+            ;[
+              ['mercury', 'Mercury'],
+              ['venus', 'Venus'],
+              ['earth', 'Earth'],
+              ['mars', 'Mars'],
+            ].forEach(function (pair) {
+              const option = document.createElement('select-option')
+              option.setAttribute('value', pair[0])
+              option.textContent = pair[1]
+              panel.appendChild(option)
+            })
+
+            // the pending value resolves on the next microtask
+            setTimeout(function () {
+              document.getElementById('late-output').textContent =
+                'resolved to: ' + (lateDropdown.value || '(none)')
+            }, 50)
+          })
+        }
 
         // Copy install command to clipboard
         var installValue = document.querySelector('.install-value')
