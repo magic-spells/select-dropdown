@@ -21,8 +21,11 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Error Handling**: Validate inputs and handle edge cases gracefully
 
 ## Design Decisions
-- **Body scroll lock**: The `body:has(select-dropdown[visible]) { overflow: hidden }` rule is intentional — body scroll is locked whenever a dropdown is open
-- **Events**: Emits a plain `change` event (not a namespaced custom event) to match native HTML element conventions. Consumers read the selected value via `dropdown.value`.
+- **No body scroll lock**: removed in 0.3.0. A component must not lock the page; the host page owns that decision
+- **No layout on the host**: the CSS ships no `width`, `margin`, `font-family` or `font-size` on `select-dropdown` — layout defaults belong to the page (0.3.0)
+- **Events**: emits BOTH a plain `change` (native-like; read `dropdown.value`) and `select-dropdown:change` with `detail: { value, label }` for hosts that want the payload. Both fire on user selection only — programmatic `value` writes never echo
+- **`value` is observed and deferred**: a value whose option does not exist yet is held in `#pendingValue` and applied by the panel `MutationObserver` as soon as it appears
+- **Caret injection is conditional**: `select-trigger` injects `.select-icon` only when it has no element child other than `.select-label-text`, so a wrapping framework can own the chrome
 - **`value` property**: `SelectDropdown` exposes a `value` getter/setter for programmatic read/write of the selected option
 - **Form reset**: Restores the original `selected` option from markup, not the current selection (matches native `<select>` behavior)
 - **ARIA pattern**: Trigger uses `role="button"` + `aria-haspopup="listbox"` + `aria-controls` (listbox popup pattern, not combobox)
