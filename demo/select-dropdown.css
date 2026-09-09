@@ -35,14 +35,6 @@ select-dropdown * {
 	box-sizing: border-box;
 }
 
-/* panel shown state */
-select-dropdown[visible] select-panel {
-	opacity: 1;
-	filter: none;
-	pointer-events: auto;
-	visibility: visible;
-}
-
 /* trigger button styles */
 select-trigger {
 	display: flex;
@@ -82,7 +74,8 @@ select-trigger[aria-expanded='true'] .select-icon {
 	transform: rotate(180deg);
 }
 
-/* options container */
+/* options container — resting-hidden with visibility (the morph engine drives
+   the reveal; never stylesheet opacity/transform on a morph target) */
 select-panel {
 	position: absolute;
 	left: 0;
@@ -95,14 +88,7 @@ select-panel {
 		0 4px 12px rgba(0, 0, 0, 0.12),
 		0 0 4px rgba(0, 0, 0, 0.08);
 	z-index: 10;
-	opacity: 0;
-	filter: blur(3px);
-	pointer-events: none;
 	visibility: hidden;
-	transition:
-		opacity 150ms ease-out,
-		filter 150ms ease-out,
-		visibility 150ms;
 }
 
 /* option items */

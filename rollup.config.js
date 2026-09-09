@@ -41,7 +41,7 @@ export default [
 					open: true,
 					contentBase: ['dist', 'demo'],
 					host: 'localhost',
-					port: 3000,
+					port: 3013,
 				}),
 		],
 	},

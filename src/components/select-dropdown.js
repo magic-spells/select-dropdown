@@ -1,3 +1,6 @@
+// import engines
+import { MorphEngine } from '../../../morph-engine/src/index.js';
+
 /**
  * select-dropdown component that handles the functionality of a custom dropdown
  * @class SelectDropdown
@@ -18,6 +21,10 @@ export class SelectDropdown extends HTMLElement {
 	#defaultValue = null;
 	#defaultValueCaptured = false;
 	#originalLabelText = '';
+
+	// morph engine drives the trigger↔panel container transform
+	#morphEngine = null;
+	#pendingFocusRestore = false;
 
 	/**
 	 * Live getter for option elements — supports dynamically added/removed options
@@ -65,9 +72,51 @@ export class SelectDropdown extends HTMLElement {
 		_.queryDOM();
 		_.setAttribute('tabindex', '-1');
 		_.setupAriaAttributes();
+		_.#createMorphEngine();
 		_.attachListeners();
 		_.initializeSelectedOption();
 		_.hide();
+	}
+
+	/**
+	 * Creates the morph engine that animates the trigger↔panel container
+	 * transform and wires up its shown/hidden lifecycle handlers. Options aren't
+	 * focusable until the morph reveals the panel, and the trigger is
+	 * visibility:hidden while shown, so focus moves are deferred to these events.
+	 * @private
+	 */
+	#createMorphEngine() {
+		const _ = this;
+
+		_.#morphEngine = new MorphEngine({ revealAt: 0.7, lockScroll: false });
+
+		// panel fully revealed — move focus into it. Prefer the option the user
+		// may have arrow-navigated to mid-flight, then the selected option, then
+		// the first option.
+		_.handlers.shown = () => {
+			if (!_.hasAttribute('visible')) return;
+
+			const options = Array.from(_.#options);
+			let index = _.#currentFocusIndex;
+			if (index < 0) {
+				index = options.findIndex((opt) => opt.getAttribute('aria-selected') === 'true');
+			}
+			if (index < 0) index = 0;
+
+			_.focusOption(index);
+		};
+
+		// panel fully morphed back into the trigger — restore focus to the trigger
+		// now that it's visible again (focusing it earlier, while hidden, fails)
+		_.handlers.hidden = () => {
+			if (_.#pendingFocusRestore) {
+				_.#pendingFocusRestore = false;
+				_.#trigger?.focus();
+			}
+		};
+
+		_.#morphEngine.on('shown', _.handlers.shown);
+		_.#morphEngine.on('hidden', _.handlers.hidden);
 	}
 
 	/**
@@ -84,10 +133,15 @@ export class SelectDropdown extends HTMLElement {
 	}
 
 	/**
-	 * clean up event listeners when element is removed
+	 * clean up event listeners and the morph engine when element is removed
 	 */
 	disconnectedCallback() {
 		this.detachListeners();
+
+		// destroy() restores all inline styles and removes the blob; recreated
+		// per connectedCallback
+		this.#morphEngine?.destroy();
+		this.#morphEngine = null;
 	}
 
 	/**
@@ -472,9 +526,8 @@ export class SelectDropdown extends HTMLElement {
 
 		const viewportMargin = 8;
 
-		// Clear previous positioning
+		// Clear previous positioning (the engine owns transform/transformOrigin)
 		panel.style.top = '';
-		panel.style.transformOrigin = '';
 		panel.style.maxHeight = '';
 		panel.scrollTop = 0;
 
@@ -488,10 +541,6 @@ export class SelectDropdown extends HTMLElement {
 		if (targetOption) {
 			// Shift panel up so target option aligns over the trigger
 			idealTop = triggerOffset - targetOption.offsetTop;
-
-			// Set transform-origin at the target option
-			const originY = targetOption.offsetTop + targetOption.offsetHeight / 2;
-			panel.style.transformOrigin = `center ${originY}px`;
 		}
 
 		// Max-height: from panel's top edge down to viewport bottom
@@ -517,6 +566,12 @@ export class SelectDropdown extends HTMLElement {
 
 	/**
 	 * shows the dropdown options
+	 *
+	 * The panel morphs out of the trigger via the morph engine. State (`visible`
+	 * attr, aria, document listeners, event) is set synchronously so the scroll
+	 * lock and trigger caret stay coherent; option focus is deferred to the
+	 * engine's `shown` event because the options aren't revealed — and therefore
+	 * not focusable — until the morph lands.
 	 */
 	show() {
 		const _ = this;
@@ -524,29 +579,41 @@ export class SelectDropdown extends HTMLElement {
 		// bail if already shown
 		if (_.hasAttribute('visible')) return;
 
-		// set attributes for shown state
+		// set attributes for shown state — `visible` flips synchronously so the
+		// scroll lock stays coherent (aria-expanded is set after engine.show)
 		_.setAttribute('visible', '');
 		_.#optionsContainer.setAttribute('aria-hidden', 'false');
-		_.#trigger.setAttribute('aria-expanded', 'true');
 
 		// reset typeahead buffer
 		_.#typeaheadBuffer = '';
+
+		// a reversed mid-hide show supersedes the engine's `hidden` event, so any
+		// pending focus restore from that hide would go stale — clear it
+		_.#pendingFocusRestore = false;
 
 		// find selected option or default to first
 		const options = Array.from(_.#options);
 		const selectedOption = options.find((opt) => opt.getAttribute('aria-selected') === 'true');
 		const targetOption = selectedOption || options[0];
 
-		// position the panel overlay
-		_.#positionPanel(targetOption);
-
-		// focus the target option (deferred to survive browser click focus)
-		if (targetOption) {
-			requestAnimationFrame(() => {
-				if (!_.hasAttribute('visible')) return;
-				_.focusOption(options.indexOf(targetOption));
-			});
+		// position the panel before the engine measures it — but only from a
+		// resting state. On a mid-hide reversal the engine keeps its stale
+		// keyframes by design, so repositioning would desync the morph.
+		if (_.#morphEngine.state === 'idle') {
+			_.#positionPanel(targetOption);
 		}
+
+		// morph the trigger into the panel
+		_.#morphEngine.show({ from: _.#trigger, to: _.#optionsContainer });
+
+		// rotate the caret only after the engine has frozen the trigger clone, so
+		// the blob keeps the unrotated caret while the morph plays
+		_.#trigger.setAttribute('aria-expanded', 'true');
+
+		// the engine hides the trigger synchronously, dropping focus to <body>;
+		// anchor focus on the root (tabindex="-1") so document keydown navigation
+		// works mid-flight
+		_.focus({ preventScroll: true });
 
 		// add global event listeners
 		document.addEventListener('click', _.handlers.documentClick);
@@ -558,6 +625,11 @@ export class SelectDropdown extends HTMLElement {
 
 	/**
 	 * hides the dropdown options
+	 *
+	 * State (attr, aria, document listeners) is torn down synchronously so the
+	 * scroll lock and trigger caret stay coherent; the panel morphs back into the
+	 * trigger and focus is restored to the trigger from the engine's `hidden`
+	 * event (the trigger is visibility:hidden until the morph lands).
 	 * @param {Object} [options] - hide options
 	 * @param {boolean} [options.restoreFocus=true] - whether to return focus to the trigger
 	 */
@@ -569,8 +641,8 @@ export class SelectDropdown extends HTMLElement {
 		_.#typeaheadBuffer = '';
 		clearTimeout(_.#typeaheadTimer);
 
-		// set attributes for hidden state — inline positioning stays
-		// so the panel animates out in place (cleared on next show)
+		// set attributes for hidden state — `visible` flips synchronously so the
+		// scroll lock and trigger caret stay coherent with the morph
 		_.removeAttribute('visible');
 		_.#optionsContainer?.setAttribute('aria-hidden', 'true');
 		_.#trigger?.setAttribute('aria-expanded', 'false');
@@ -582,14 +654,24 @@ export class SelectDropdown extends HTMLElement {
 		document.removeEventListener('click', _.handlers.documentClick);
 		document.removeEventListener('keydown', _.handlers.keyDown);
 
-		// return focus to trigger only when closing an open panel
-		if (wasOpen && restoreFocus) {
-			_.#trigger?.focus();
+		// nothing was open (e.g. the initial hide from connectedCallback) — bail
+		// before touching the engine
+		if (!wasOpen) return;
+
+		// the trigger is visibility:hidden until the morph lands, so defer its
+		// focus to the `hidden` handler; park focus on the root in the meantime so
+		// document keydown navigation keeps working while the panel morphs away
+		if (_.contains(document.activeElement)) {
+			_.focus({ preventScroll: true });
+		}
+		_.#pendingFocusRestore = restoreFocus;
+
+		// morph the panel back into the trigger — only while a morph is live
+		if (_.#morphEngine.state === 'shown' || _.#morphEngine.state === 'showing') {
+			_.#morphEngine.hide();
 		}
 
 		// dispatch hide event
-		if (wasOpen) {
-			_.dispatchEvent(new CustomEvent('select-dropdown:hide', { bubbles: true }));
-		}
+		_.dispatchEvent(new CustomEvent('select-dropdown:hide', { bubbles: true }));
 	}
 }
