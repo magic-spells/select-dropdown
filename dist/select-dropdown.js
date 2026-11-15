@@ -226,7 +226,9 @@
   			missing
   				? Object.assign(document.createElement('select'), { required }).validationMessage
   				: '',
-  			this.#trigger
+  			// null until the trigger is parsed or rendered; the anchor takes only
+  			// an element or undefined
+  			this.#trigger || undefined
   		);
   	}
 
