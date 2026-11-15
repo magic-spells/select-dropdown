@@ -745,10 +745,16 @@ export class SelectDropdown extends HTMLElement {
 		const top = Math.max(0, box?.top ?? 0) + margin;
 		const bottom = Math.min(window.innerHeight, box?.bottom ?? Infinity) - margin;
 
-		// Put the target option over the trigger, then slide the panel into the
-		// box; when it slides down, scroll it as far so the target stays put
+		// A list that fits slides into the box whole. A longer one keeps the
+		// target over the trigger and runs to the box edges, never under half
+		// the box, scrolled so the target stays put
 		const ideal = _.#trigger.getBoundingClientRect().top - offset;
-		const height = Math.min(panel.offsetHeight, bottom - top);
+		const room = bottom - top;
+		const natural = panel.offsetHeight;
+		const height =
+			natural <= room
+				? natural
+				: Math.max(Math.min(ideal + natural, bottom) - Math.max(ideal, top), room / 2);
 		const panelTop = Math.min(Math.max(ideal, top), bottom - height);
 
 		panel.style.maxHeight = `${height}px`;
