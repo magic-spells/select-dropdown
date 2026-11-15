@@ -28,6 +28,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - **Caret injection is conditional**: `select-trigger` injects `.select-icon` only when it has no element child other than `.select-label-text`, so a wrapping framework can own the chrome
 - **`value` property**: `SelectDropdown` exposes a `value` getter/setter for programmatic read/write of the selected option
 - **Form reset**: Restores the original `selected` option from markup, not the current selection (matches native `<select>` behavior)
+- **Form-associated for validity and reset only** (0.3.1): `required` reports `valueMissing` through `ElementInternals.setValidity` (anchor: the trigger, message borrowed from a native select so it is localized) and reset runs in `formResetCallback`. The hidden input still carries the value — no `setFormValue`
+- **Panel bounds** (0.3.1): the open panel is clamped to the viewport intersected with the nearest ancestor whose `overflow-y` is not `visible` (a scrolling drawer), sliding to fit and scrolling so the target option stays over the trigger
 - **ARIA pattern**: Trigger uses `role="button"` + `aria-haspopup="listbox"` + `aria-controls` (listbox popup pattern, not combobox)
 
 ## Component Usage Guidelines

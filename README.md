@@ -183,6 +183,7 @@ The component also does **not** lock body scroll while open (removed in 0.3.0). 
 |---|---|
 | `value` | Selects the matching option. A value whose option does not exist yet is applied when it appears. |
 | `disabled` | The panel refuses to open; the trigger leaves the tab order and reports `aria-disabled`. |
+| `required` | Like a native required select: the form will not submit until an option with a value is chosen, and the browser's own message shows on the trigger. The listbox reports `aria-required`. |
 | `visible` | Set by the component while the panel is open — read it, do not write it. Use `show()` / `hide()`. |
 
 ### `<select-option>`

@@ -2,6 +2,39 @@
 
 All notable changes to `@magic-spells/select-dropdown` are documented here.
 
+## 0.3.1
+
+Fixes for a select inside a form in a drawer.
+
+### Fixed
+
+- **The open list stays inside a clipping container.** The panel was clamped to
+  the viewport only, so inside a scrolling drawer or modal body it ran past the
+  container's edges and was cut off: at the top when a low option was selected,
+  at the bottom when the trigger sat near the end. It is now clamped to the
+  viewport intersected with the nearest ancestor whose `overflow-y` is not
+  `visible`. It slides to fit, and scrolls so the selected option stays over the
+  trigger where there is room. The 120px minimum height that let a panel run
+  past the bottom edge is gone.
+- **`required` on `<select-dropdown>` works like a native required select.**
+  `required` is now observed. While no option with a value is chosen the form
+  will not submit, the browser shows its own message on the trigger and the host
+  matches `:invalid`. The listbox reports `aria-required`.
+- **A long list opens with the chosen option over the trigger**, as in 0.3.0.
+- **A list that has never been opened adds no empty scroll space** to a
+  scrolling drawer: the hidden panel has no height.
+- **A host that connects before its children no longer throws.**
+
+### Changed
+
+- **The host is form-associated** (`static formAssociated = true`), for validity
+  and reset only: the hidden input still carries the submitted value.
+- **Form reset runs in `formResetCallback`** instead of a `reset` listener on the
+  closest form. It applies synchronously, and a canceled reset no longer clears
+  the selection.
+- A `<label for>` that points at the host now focuses the host, as it does any
+  form-associated element.
+
 ## 0.3.0
 
 Adoption release. The component is now safe to wrap from a framework: attributes
