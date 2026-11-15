@@ -4,7 +4,7 @@ All notable changes to `@magic-spells/select-dropdown` are documented here.
 
 ## 0.3.1
 
-Two fixes for a select inside a form in a drawer.
+Fixes for a select inside a form in a drawer.
 
 ### Fixed
 
@@ -20,6 +20,10 @@ Two fixes for a select inside a form in a drawer.
   `required` is now observed. While no option with a value is chosen the form
   will not submit, the browser shows its own message on the trigger and the host
   matches `:invalid`. The listbox reports `aria-required`.
+- **A long list opens with the chosen option over the trigger**, as in 0.3.0.
+- **A list that has never been opened adds no empty scroll space** to a
+  scrolling drawer: the hidden panel has no height.
+- **A host that connects before its children no longer throws.**
 
 ### Changed
 
