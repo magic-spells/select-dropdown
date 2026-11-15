@@ -31,7 +31,7 @@
     }
   }
 
-  var css_248z = "/* select dropdown color variables */\n:root {\n\t--select-color-text: #333;\n\t--select-color-background: #fff;\n\t--select-color-border: #ddd;\n\t--select-color-border-hover: #aaa;\n\t--select-color-border-dark: #666;\n\t--select-color-primary: #4299e1;\n\t--select-color-hover: #f0f0f0;\n\t--select-color-focus: #e6f7ff;\n\t--select-color-selected: #e6f7ff;\n\t--select-color-label: #999;\n}\n\n/* keep the un-upgraded option list out of the page */\nselect-dropdown:not(:defined) select-panel {\n\tdisplay: none;\n}\n\n/* dropdown component styles */\nselect-dropdown {\n\tposition: relative;\n\tdisplay: block;\n\tline-height: 1.5;\n\tcolor: var(--select-color-text);\n\tbox-sizing: border-box;\n}\n\nselect-dropdown * {\n\tbox-sizing: border-box;\n}\n\n/* panel shown state */\nselect-dropdown[visible] select-panel {\n\topacity: 1;\n\tfilter: none;\n\tpointer-events: auto;\n\tvisibility: visible;\n}\n\n/* trigger button styles */\nselect-trigger {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\twidth: 100%;\n\tpadding: 0.75rem 1rem;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tcursor: pointer;\n\ttransition:\n\t\tborder-color 0.2s,\n\t\tbox-shadow 0.2s;\n}\n\nselect-trigger:hover {\n\tborder-color: var(--select-color-border-hover);\n}\n\nselect-trigger:focus-visible {\n\toutline: 2px solid var(--select-color-primary);\n\toutline-offset: 2px;\n}\n\n/* caret icon */\n.select-icon {\n\tborder-style: solid;\n\tborder-width: 0.25rem 0.25rem 0;\n\tborder-color: var(--select-color-border-dark) transparent transparent;\n\tmargin-left: 0.75rem;\n\ttransition: transform 0.2s;\n}\n\n/* Flipped caret when expanded */\nselect-trigger[aria-expanded='true'] .select-icon {\n\ttransform: rotate(180deg);\n}\n\n/* options container */\nselect-panel {\n\tposition: absolute;\n\tleft: 0;\n\twidth: 100%;\n\toverflow-y: auto;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tbox-shadow:\n\t\tvar(--select-shadow, 0 4px 12px rgba(0, 0, 0, 0.12)),\n\t\tvar(--select-shadow-soft, 0 0 4px rgba(0, 0, 0, 0.08));\n\tz-index: 10;\n\topacity: 0;\n\tfilter: blur(3px);\n\tpointer-events: none;\n\tvisibility: hidden;\n\ttransition:\n\t\topacity 150ms ease-out,\n\t\tfilter 150ms ease-out,\n\t\tvisibility 150ms;\n}\n\n/* option items */\nselect-option {\n\tpadding: 0.75rem 1rem;\n\tcursor: pointer;\n\ttransition: background-color 0.2s;\n\tdisplay: block;\n}\n\nselect-option:hover {\n\tbackground-color: var(--select-color-hover);\n}\n\nselect-option:focus {\n\toutline: none;\n\tbackground-color: var(--select-color-focus);\n}\n\nselect-option[aria-selected='true'] {\n\tbackground-color: var(--select-color-selected);\n\tfont-weight: 500;\n}\n\n/* hidden input */\nselect-dropdown > input {\n\tdisplay: none;\n}\n\n/* divider between option groups */\nselect-divider {\n\tdisplay: block;\n\theight: 1px;\n\tmargin: 0.25rem 0;\n\tbackground-color: var(--select-color-border);\n}\n\n/* label for option groups */\nselect-label {\n\tdisplay: block;\n\tpadding: 0.25rem 1rem;\n\tfont-size: 0.75rem;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.05em;\n\tcolor: var(--select-color-label);\n\tcursor: default;\n\tuser-select: none;\n}\n";
+  var css_248z = "/* select dropdown color variables */\n:root {\n\t--select-color-text: #333;\n\t--select-color-background: #fff;\n\t--select-color-border: #ddd;\n\t--select-color-border-hover: #aaa;\n\t--select-color-border-dark: #666;\n\t--select-color-primary: #4299e1;\n\t--select-color-hover: #f0f0f0;\n\t--select-color-focus: #e6f7ff;\n\t--select-color-selected: #e6f7ff;\n\t--select-color-label: #999;\n}\n\n/* keep the un-upgraded option list out of the page */\nselect-dropdown:not(:defined) select-panel {\n\tdisplay: none;\n}\n\n/* dropdown component styles */\nselect-dropdown {\n\tposition: relative;\n\tdisplay: block;\n\tline-height: 1.5;\n\tcolor: var(--select-color-text);\n\tbox-sizing: border-box;\n}\n\nselect-dropdown * {\n\tbox-sizing: border-box;\n}\n\n/* a list never opened adds no scroll space; from the first open the inline size wins */\nselect-dropdown:not([visible]) select-panel {\n\tmax-height: 0;\n}\n\n/* panel shown state */\nselect-dropdown[visible] select-panel {\n\topacity: 1;\n\tfilter: none;\n\tpointer-events: auto;\n\tvisibility: visible;\n}\n\n/* trigger button styles */\nselect-trigger {\n\tdisplay: flex;\n\tjustify-content: space-between;\n\talign-items: center;\n\twidth: 100%;\n\tpadding: 0.75rem 1rem;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tcursor: pointer;\n\ttransition:\n\t\tborder-color 0.2s,\n\t\tbox-shadow 0.2s;\n}\n\nselect-trigger:hover {\n\tborder-color: var(--select-color-border-hover);\n}\n\nselect-trigger:focus-visible {\n\toutline: 2px solid var(--select-color-primary);\n\toutline-offset: 2px;\n}\n\n/* caret icon */\n.select-icon {\n\tborder-style: solid;\n\tborder-width: 0.25rem 0.25rem 0;\n\tborder-color: var(--select-color-border-dark) transparent transparent;\n\tmargin-left: 0.75rem;\n\ttransition: transform 0.2s;\n}\n\n/* Flipped caret when expanded */\nselect-trigger[aria-expanded='true'] .select-icon {\n\ttransform: rotate(180deg);\n}\n\n/* options container */\nselect-panel {\n\tposition: absolute;\n\tleft: 0;\n\twidth: 100%;\n\toverflow-y: auto;\n\tbackground-color: var(--select-color-background);\n\tborder: 1px solid var(--select-color-border);\n\tborder-radius: 0.25rem;\n\tbox-shadow:\n\t\tvar(--select-shadow, 0 4px 12px rgba(0, 0, 0, 0.12)),\n\t\tvar(--select-shadow-soft, 0 0 4px rgba(0, 0, 0, 0.08));\n\tz-index: 10;\n\topacity: 0;\n\tfilter: blur(3px);\n\tpointer-events: none;\n\tvisibility: hidden;\n\ttransition:\n\t\topacity 150ms ease-out,\n\t\tfilter 150ms ease-out,\n\t\tvisibility 150ms;\n}\n\n/* option items */\nselect-option {\n\tpadding: 0.75rem 1rem;\n\tcursor: pointer;\n\ttransition: background-color 0.2s;\n\tdisplay: block;\n}\n\nselect-option:hover {\n\tbackground-color: var(--select-color-hover);\n}\n\nselect-option:focus {\n\toutline: none;\n\tbackground-color: var(--select-color-focus);\n}\n\nselect-option[aria-selected='true'] {\n\tbackground-color: var(--select-color-selected);\n\tfont-weight: 500;\n}\n\n/* hidden input */\nselect-dropdown > input {\n\tdisplay: none;\n}\n\n/* divider between option groups */\nselect-divider {\n\tdisplay: block;\n\theight: 1px;\n\tmargin: 0.25rem 0;\n\tbackground-color: var(--select-color-border);\n}\n\n/* label for option groups */\nselect-label {\n\tdisplay: block;\n\tpadding: 0.25rem 1rem;\n\tfont-size: 0.75rem;\n\tfont-weight: 600;\n\ttext-transform: uppercase;\n\tletter-spacing: 0.05em;\n\tcolor: var(--select-color-label);\n\tcursor: default;\n\tuser-select: none;\n}\n";
   styleInject(css_248z);
 
   /**
@@ -41,6 +41,12 @@
    */
   class SelectDropdown extends HTMLElement {
   	static #instanceCount = 0;
+
+  	// form-associated for validity and reset only — the hidden input still
+  	// carries the submitted value
+  	static formAssociated = true;
+
+  	#internals = this.attachInternals();
 
   	// private fields for elements
   	#instanceId;
@@ -65,7 +71,7 @@
   	 * @returns {string[]}
   	 */
   	static get observedAttributes() {
-  		return ['value', 'disabled'];
+  		return ['value', 'disabled', 'required'];
   	}
 
   	/**
@@ -196,7 +202,34 @@
 
   		if (name === 'disabled') {
   			this.#applyDisabledState();
+  			return;
   		}
+
+  		if (name === 'required') {
+  			this.#updateValidity();
+  		}
+  	}
+
+  	/**
+  	 * Reports a required control with no value as missing, like a native
+  	 * `<select required>`: the form will not submit and the browser shows its
+  	 * own (localized) message on the trigger
+  	 * @private
+  	 */
+  	#updateValidity() {
+  		const required = this.hasAttribute('required');
+  		const missing = required && !this.value;
+
+  		this.#optionsContainer?.setAttribute('aria-required', required);
+  		this.#internals.setValidity(
+  			{ valueMissing: missing },
+  			missing
+  				? Object.assign(document.createElement('select'), { required }).validationMessage
+  				: '',
+  			// null until the trigger is parsed or rendered; the anchor takes only
+  			// an element or undefined
+  			this.#trigger || undefined
+  		);
   	}
 
   	/**
@@ -379,7 +412,7 @@
 
   	/**
   	 * Applies selection state across the control
-  	 * @param {HTMLElement | null} option - The option to select
+  	 * @param {HTMLElement | null} [option] - The option to select; none clears the selection
   	 * @private
   	 */
   	#applySelection(option) {
@@ -388,31 +421,20 @@
   			opt.setAttribute('aria-selected', 'false');
   		});
 
-  		if (!option) {
-  			if (this.#input) {
-  				this.#input.value = '';
-  			}
-
-  			if (this.#label) {
-  				this.#label.textContent = this.#originalLabelText;
-  			}
-
-  			this.#currentFocusIndex = -1;
-  			return;
-  		}
-
-  		option.setAttribute('aria-selected', 'true');
-  		option.setAttribute('selected', '');
+  		option?.setAttribute('aria-selected', 'true');
+  		option?.setAttribute('selected', '');
 
   		if (this.#input) {
-  			this.#input.value = this.#getOptionValue(option);
+  			this.#input.value = option ? this.#getOptionValue(option) : '';
   		}
 
   		if (this.#label) {
-  			this.#label.textContent = this.#getOptionText(option);
+  			this.#label.textContent = option ? this.#getOptionText(option) : this.#originalLabelText;
   		}
 
+  		// -1 when nothing is selected
   		this.#currentFocusIndex = Array.from(this.#options).indexOf(option);
+  		this.#updateValidity();
   	}
 
   	/**
@@ -435,16 +457,12 @@
   	}
 
   	/**
-  	 * Resets the component to its original default selection
-  	 * @private
+  	 * Form reset: restores the original default selection from markup, not the
+  	 * current one (native `<select>` behavior)
   	 */
-  	#resetToDefault() {
-  		const _ = this;
-  		const defaultOption =
-  			_.#defaultValue === null ? null : _.#findOptionByValue(_.#defaultValue) || null;
-
-  		_.#pendingValue = null;
-  		_.#applySelection(defaultOption);
+  	formResetCallback() {
+  		this.#pendingValue = null;
+  		this.#applySelection(this.#findOptionByValue(this.#defaultValue));
   	}
 
   	/**
@@ -507,17 +525,6 @@
   		// bind event handlers
   		_.handlers.documentClick = _.handleOutsideClick.bind(_);
   		_.handlers.keyDown = _.handleKeyboardNavigation.bind(_);
-
-  		// listen for form reset to restore the original default selection
-  		const form = _.closest('form');
-  		if (form) {
-  			_.handlers.formReset = () => {
-  				requestAnimationFrame(() => {
-  					_.#resetToDefault();
-  				});
-  			};
-  			form.addEventListener('reset', _.handlers.formReset);
-  		}
   	}
 
   	/**
@@ -526,12 +533,6 @@
   	detachListeners() {
   		document.removeEventListener('click', this.handlers.documentClick);
   		document.removeEventListener('keydown', this.handlers.keyDown);
-
-  		// remove form reset listener
-  		if (this.handlers.formReset) {
-  			const form = this.closest('form');
-  			form?.removeEventListener('reset', this.handlers.formReset);
-  		}
   	}
 
   	/**
@@ -753,7 +754,8 @@
   	}
 
   	/**
-  	 * Positions the panel so the target option overlays the trigger
+  	 * Positions the panel so the target option overlays the trigger, clamped
+  	 * to the viewport and the nearest ancestor that clips overflow
   	 * @param {HTMLElement} targetOption - the option to align over the trigger
   	 * @private
   	 */
@@ -762,49 +764,38 @@
   		const panel = _.#optionsContainer;
   		if (!panel) return;
 
-  		const viewportMargin = 8;
+  		const margin = 8;
+  		const offset = targetOption ? targetOption.offsetTop : 0;
 
-  		// Clear previous positioning
-  		panel.style.top = '';
-  		panel.style.transformOrigin = '';
+  		// Clear the previous max-height so the natural height can be measured
   		panel.style.maxHeight = '';
-  		panel.scrollTop = 0;
+  		panel.style.transformOrigin = targetOption
+  			? `center ${offset + targetOption.offsetHeight / 2}px`
+  			: '';
 
-  		// Measure geometry
-  		const hostRect = _.getBoundingClientRect();
-  		const triggerRect = _.#trigger.getBoundingClientRect();
-  		const triggerOffset = triggerRect.top - hostRect.top;
+  		// The box the panel must stay inside: the viewport, narrowed to the
+  		// nearest ancestor that clips overflow (a scrolling drawer, a modal body)
+  		let clip = _.parentElement;
+  		while (clip && getComputedStyle(clip).overflowY === 'visible') clip = clip.parentElement;
+  		const box = clip?.getBoundingClientRect();
+  		const top = Math.max(0, box?.top ?? 0) + margin;
+  		const bottom = Math.min(window.innerHeight, box?.bottom ?? Infinity) - margin;
 
-  		let idealTop = triggerOffset;
+  		// A list that fits slides into the box whole. A longer one keeps the
+  		// target over the trigger and runs to the box edges, never under half
+  		// the box, scrolled so the target stays put
+  		const ideal = _.#trigger.getBoundingClientRect().top - offset;
+  		const room = bottom - top;
+  		const natural = panel.offsetHeight;
+  		const height =
+  			natural <= room
+  				? natural
+  				: Math.max(Math.min(ideal + natural, bottom) - Math.max(ideal, top), room / 2);
+  		const panelTop = Math.min(Math.max(ideal, top), bottom - height);
 
-  		if (targetOption) {
-  			// Shift panel up so target option aligns over the trigger
-  			idealTop = triggerOffset - targetOption.offsetTop;
-
-  			// Set transform-origin at the target option
-  			const originY = targetOption.offsetTop + targetOption.offsetHeight / 2;
-  			panel.style.transformOrigin = `center ${originY}px`;
-  		}
-
-  		// Max-height: from panel's top edge down to viewport bottom
-  		const panelScreenTop = hostRect.top + idealTop;
-  		const availableHeight = window.innerHeight - panelScreenTop - viewportMargin;
-
-  		// If panel would start above viewport, clamp top and scroll internally
-  		if (panelScreenTop < viewportMargin) {
-  			idealTop += viewportMargin - panelScreenTop;
-  			panel.style.maxHeight = `${window.innerHeight - viewportMargin * 2}px`;
-
-  			// Scroll so the target option aligns with the trigger's screen position
-  			if (targetOption) {
-  				const triggerScreenY = triggerRect.top - viewportMargin;
-  				panel.scrollTop = Math.max(0, targetOption.offsetTop - triggerScreenY);
-  			}
-  		} else {
-  			panel.style.maxHeight = `${Math.max(availableHeight, 120)}px`;
-  		}
-
-  		panel.style.top = `${idealTop}px`;
+  		panel.style.maxHeight = `${height}px`;
+  		panel.style.top = `${panelTop - _.getBoundingClientRect().top}px`;
+  		panel.scrollTop = panelTop - ideal;
   	}
 
   	/**

@@ -7,8 +7,10 @@ export interface SelectDropdownChangeDetail {
 }
 
 export class SelectDropdown extends HTMLElement {
-	/** Observed attributes: `value`, `disabled` */
+	/** Observed attributes: `value`, `disabled`, `required` */
 	static readonly observedAttributes: string[];
+	/** Form-associated for validity (`required`) and reset; the hidden input carries the value */
+	static readonly formAssociated: true;
 	handlers: Record<string, EventListener>;
 	/**
 	 * Read the selected value, or write one. A value whose option does not exist
@@ -27,6 +29,8 @@ export class SelectDropdown extends HTMLElement {
 	detachListeners(): void;
 	queryDOM(): void;
 	initializeSelectedOption(): void;
+	/** Form reset: restores the option marked `selected` in the markup */
+	formResetCallback(): void;
 }
 
 export class SelectTrigger extends HTMLElement {
